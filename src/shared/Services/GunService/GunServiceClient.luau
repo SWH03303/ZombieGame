@@ -10,7 +10,7 @@ local RunService = game:GetService("RunService")
 local GunClassFold = rs:WaitForChild("Shared"):WaitForChild("Classes"):WaitForChild("Guns")
 
 local camera = game.Workspace.CurrentCamera
-camera.FieldOfView = 100 ---------------------FOV
+camera.FieldOfView = 70 ---------------------FOV
 
 local inventory = {
 	"AK96",

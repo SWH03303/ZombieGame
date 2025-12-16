@@ -3,6 +3,5 @@ return function(id, container, animator)
 	anim.AnimationId = id
 	anim.Parent = container
 	anim = animator:LoadAnimation(anim)
-
 	return anim
 end

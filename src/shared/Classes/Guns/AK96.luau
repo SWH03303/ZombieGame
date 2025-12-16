@@ -1,4 +1,11 @@
 local rs = game:GetService("ReplicatedStorage")
+local assets = rs:WaitForChild("Assets")
+local shared = rs:WaitForChild("Shared")
+local modules = shared:WaitForChild("Modules")
+local services = shared:WaitForChild("Services")
+
+local platformModules = modules:WaitForChild("Platform")
+
 local Players = game:GetService("Players")
 local gunBase = require(script.Parent.GunBase) --serviceLoader:GetService("GunBase")
 
@@ -35,10 +42,16 @@ function AK96.New(char)
 
 	newAK96.reloadTime = 2
 
-	--newAK96.fireAnim =
-	--gunBase["GeneralModules"].CloneAnimation("rbxassetid://72333481697984", viewModel, viewModelAnimator)
-	--newAK96.reloadAnim =
-	--gunBase["GeneralModules"].CloneAnimation("rbxassetid://91793492884293", viewModel, viewModelAnimator)
+	newAK96.fireAnim = require(platformModules:WaitForChild("CloneAnimation"))(
+		"rbxassetid://72333481697984",
+		viewModel,
+		viewModelAnimator
+	)
+	newAK96.reloadAnim = require(platformModules:WaitForChild("CloneAnimation"))(
+		"rbxassetid://91793492884293",
+		viewModel,
+		viewModelAnimator
+	)
 
 	newAK96.viewmodel = viewModel
 

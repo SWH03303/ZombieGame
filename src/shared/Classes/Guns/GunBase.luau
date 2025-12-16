@@ -92,10 +92,8 @@ function Gun.New(char)
 	newGun.isShooting = false
 	newGun.isAiming = false
 
-	newGun.fireAnim =
-		require(platformModules:WaitForChild("CloneAnimation"))(defaultAsset["ShootAnim"], viewModel, animator)
-	newGun.reloadAnim =
-		require(platformModules:WaitForChild("CloneAnimation"))(defaultAsset["ReloadAnim"], viewModel, animator)
+	newGun.fireAnim = nil
+	newGun.reloadAnim = nil
 
 	newGun.char = char
 	newGun.viewmodel = viewModel
