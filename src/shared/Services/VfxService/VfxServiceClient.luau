@@ -1,7 +1,6 @@
 local rs = game:GetService("ReplicatedStorage")
-local serviceLoader = require(rs.MyServices:WaitForChild("MyServices"))
 
-local partCacheModule = serviceLoader:GetService("PartCache")
+local partCacheModule = require(rs.Packages.PartCache.PartCache)
 
 local vfx = {}
 

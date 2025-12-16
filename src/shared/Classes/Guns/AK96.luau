@@ -1,7 +1,6 @@
 local rs = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
-local serviceLoader = require(rs.MyServices:WaitForChild("MyServices"))
-local gunBase = require(rs.MyServices.Client.GunBase) --serviceLoader:GetService("GunBase")
+local gunBase = require(script.Parent.GunBase) --serviceLoader:GetService("GunBase")
 
 local AK96 = {}
 AK96.__index = AK96
@@ -29,17 +28,17 @@ function AK96.New(char)
 	newAK96.canAim = true
 	newAK96.aimSmooth = 0.08
 
-	newAK96.fireSound = gunBase["GeneralModules"].CloneSound(game:GetService("ReplicatedStorage").Sounds.AK96.Fire, hrp)
+	--newAK96.fireSound = gunBase["GeneralModules"].CloneSound(game:GetService("ReplicatedStorage").Sounds.AK96.Fire, hrp)
 	--print(gunBase["GeneralModules"].CloneSound(game:GetService("ReplicatedStorage").Sounds.AK96.Fire, hrp))
 
 	newAK96.debounce = false
 
 	newAK96.reloadTime = 2
 
-	newAK96.fireAnim =
-		gunBase["GeneralModules"].CloneAnimation("rbxassetid://72333481697984", viewModel, viewModelAnimator)
-	newAK96.reloadAnim =
-		gunBase["GeneralModules"].CloneAnimation("rbxassetid://91793492884293", viewModel, viewModelAnimator)
+	--newAK96.fireAnim =
+	--gunBase["GeneralModules"].CloneAnimation("rbxassetid://72333481697984", viewModel, viewModelAnimator)
+	--newAK96.reloadAnim =
+	--gunBase["GeneralModules"].CloneAnimation("rbxassetid://91793492884293", viewModel, viewModelAnimator)
 
 	newAK96.viewmodel = viewModel
 

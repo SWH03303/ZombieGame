@@ -1,10 +1,33 @@
 local rs = game:GetService("ReplicatedStorage")
+local assets = rs:WaitForChild("Assets")
+local shared = rs:WaitForChild("Shared")
+local modules = shared:WaitForChild("Modules")
+local services = shared:WaitForChild("Services")
 local Players = game:GetService("Players")
-local serviceLoader = require(rs.MyServices:WaitForChild("MyServices"))
 local RSviewmodelFolder = rs:WaitForChild("Assets"):WaitForChild("ViewModels")
 
 local Gun = {}
 Gun.__index = Gun
+
+local VfxService = require(services:WaitForChild("VfxService"):WaitForChild("VfxServiceClient"))
+local platformModules = modules:WaitForChild("Platform")
+local gameModules = modules:WaitForChild("Game")
+
+local defaultAsset = {
+	["Sound"] = assets.Sounds.Glock.Fire,
+	--rbxassetid://124396564823100
+	["ShootAnim"] = "rbxassetid://72333481697984",
+
+	["ReloadAnim"] = "rbxassetid://91793492884293",
+}
+
+function Gun:Init()
+	--[[
+	Gun["GeneralModules"] = serviceLoader:GetService("GeneralModules")
+	Gun["Hitscan"] = serviceLoader:GetService("Hitscan")
+	Gun["VfxService"] = serviceLoader:GetService("VfxService")]]
+	return true
+end
 
 function Gun:GetViewModel(name, camera)
 	local loadedViewmodelFold = rs:FindFirstChild("ViewmodelFoldPlayer")
@@ -38,14 +61,6 @@ function Gun:GetViewModel(name, camera)
 	return
 end
 
-function Gun:Init()
-	Gun["GeneralModules"] = serviceLoader:GetService("GeneralModules")
-	Gun["Hitscan"] = serviceLoader:GetService("Hitscan")
-	Gun["VfxService"] = serviceLoader:GetService("VfxService")
-
-	return true
-end
-
 function Gun.New(char)
 	local hum = char:WaitForChild("Humanoid")
 	local animator = hum:WaitForChild("Animator")
@@ -69,7 +84,7 @@ function Gun.New(char)
 
 	newGun.debounce = false
 
-	newGun.fireSound = Gun["GeneralModules"].CloneSound(game:GetService("ReplicatedStorage").Sounds.Glock.Fire, hrp)
+	newGun.fireSound = require(platformModules:WaitForChild("CloneSound"))(defaultAsset["Sound"], hrp)
 
 	newGun.canAim = true
 	newGun.isReloading = false
@@ -77,8 +92,10 @@ function Gun.New(char)
 	newGun.isShooting = false
 	newGun.isAiming = false
 
-	newGun.fireAnim = Gun["GeneralModules"].CloneAnimation("rbxassetid://124396564823100", viewModel, animator)
-	newGun.reloadAnim = Gun["GeneralModules"].CloneAnimation("rbxassetid://91793492884293", viewModel, animator)
+	newGun.fireAnim =
+		require(platformModules:WaitForChild("CloneAnimation"))(defaultAsset["ShootAnim"], viewModel, animator)
+	newGun.reloadAnim =
+		require(platformModules:WaitForChild("CloneAnimation"))(defaultAsset["ReloadAnim"], viewModel, animator)
 
 	newGun.char = char
 	newGun.viewmodel = viewModel
@@ -113,9 +130,9 @@ function Gun:Shoot()
 		)).LookVector * 500
 		local filter = { self.char }
 		local attPos = self.viewmodel.GunTipAtt.Value.WorldPosition
-		local hitscan = Gun["Hitscan"]:CreateRay(rayOrigin, rayDirection, filter)
+		local hitscan = require(gameModules.Hitscan):CreateRay(rayOrigin, rayDirection, filter)
 		--print(hitscan)
-		Gun["VfxService"]:CreateBulletTrail(attPos, hitscan.Position)
+		VfxService:CreateBulletTrail(attPos, hitscan.Position)
 	end
 
 	if self.Auto == false and not self.isReloading and self.canShoot and not self.debounce and self.Ammo > 0 then
@@ -208,6 +225,10 @@ function Gun:RenderWork()
 		self.aimCF = self.aimCF:Lerp(offset, self.aimSmooth)
 		self.currAimsway = self.normalswayAMT
 	end
+end
+
+function Gun:Destroy()
+	--gotta work on this
 end
 
 return Gun

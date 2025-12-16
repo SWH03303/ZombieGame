@@ -1,3 +1,5 @@
+local gunServiceClient = {}
+
 local player = game:GetService("Players").LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
@@ -5,10 +7,10 @@ local rs = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 
-local serviceLoader = require(rs.MyServices:WaitForChild("MyServices"))
+local GunClassFold = rs:WaitForChild("Shared"):WaitForChild("Classes"):WaitForChild("Guns")
 
 local camera = game.Workspace.CurrentCamera
---camera.FieldOfView = 100
+camera.FieldOfView = 100 ---------------------FOV
 
 local inventory = {
 	"AK96",
@@ -30,8 +32,8 @@ function createGuns()
 	if gun then
 		gun.canShoot = false
 	end
-	for i = 1, 3 do
-		module = serviceLoader:GetService(inventory[i])
+	for i = 1, 1 do
+		module = require(GunClassFold:WaitForChild(inventory[i]))
 		gun = module.New(character)
 		loadedGun[inventory[i]] = gun
 	end
@@ -39,7 +41,7 @@ function createGuns()
 	print(loadedGun)
 end
 
-function loadSlot(Item) --- fixing this
+function loadSlot(Item)
 	if gun then
 		gun.canShoot = false
 		gun.viewmodel.Parent = rs:WaitForChild("ViewmodelFoldPlayer")
@@ -124,3 +126,5 @@ UserInputService.InputEnded:Connect(function(input)
 		gun.isShooting = false
 	end
 end)
+
+return gunServiceClient

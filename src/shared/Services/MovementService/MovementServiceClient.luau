@@ -4,7 +4,7 @@ local RunService = game:GetService("RunService")
 local Debris = game:GetService("Debris")
 local rs = game:GetService("ReplicatedStorage")
 local uis = game:GetService("UserInputService")
-local sounds = rs:WaitForChild("Sounds")
+local sounds = rs:WaitForChild("Assets"):WaitForChild("Sounds")
 
 local animations = rs:WaitForChild("Animation")
 
