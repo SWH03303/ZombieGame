@@ -1,7 +1,13 @@
 local rs = game:GetService("ReplicatedStorage")
+local assets = rs:WaitForChild("Assets")
+local shared = rs:WaitForChild("Shared")
+local modules = shared:WaitForChild("Modules")
+local services = shared:WaitForChild("Services")
+
+local platformModules = modules:WaitForChild("Platform")
+
 local Players = game:GetService("Players")
-local serviceLoader = require(rs.MyServices:WaitForChild("MyServices"))
-local gunBase = require(rs.MyServices.Client.GunBase) --serviceLoader:GetService("GunBase")
+local gunBase = require(script.Parent.GunBase) --serviceLoader:GetService("GunBase")
 
 local Glock = {}
 Glock.__index = Glock
@@ -27,16 +33,24 @@ function Glock.New(char)
 	newGun.canAim = true
 	newGun.aimSmooth = 0.125
 
-	newGun.fireSound = gunBase["GeneralModules"].CloneSound(game:GetService("ReplicatedStorage").Sounds.Glock.Fire, hrp)
-
 	newGun.debounce = false
 
 	newGun.reloadTime = 1.5
 
-	newGun.fireAnim =
-		gunBase["GeneralModules"].CloneAnimation("rbxassetid://124396564823100", viewModel, viewModelAnimator)
-	newGun.reloadAnim =
-		gunBase["GeneralModules"].CloneAnimation("rbxassetid://91793492884293", viewModel, viewModelAnimator)
+	newGun.fireSound = require(platformModules:WaitForChild("CloneSound"))(
+		assets:WaitForChild("Sounds"):WaitForChild("Glock"):WaitForChild("Fire"),
+		hrp
+	)
+	newGun.fireAnim = require(platformModules:WaitForChild("CloneAnimation"))(
+		"rbxassetid://124396564823100",
+		viewModel,
+		viewModelAnimator
+	)
+	newGun.reloadAnim = require(platformModules:WaitForChild("CloneAnimation"))(
+		"rbxassetid://91793492884293",
+		viewModel,
+		viewModelAnimator
+	)
 
 	newGun.viewmodel = viewModel
 

@@ -42,6 +42,10 @@ function AK96.New(char)
 
 	newAK96.reloadTime = 2
 
+	newAK96.fireSound = require(platformModules:WaitForChild("CloneSound"))(
+		assets:WaitForChild("Sounds"):WaitForChild("AK96"):WaitForChild("Fire"),
+		hrp
+	)
 	newAK96.fireAnim = require(platformModules:WaitForChild("CloneAnimation"))(
 		"rbxassetid://72333481697984",
 		viewModel,

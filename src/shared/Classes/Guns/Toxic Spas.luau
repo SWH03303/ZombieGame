@@ -1,7 +1,13 @@
 local rs = game:GetService("ReplicatedStorage")
+local assets = rs:WaitForChild("Assets")
+local shared = rs:WaitForChild("Shared")
+local modules = shared:WaitForChild("Modules")
+local services = shared:WaitForChild("Services")
+
+local platformModules = modules:WaitForChild("Platform")
+
 local Players = game:GetService("Players")
-local serviceLoader = require(rs.MyServices:WaitForChild("MyServices"))
-local gunBase = require(rs.MyServices.Client.GunBase) --serviceLoader:GetService("GunBase")
+local gunBase = require(script.Parent.GunBase) --serviceLoader:GetService("GunBase")
 
 local ToxicSpas = {}
 ToxicSpas.__index = ToxicSpas
@@ -27,17 +33,24 @@ function ToxicSpas.New(char)
 	newGun.canAim = true
 	newGun.aimSmooth = 0.125
 
-	newGun.fireSound =
-		gunBase["GeneralModules"].CloneSound(game:GetService("ReplicatedStorage").Sounds["Toxic Spas"].Fire, hrp)
-
 	newGun.debounce = false
 
 	newGun.reloadTime = 1.5
 
-	newGun.fireAnim =
-		gunBase["GeneralModules"].CloneAnimation("rbxassetid://138438224028806", viewModel, viewModelAnimator)
-	newGun.reloadAnim =
-		gunBase["GeneralModules"].CloneAnimation("rbxassetid://113494729900105", viewModel, viewModelAnimator)
+	newGun.fireSound = require(platformModules:WaitForChild("CloneSound"))(
+		assets:WaitForChild("Sounds"):WaitForChild("Toxic Spas"):WaitForChild("Fire"),
+		hrp
+	)
+	newGun.fireAnim = require(platformModules:WaitForChild("CloneAnimation"))(
+		"rbxassetid://138438224028806",
+		viewModel,
+		viewModelAnimator
+	)
+	newGun.reloadAnim = require(platformModules:WaitForChild("CloneAnimation"))(
+		"rbxassetid://113494729900105",
+		viewModel,
+		viewModelAnimator
+	)
 
 	newGun.viewmodel = viewModel
 

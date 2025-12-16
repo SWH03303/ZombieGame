@@ -63,7 +63,6 @@ end
 
 function Gun.New(char)
 	local hum = char:WaitForChild("Humanoid")
-	local animator = hum:WaitForChild("Animator")
 	local hrp = char.HumanoidRootPart
 	local player = Players:GetPlayerFromCharacter(char)
 
@@ -97,7 +96,6 @@ function Gun.New(char)
 
 	newGun.char = char
 	newGun.viewmodel = viewModel
-	--print(viewModel)
 
 	newGun.camera = workspace.Camera
 	newGun.normalswayAMT = 0.7

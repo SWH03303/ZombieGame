@@ -24,7 +24,6 @@ local loadedGun = {}
 local module = nil
 local gun = nil
 local currentSlot = 1
-local viewmodel = nil
 
 --print(workspace.Camera.CFrame)
 
@@ -32,7 +31,7 @@ function createGuns()
 	if gun then
 		gun.canShoot = false
 	end
-	for i = 1, 1 do
+	for i = 1, 3 do
 		module = require(GunClassFold:WaitForChild(inventory[i]))
 		gun = module.New(character)
 		loadedGun[inventory[i]] = gun
@@ -52,8 +51,6 @@ function loadSlot(Item)
 	gun.canShoot = true
 end
 
-local hud = player.PlayerGui:WaitForChild("HUD")
-
 RunService.RenderStepped:Connect(function()
 	if gun then
 		gun:RenderWork()
@@ -64,41 +61,37 @@ createGuns()
 loadSlot(inventory[1])
 
 UserInputService.InputBegan:Connect(function(input, IsTyping)
+	local function load(num)
+		loadSlot(inventory[num])
+		currentSlot = num
+		gun.aimCF = CFrame.new()
+	end
+
 	if IsTyping then
 		return
 	end
 
 	if input.KeyCode == Enum.KeyCode.One then
 		if currentSlot ~= 1 and gun ~= nil and gun.isReloading == false then
-			--print("change")
-			loadSlot(inventory[1])
-			currentSlot = 1
-			gun.aimCF = CFrame.new()
+			load(1)
 		end
 	end
 
 	if input.KeyCode == Enum.KeyCode.Two then
 		if currentSlot ~= 2 and gun ~= nil and gun.isReloading == false then
-			--print("change")
-			loadSlot(inventory[2])
-			currentSlot = 2
-			gun.aimCF = CFrame.new()
+			load(2)
 		end
 	end
 
 	if input.KeyCode == Enum.KeyCode.Three then
 		if currentSlot ~= 3 and gun ~= nil and gun.isReloading == false then
-			loadSlot(inventory[3])
-			currentSlot = 3
-			gun.aimCF = CFrame.new()
+			load(3)
 		end
 	end
 
 	if input.KeyCode == Enum.KeyCode.Four then
 		if currentSlot ~= 4 and gun ~= nil and gun.isReloading == false then
-			loadSlot(inventory[4])
-			currentSlot = 4
-			gun.aimCF = CFrame.new()
+			load(4)
 		end
 	end
 
