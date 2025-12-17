@@ -131,41 +131,41 @@ function Gun:Shoot()
 		VfxService:CreateBulletTrail(attPos, hitscan.Position)
 	end
 
-	if self.Auto == false and not self.isReloading and self.canShoot and not self.debounce and self.Ammo > 0 then
+	if self.isReloading or not self.canShoot or self.debounce or self.Ammo <= 0 then
+		return
+	end
+
+	self.debounce = true
+	task.delay(self.FireRate, function()
+		self.debounce = false
+	end)
+
+	--------SEMI
+	if not self.Auto then
 		self.fireAnim:Play(0)
 		self.Ammo -= 1
 		self.fireSound:Play()
-
 		createRayAndShoot()
-
-		task.spawn(function()
-			self.debounce = true
-			task.wait(self.FireRate)
-			self.debounce = false
-		end)
+		return
 	end
 
-	if self.Auto and not self.isShooting and not self.isReloading and self.canShoot and not self.debounce then
-		self.isShooting = true
-
-		task.spawn(function()
-			self.debounce = true
-			task.wait(self.FireRate)
-			self.debounce = false
-		end)
-
-		task.spawn(function()
-			while self.isShooting and self.Ammo > 0 and self.canShoot do
-				self.fireAnim:Play(0)
-				self.fireSound:Play()
-				self.Ammo -= 1
-
-				createRayAndShoot()
-
-				task.wait(self.FireRate)
-			end
-		end)
+	--------AUTO
+	if self.isShooting then
+		return
 	end
+	self.isShooting = true
+	task.spawn(function()
+		while self.isShooting and self.Ammo > 0 and self.canShoot do
+			self.fireAnim:Play(0)
+			self.fireSound:Play()
+			self.Ammo -= 1
+
+			createRayAndShoot()
+
+			task.wait(self.FireRate)
+		end
+		self.isShooting = false
+	end)
 end
 
 function Gun:Reload()

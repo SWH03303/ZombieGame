@@ -6,6 +6,8 @@ realm = "shared"
 
 [dependencies]
 Promise = "evaera/promise@4.0.0"
+Fusion = "elttob/fusion@0.3.0"
+PartCache = "andremhpra/partcache@1.0.0"
 
 [server-dependencies]
 ProfileService = "firebird702/profileservice@1.1.0"

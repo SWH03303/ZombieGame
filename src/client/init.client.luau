@@ -9,3 +9,6 @@ local services = shared:WaitForChild("Services")
 
 local gunService = services:WaitForChild("GunService")
 require(gunService:WaitForChild("GunServiceClient"))
+
+local uiFold = shared:WaitForChild("UI")
+require(uiFold:WaitForChild("UI"))
