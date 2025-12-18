@@ -29,13 +29,22 @@ function myServices:GetService(_serviceName)
 	return
 end
 
-function myServices:FetchAllServices(myServicesFolder: Folder)
+local function checkTable(array, module)
+	for i, v in pairs(array) do
+		if v == module then
+			return true
+		end
+	end
+	return false
+end
+
+function myServices:FetchAllServices(myServicesFolder, exclude)
 	for _, serviceModule in pairs(myServicesFolder:GetDescendants()) do
-		if serviceModule:IsA("ModuleScript") and serviceModule ~= script then
+		if serviceModule:IsA("ModuleScript") and serviceModule ~= exclude then
 			local serviceName = serviceModule.Name
 			local serviceData = require(serviceModule)
 
-			if serviceData["Init"] then
+			if type(serviceData) ~= "function" and serviceData["Init"] then
 				task.spawn(function()
 					local initResult = serviceData:Init()
 

@@ -8,6 +8,8 @@ realm = "shared"
 Promise = "evaera/promise@4.0.0"
 Fusion = "elttob/fusion@0.3.0"
 PartCache = "andremhpra/partcache@1.0.0"
+TableUtil = "sleitnick/table-util@1.2.1"
+FusionComponents = "virtualbutfake/fusion-components@0.1.18"
 
 [server-dependencies]
 ProfileService = "firebird702/profileservice@1.1.0"
