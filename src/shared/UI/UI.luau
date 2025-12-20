@@ -12,7 +12,9 @@ local tableUtil = require(packages:WaitForChild("TableUtil"))
 
 local Players = game:GetService("Players")
 
-local moduleLoader = require(modules:WaitForChild("Platform"):WaitForChild("ModuleLoader"))
-moduleLoader:FetchAllServices(uiFold, uiFold:WaitForChild("UI"))
+--local moduleLoader = require(modules:WaitForChild("Platform"):WaitForChild("ModuleLoader"))
+--moduleLoader:FetchAllServices(uiFold, uiFold:WaitForChild("UI"))
+
+local settings = require(uiFold:WaitForChild("Menus"):WaitForChild("Settings"):WaitForChild("SettingsInit"))
 
 return ui

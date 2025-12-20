@@ -1,12 +1,7 @@
-local settings = {}
-
 local rs = game:GetService("ReplicatedStorage")
 local packages = rs:WaitForChild("Packages")
 local shared = rs:WaitForChild("Shared")
 local ui = shared:WaitForChild("UI")
-
-local components = require(packages:WaitForChild("FusionComponents"))
-local button = require(components:WaitForChild("Button"))
 
 local player = game.Players.LocalPlayer
 
@@ -19,13 +14,22 @@ local scope = scoped({
 	Value = fusion.Value,
 })
 
-local screen_gui = scope:New("ScreenGui")({
-	Name = "uh",
-	Parent = player.PlayerGui,
-
-	[Children] = {
-		components.base.frame({}),
-	},
+return function(props: {
+	Parent: Instance?,
 })
+	return scope:New("TextButton")({
+		Name = "uh",
+		Parent = props.Parent,
+		Transparency = 0,
+		Size = UDim2.fromScale(0.5, 0.5),
+		Position = UDim2.fromScale(0.25, 0.25),
+		Text = "Button",
+		TextScaled = true,
 
-return settings
+		[Children] = {
+			scope:New("UiCorner")({
+				CornerRadius = UDim2.new(0, 8),
+			}),
+		},
+	})
+end
