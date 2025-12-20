@@ -7,7 +7,10 @@ local player = game.Players.LocalPlayer
 
 local Fusion = require(packages:WaitForChild("Fusion"))
 local scoped = Fusion.scoped
+local peek = Fusion.peek
 local Children = Fusion.Children
+local OnEvent = Fusion.OnEvent
+local Computed = Fusion.Computed
 
 local scope = scoped({
 	New = Fusion.New,
@@ -21,22 +24,39 @@ return function(props: {
 	AnchorPoint: UsedAs<Vector2>?,
 	Size: UsedAs<UDim2>?,
 	LayoutOrder: UsedAs<number>?,
-	ButtonText: UsedAs<string>,
+
+	TextColor3: UsedAs<Color3>?,
+	ButtonText: UsedAs<string>?,
+	FontName: UsedAs<Enum.Font>?,
+
+	BackgroundColor3: UsedAs<Color3>?,
+	BorderSizePixel: UsedAs<IntValue>?,
+	BorderColor3: UsedAs<Color3>?,
 })
 	return scope:New("TextButton")({
-		BackgroundColor3 = Color3.new(0, 0.25, 1),
+		BackgroundColor3 = props.BackgroundColor3 or Color3.new(0.898039, 0.898039, 0.898039),
 		Position = props.Position,
 		AnchorPoint = props.AnchorPoint,
 		Size = props.Size,
 		LayoutOrder = props.LayoutOrder,
+		AutoButtonColor = true,
 
 		Text = props.ButtonText,
 		TextSize = 28,
-		TextColor3 = Color3.new(1, 1, 1),
+		TextColor3 = props.TextColor3 or Color3.new(0.513725, 0.513725, 0.513725),
+		FontFace = Font.fromName("ComicNeueAngular"),
 
+		[OnEvent("Activated")] = function()
+			--print("nigger")
+		end,
 		[Children] = {
 			scope:New("UICorner")({
 				CornerRadius = UDim.new(0, 8),
+			}),
+			scope:New("UIStroke")({
+				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+				Thickness = props.BorderSizePixel or 5,
+				Color = props.BorderColor3 or Color3.new(0.517647, 0.517647, 0.517647),
 			}),
 		},
 	})

@@ -34,6 +34,8 @@ return function(props: {
 				Size = UDim2.fromScale(1, 1),
 				ButtonText = "skibidi",
 				LayoutOrder = 10,
+				--TextColor3 = Color3.new(0.819608, 0.05098, 0.05098),
+				--BorderSizePixel = 10,
 			}),
 		},
 	})
