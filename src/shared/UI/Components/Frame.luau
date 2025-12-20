@@ -1,0 +1,50 @@
+local rs = game:GetService("ReplicatedStorage")
+local packages = rs:WaitForChild("Packages")
+local shared = rs:WaitForChild("Shared")
+local ui = shared:WaitForChild("UI")
+
+local player = game.Players.LocalPlayer
+
+local Fusion = require(packages:WaitForChild("Fusion"))
+local scoped = Fusion.scoped
+local peek = Fusion.peek
+local Children = Fusion.Children
+local OnEvent = Fusion.OnEvent
+local Computed = Fusion.Computed
+
+local scope = scoped({
+	New = Fusion.New,
+	Value = Fusion.Value,
+})
+
+type UsedAs<T> = Fusion.UsedAs<T>
+
+return function(props: {
+	Position: UsedAs<UDim2>?,
+	AnchorPoint: UsedAs<Vector2>?,
+	Size: UsedAs<UDim2>?,
+	LayoutOrder: UsedAs<number>?,
+
+	BackgroundColor3: UsedAs<Color3>?,
+	BorderSizePixel: UsedAs<IntValue>?,
+	BorderColor3: UsedAs<Color3>?,
+})
+	return scope:New("Frame")({
+		BackgroundColor3 = props.BackgroundColor3 or Color3.new(0.898039, 0.898039, 0.898039),
+		Position = props.Position,
+		AnchorPoint = props.AnchorPoint,
+		Size = props.Size,
+		LayoutOrder = props.LayoutOrder,
+
+		[Children] = {
+			scope:New("UICorner")({
+				CornerRadius = UDim.new(0, 8),
+			}),
+			scope:New("UIStroke")({
+				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
+				Thickness = props.BorderSizePixel or 5,
+				Color = props.BorderColor3 or Color3.new(0.517647, 0.517647, 0.517647),
+			}),
+		},
+	})
+end

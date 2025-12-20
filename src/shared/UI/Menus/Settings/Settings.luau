@@ -7,6 +7,7 @@ local player = game.Players.LocalPlayer
 
 local components = ui:WaitForChild("Components")
 local button = require(components:WaitForChild("Button"))
+local frame = require(components:WaitForChild("Frame"))
 
 local fusion = require(packages:WaitForChild("Fusion"))
 local scoped = fusion.scoped
@@ -18,25 +19,30 @@ local scope = scoped({
 })
 
 return function(props: {
+
 	Parent: Instance?,
 })
 	return scope:New("Frame")({
-		Name = "uh",
 		Parent = props.Parent,
 		Transparency = 0,
 		BackgroundColor3 = Color3.new(0.52549, 0.560784, 0.666667),
-		Position = UDim2.fromScale(0.25, 0.25),
-		Size = UDim2.fromScale(0.25, 0.25),
+		Position = UDim2.fromScale(0.1, 0.1),
+		Size = UDim2.fromScale(0.75, 0.75),
 
 		[Children] = {
 			button({
 				Position = UDim2.fromScale(0.25, 0.25),
-				Size = UDim2.fromScale(1, 1),
+				Size = UDim2.fromScale(0.25, 0.25),
 				ButtonText = "skibidi",
-				LayoutOrder = 10,
+				LayoutOrder = 2,
 				--TextColor3 = Color3.new(0.819608, 0.05098, 0.05098),
 				--BorderSizePixel = 10,
 			}),
+			frame({
+				Size = UDim2.fromScale(0.25, 0.25),
+				LayoutOrder = 1,
+			}),
+			scope:New("UIListLayout")({}),
 		},
 	})
 end
