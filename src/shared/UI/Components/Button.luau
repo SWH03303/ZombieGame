@@ -5,30 +5,38 @@ local ui = shared:WaitForChild("UI")
 
 local player = game.Players.LocalPlayer
 
-local fusion = require(packages:WaitForChild("Fusion"))
-local scoped = fusion.scoped
-local Children = fusion.Children
+local Fusion = require(packages:WaitForChild("Fusion"))
+local scoped = Fusion.scoped
+local Children = Fusion.Children
 
 local scope = scoped({
-	New = fusion.New,
-	Value = fusion.Value,
+	New = Fusion.New,
+	Value = Fusion.Value,
 })
+
+type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(props: {
-	Parent: Instance?,
+	Position: UsedAs<UDim2>?,
+	AnchorPoint: UsedAs<Vector2>?,
+	Size: UsedAs<UDim2>?,
+	LayoutOrder: UsedAs<number>?,
+	ButtonText: UsedAs<string>,
 })
 	return scope:New("TextButton")({
-		Name = "uh",
-		Parent = props.Parent,
-		Transparency = 0,
-		Size = UDim2.fromScale(0.5, 0.5),
-		Position = UDim2.fromScale(0.25, 0.25),
-		Text = "Button",
-		TextScaled = true,
+		BackgroundColor3 = Color3.new(0, 0.25, 1),
+		Position = props.Position,
+		AnchorPoint = props.AnchorPoint,
+		Size = props.Size,
+		LayoutOrder = props.LayoutOrder,
+
+		Text = props.ButtonText,
+		TextSize = 28,
+		TextColor3 = Color3.new(1, 1, 1),
 
 		[Children] = {
-			scope:New("UiCorner")({
-				CornerRadius = UDim2.new(0, 8),
+			scope:New("UICorner")({
+				CornerRadius = UDim.new(0, 8),
 			}),
 		},
 	})
