@@ -30,6 +30,109 @@ return function(
 	})
 
 	--[[]]
+	local function addPadding(num, childFold) -- fixing this
+		local paddedChildFold = {}
+		for _, v in pairs(childFold) do
+			--print("huh")
+			if v:IsA("Frame") then
+				table.insert(paddedChildFold, scope:emptyFrame({ Size = UDim2.fromScale(1, num) }))
+			end
+			table.insert(paddedChildFold, v)
+		end
+		table.insert(paddedChildFold, scope:emptyFrame({ Size = UDim2.fromScale(1, num) }))
+		return paddedChildFold
+	end
+
+	local settingsFrameChildren = {
+		scope:scrollingFrame({
+			Size = UDim2.fromScale(0.5, 0.5),
+			BackgroundColor3 = Color3.new(0.8, 0.811765, 0.847059),
+			Position = UDim2.fromScale(0.25, 0.25),
+			ZIndex = 1,
+			ExtraChildren = {
+				scope:New("UIListLayout")({
+					HorizontalAlignment = Enum.HorizontalAlignment.Center,
+				}),
+
+				scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
+
+				scope:emptyFrame({
+					Size = UDim2.fromScale(1, 0.3),
+					ExtraChildren = {
+						scope:New("UIListLayout")({
+							HorizontalAlignment = Enum.HorizontalAlignment.Center,
+							FillDirection = Enum.FillDirection.Horizontal,
+							Padding = UDim.new(0.1),
+						}),
+						scope:button({
+							--Position = UDim2.fromScale(0.5, 0.5),
+							Size = UDim2.fromScale(0.3, 1),
+							ButtonText = "skibidi",
+							ZIndex = 2,
+						}),
+						scope:button({
+							--Position = UDim2.fromScale(0.5, 0.5),
+							Size = UDim2.fromScale(0.3, 1),
+							ButtonText = "skibidi",
+							ZIndex = 2,
+						}),
+					},
+				}),
+
+				scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
+
+				scope:emptyFrame({
+					Size = UDim2.fromScale(1, 0.3),
+					ExtraChildren = {
+						scope:New("UIListLayout")({
+							HorizontalAlignment = Enum.HorizontalAlignment.Center,
+							FillDirection = Enum.FillDirection.Horizontal,
+							Padding = UDim.new(0.1),
+						}),
+						scope:button({
+							--Position = UDim2.fromScale(0.5, 0.5),
+							Size = UDim2.fromScale(0.3, 1),
+							ButtonText = "skibidi",
+							ZIndex = 2,
+						}),
+						scope:button({
+							--Position = UDim2.fromScale(0.5, 0.5),
+							Size = UDim2.fromScale(0.3, 1),
+							ButtonText = "skibidi",
+							ZIndex = 2,
+						}),
+					},
+				}),
+
+				scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
+
+				scope:emptyFrame({
+					Size = UDim2.fromScale(1, 0.3),
+					ExtraChildren = {
+						scope:New("UIListLayout")({
+							HorizontalAlignment = Enum.HorizontalAlignment.Center,
+							FillDirection = Enum.FillDirection.Horizontal,
+							Padding = UDim.new(0.1),
+						}),
+						scope:button({
+							--Position = UDim2.fromScale(0.5, 0.5),
+							Size = UDim2.fromScale(0.3, 1),
+							ButtonText = "skibidi",
+							ZIndex = 2,
+						}),
+						scope:button({
+							--Position = UDim2.fromScale(0.5, 0.5),
+							Size = UDim2.fromScale(0.3, 1),
+							ButtonText = "skibidi",
+							ZIndex = 2,
+						}),
+					},
+				}),
+
+				--scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
+			},
+		}),
+	}
 
 	local settingsFrame = scope:New("Frame")({
 		Parent = props.Parent,
@@ -37,96 +140,7 @@ return function(
 		Position = UDim2.fromScale(0, 0),
 		Size = UDim2.fromScale(1, 1),
 
-		[Children] = {
-			scope:scrollingFrame({
-				Size = UDim2.fromScale(0.5, 0.5),
-				BackgroundColor3 = Color3.new(0.8, 0.811765, 0.847059),
-				Position = UDim2.fromScale(0.25, 0.25),
-				ZIndex = 1,
-				ExtraChildren = {
-					scope:New("UIListLayout")({
-						HorizontalAlignment = Enum.HorizontalAlignment.Center,
-					}),
-
-					scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
-
-					scope:emptyFrame({
-						Size = UDim2.fromScale(1, 0.3),
-						ExtraChildren = {
-							scope:New("UIListLayout")({
-								HorizontalAlignment = Enum.HorizontalAlignment.Center,
-								FillDirection = Enum.FillDirection.Horizontal,
-								Padding = UDim.new(0.1),
-							}),
-							scope:button({
-								--Position = UDim2.fromScale(0.5, 0.5),
-								Size = UDim2.fromScale(0.3, 1),
-								ButtonText = "skibidi",
-								ZIndex = 2,
-							}),
-							scope:button({
-								--Position = UDim2.fromScale(0.5, 0.5),
-								Size = UDim2.fromScale(0.3, 1),
-								ButtonText = "skibidi",
-								ZIndex = 2,
-							}),
-						},
-					}),
-
-					scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
-
-					scope:emptyFrame({
-						Size = UDim2.fromScale(1, 0.3),
-						ExtraChildren = {
-							scope:New("UIListLayout")({
-								HorizontalAlignment = Enum.HorizontalAlignment.Center,
-								FillDirection = Enum.FillDirection.Horizontal,
-								Padding = UDim.new(0.1),
-							}),
-							scope:button({
-								--Position = UDim2.fromScale(0.5, 0.5),
-								Size = UDim2.fromScale(0.3, 1),
-								ButtonText = "skibidi",
-								ZIndex = 2,
-							}),
-							scope:button({
-								--Position = UDim2.fromScale(0.5, 0.5),
-								Size = UDim2.fromScale(0.3, 1),
-								ButtonText = "skibidi",
-								ZIndex = 2,
-							}),
-						},
-					}),
-
-					scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
-
-					scope:emptyFrame({
-						Size = UDim2.fromScale(1, 0.3),
-						ExtraChildren = {
-							scope:New("UIListLayout")({
-								HorizontalAlignment = Enum.HorizontalAlignment.Center,
-								FillDirection = Enum.FillDirection.Horizontal,
-								Padding = UDim.new(0.1),
-							}),
-							scope:button({
-								--Position = UDim2.fromScale(0.5, 0.5),
-								Size = UDim2.fromScale(0.3, 1),
-								ButtonText = "skibidi",
-								ZIndex = 2,
-							}),
-							scope:button({
-								--Position = UDim2.fromScale(0.5, 0.5),
-								Size = UDim2.fromScale(0.3, 1),
-								ButtonText = "skibidi",
-								ZIndex = 2,
-							}),
-						},
-					}),
-
-					scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
-				},
-			}),
-		},
+		[Children] = addPadding(0.05, settingsFrameChildren),
 	})
 	--[[
 	print(settingsFrame:GetChildren())

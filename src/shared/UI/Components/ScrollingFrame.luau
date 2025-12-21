@@ -34,7 +34,6 @@ return function(
 		ExtraChildren: UsedAs<SharedTable>?,
 	}
 )
-	print("ey")
 	local scrollingFrame = scope:New("ScrollingFrame")({
 		CanvasSize = UDim2.fromScale(0, 0),
 		AutomaticCanvasSize = Enum.AutomaticSize.Y,
