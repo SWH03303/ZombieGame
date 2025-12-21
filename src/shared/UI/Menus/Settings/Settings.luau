@@ -33,22 +33,34 @@ return function(
 		Size = UDim2.fromScale(1, 1),
 
 		[Children] = {
-
 			scope:frame({
 				Size = UDim2.fromScale(0.5, 0.5),
 				BackgroundColor3 = Color3.new(0.8, 0.811765, 0.847059),
 				Position = UDim2.fromScale(0.25, 0.25),
 				ZIndex = 1,
+				--[[
+				SingleChildren = scope:button({
+					Position = UDim2.fromScale(0.5, 0.5),
+					Size = UDim2.fromScale(0.5, 0.5),
+					ButtonText = "skibidi",
+					ZIndex = 2,
+					--TextColor3 = Color3.new(0.819608, 0.05098, 0.05098),
+					BorderSizePixel = 10,
+				}),]]
 
-				[Children] = {
-					--scope:New("UIListLayout")({}),
+				ExtraChildren = {
+					scope:New("UIListLayout")({}),
 					scope:button({
 						Position = UDim2.fromScale(0.5, 0.5),
-						Size = UDim2.fromScale(1, 1),
+						Size = UDim2.fromScale(0.5, 0.5),
 						ButtonText = "skibidi",
 						ZIndex = 2,
-						--TextColor3 = Color3.new(0.819608, 0.05098, 0.05098),
-						--BorderSizePixel = 10,
+					}),
+					scope:button({
+						Position = UDim2.fromScale(0.5, 0.5),
+						Size = UDim2.fromScale(0.5, 0.5),
+						ButtonText = "skibidi",
+						ZIndex = 2,
 					}),
 				},
 			}),

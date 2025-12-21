@@ -1,6 +1,9 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local rs = game:GetService("ReplicatedStorage")
 local packages = rs:WaitForChild("Packages")
 local shared = rs:WaitForChild("Shared")
+local module = shared:WaitForChild("Modules")
+local TableUtil = require(module:WaitForChild("Platform"):WaitForChild("TableUtils"))
 local ui = shared:WaitForChild("UI")
 
 local player = game.Players.LocalPlayer
@@ -28,6 +31,7 @@ return function(
 		BackgroundColor3: UsedAs<Color3>?,
 		BorderSizePixel: UsedAs<IntValue>?,
 		BorderColor3: UsedAs<Color3>?,
+		ExtraChildren: UsedAs<SharedTable>?,
 	}
 )
 	return scope:New("Frame")({
@@ -38,7 +42,7 @@ return function(
 		LayoutOrder = props.LayoutOrder,
 		ZIndex = props.ZIndex or 0,
 
-		[Children] = {
+		[Children] = TableUtil.addIn({
 			scope:New("UICorner")({
 				CornerRadius = UDim.new(0, 8),
 			}),
@@ -47,6 +51,6 @@ return function(
 				Thickness = props.BorderSizePixel or 5,
 				Color = props.BorderColor3 or Color3.new(0.517647, 0.517647, 0.517647),
 			}),
-		},
+		}, props.ExtraChildren),
 	})
 end
