@@ -6,43 +6,52 @@ local ui = shared:WaitForChild("UI")
 local player = game.Players.LocalPlayer
 
 local components = ui:WaitForChild("Components")
-local button = require(components:WaitForChild("Button"))
-local frame = require(components:WaitForChild("Frame"))
 
-local fusion = require(packages:WaitForChild("Fusion"))
-local scoped = fusion.scoped
-local Children = fusion.Children
+local Fusion = require(packages:WaitForChild("Fusion"))
+local scoped = Fusion.scoped
+local Children = Fusion.Children
 
-local scope = scoped({
-	New = fusion.New,
-	Value = fusion.Value,
-})
+type UsedAs<T> = Fusion.UsedAs<T>
 
-return function(props: {
+local scope = scoped(Fusion, {})
 
-	Parent: Instance?,
-})
+return function(
+	--scope: Fusion.Scope,
+	props: {
+		Parent: UsedAs<Instance>?,
+	}
+)
+	local scope = scope:innerScope({
+		button = require(components:WaitForChild("Button")),
+		frame = require(components:WaitForChild("Frame")),
+	})
+
 	return scope:New("Frame")({
 		Parent = props.Parent,
-		Transparency = 0,
-		BackgroundColor3 = Color3.new(0.52549, 0.560784, 0.666667),
-		Position = UDim2.fromScale(0.1, 0.1),
-		Size = UDim2.fromScale(0.75, 0.75),
+		Transparency = 1,
+		Position = UDim2.fromScale(0, 0),
+		Size = UDim2.fromScale(1, 1),
 
 		[Children] = {
-			button({
+
+			scope:frame({
+				Size = UDim2.fromScale(0.5, 0.5),
+				BackgroundColor3 = Color3.new(0.8, 0.811765, 0.847059),
 				Position = UDim2.fromScale(0.25, 0.25),
-				Size = UDim2.fromScale(0.25, 0.25),
-				ButtonText = "skibidi",
-				LayoutOrder = 2,
-				--TextColor3 = Color3.new(0.819608, 0.05098, 0.05098),
-				--BorderSizePixel = 10,
+				ZIndex = 1,
+
+				[Children] = {
+					--scope:New("UIListLayout")({}),
+					scope:button({
+						Position = UDim2.fromScale(0.5, 0.5),
+						Size = UDim2.fromScale(1, 1),
+						ButtonText = "skibidi",
+						ZIndex = 2,
+						--TextColor3 = Color3.new(0.819608, 0.05098, 0.05098),
+						--BorderSizePixel = 10,
+					}),
+				},
 			}),
-			frame({
-				Size = UDim2.fromScale(0.25, 0.25),
-				LayoutOrder = 1,
-			}),
-			scope:New("UIListLayout")({}),
 		},
 	})
 end

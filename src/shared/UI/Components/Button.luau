@@ -12,27 +12,26 @@ local Children = Fusion.Children
 local OnEvent = Fusion.OnEvent
 local Computed = Fusion.Computed
 
-local scope = scoped({
-	New = Fusion.New,
-	Value = Fusion.Value,
-})
-
 type UsedAs<T> = Fusion.UsedAs<T>
 
-return function(props: {
-	Position: UsedAs<UDim2>?,
-	AnchorPoint: UsedAs<Vector2>?,
-	Size: UsedAs<UDim2>?,
-	LayoutOrder: UsedAs<number>?,
+return function(
+	scope: Fusion.Scope,
+	props: {
+		Position: UsedAs<UDim2>?,
+		AnchorPoint: UsedAs<Vector2>?,
+		Size: UsedAs<UDim2>?,
+		LayoutOrder: UsedAs<number>?,
+		ZIndex: UsedAs<IntValue>?,
 
-	TextColor3: UsedAs<Color3>?,
-	ButtonText: UsedAs<string>?,
-	FontName: UsedAs<Enum.Font>?,
+		TextColor3: UsedAs<Color3>?,
+		ButtonText: UsedAs<string>?,
+		FontName: UsedAs<Enum.Font>?,
 
-	BackgroundColor3: UsedAs<Color3>?,
-	BorderSizePixel: UsedAs<IntValue>?,
-	BorderColor3: UsedAs<Color3>?,
-})
+		BackgroundColor3: UsedAs<Color3>?,
+		BorderSizePixel: UsedAs<IntValue>?,
+		BorderColor3: UsedAs<Color3>?,
+	}
+)
 	return scope:New("TextButton")({
 		BackgroundColor3 = props.BackgroundColor3 or Color3.new(0.898039, 0.898039, 0.898039),
 		Position = props.Position,
@@ -40,6 +39,7 @@ return function(props: {
 		Size = props.Size,
 		LayoutOrder = props.LayoutOrder,
 		AutoButtonColor = true,
+		ZIndex = props.ZIndex or 0,
 
 		Text = props.ButtonText,
 		TextSize = 28,
