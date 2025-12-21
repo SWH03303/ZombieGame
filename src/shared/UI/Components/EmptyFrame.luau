@@ -27,31 +27,17 @@ return function(
 		Size: UsedAs<UDim2>?,
 		LayoutOrder: UsedAs<number>?,
 		ZIndex: UsedAs<IntValue>?,
-
-		BackgroundColor3: UsedAs<Color3>?,
-		BorderSizePixel: UsedAs<IntValue>?,
-		BorderColor3: UsedAs<Color3>?,
 		ExtraChildren: UsedAs<SharedTable>?,
 	}
 )
 	return scope:New("Frame")({
-		BackgroundColor3 = props.BackgroundColor3 or Color3.new(0.898039, 0.898039, 0.898039),
 		Position = props.Position,
 		AnchorPoint = props.AnchorPoint,
 		Size = props.Size,
 		LayoutOrder = props.LayoutOrder,
 		ZIndex = props.ZIndex or 0,
+		Transparency = 1,
 
-		[Children] = TableUtil.addIn({
-			scope:New("UICorner")({
-				CornerRadius = UDim.new(0, 8),
-			}),
-			scope:New("UIStroke")({
-				BorderStrokePosition = Enum.BorderStrokePosition.Center,
-				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-				Thickness = props.BorderSizePixel or 5,
-				Color = props.BorderColor3 or Color3.new(0.517647, 0.517647, 0.517647),
-			}),
-		}, props.ExtraChildren),
+		[Children] = props.ExtraChildren,
 	})
 end
