@@ -1,3 +1,4 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local rs = game:GetService("ReplicatedStorage")
 local packages = rs:WaitForChild("Packages")
 local shared = rs:WaitForChild("Shared")
@@ -14,6 +15,8 @@ local Children = Fusion.Children
 local OnEvent = Fusion.OnEvent
 local Computed = Fusion.Computed
 
+--local scope = scoped(Fusion, {})
+
 type UsedAs<T> = Fusion.UsedAs<T>
 
 return function(
@@ -25,34 +28,23 @@ return function(
 		LayoutOrder: UsedAs<number>?,
 		ZIndex: UsedAs<IntValue>?,
 
-		TextColor3: UsedAs<Color3>?,
-		ButtonText: UsedAs<string>?,
-		FontName: UsedAs<Enum.Font>?,
-
 		BackgroundColor3: UsedAs<Color3>?,
 		BorderSizePixel: UsedAs<IntValue>?,
 		BorderColor3: UsedAs<Color3>?,
-
 		ExtraChildren: UsedAs<SharedTable>?,
 	}
 )
-	return scope:New("TextButton")({
+	print("ey")
+	local scrollingFrame = scope:New("ScrollingFrame")({
+		CanvasSize = UDim2.fromScale(0, 0),
+		AutomaticCanvasSize = Enum.AutomaticSize.Y,
+
 		BackgroundColor3 = props.BackgroundColor3 or Color3.new(0.898039, 0.898039, 0.898039),
 		Position = props.Position,
 		AnchorPoint = props.AnchorPoint,
 		Size = props.Size,
 		LayoutOrder = props.LayoutOrder,
-		AutoButtonColor = true,
 		ZIndex = props.ZIndex or 0,
-
-		Text = props.ButtonText,
-		TextSize = 28,
-		TextColor3 = props.TextColor3 or Color3.new(0.513725, 0.513725, 0.513725),
-		FontFace = Font.fromName("ComicNeueAngular"),
-
-		[OnEvent("Activated")] = function()
-			--print("nigger")
-		end,
 
 		[Children] = TableUtil.addIn({
 			scope:New("UICorner")({
@@ -66,4 +58,6 @@ return function(
 			}),
 		}, props.ExtraChildren),
 	})
+
+	return scrollingFrame
 end

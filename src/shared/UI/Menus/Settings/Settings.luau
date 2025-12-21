@@ -24,41 +24,57 @@ return function(
 	local scope = scope:innerScope({
 		button = require(components:WaitForChild("Button")),
 		frame = require(components:WaitForChild("Frame")),
+		scrollingFrame = require(components:WaitForChild("ScrollingFrame")),
+		text = require(components:WaitForChild("Text")),
 	})
 
-	return scope:New("Frame")({
+	--[[]]
+
+	local settingsFrame = scope:New("Frame")({
 		Parent = props.Parent,
 		Transparency = 1,
 		Position = UDim2.fromScale(0, 0),
 		Size = UDim2.fromScale(1, 1),
 
 		[Children] = {
-			scope:frame({
+			scope:scrollingFrame({
 				Size = UDim2.fromScale(0.5, 0.5),
 				BackgroundColor3 = Color3.new(0.8, 0.811765, 0.847059),
 				Position = UDim2.fromScale(0.25, 0.25),
 				ZIndex = 1,
-				--[[
-				SingleChildren = scope:button({
-					Position = UDim2.fromScale(0.5, 0.5),
-					Size = UDim2.fromScale(0.5, 0.5),
-					ButtonText = "skibidi",
-					ZIndex = 2,
-					--TextColor3 = Color3.new(0.819608, 0.05098, 0.05098),
-					BorderSizePixel = 10,
-				}),]]
-
 				ExtraChildren = {
-					scope:New("UIListLayout")({}),
+					scope:New("UIListLayout")({
+						Padding = UDim.new(0.05),
+						HorizontalAlignment = Enum.HorizontalAlignment.Center,
+					}),
+					scope:New("Frame")({}),
 					scope:button({
-						Position = UDim2.fromScale(0.5, 0.5),
-						Size = UDim2.fromScale(0.5, 0.5),
+						--Position = UDim2.fromScale(0.5, 0.5),
+						Size = UDim2.fromOffset(150, 50),
 						ButtonText = "skibidi",
 						ZIndex = 2,
 					}),
 					scope:button({
-						Position = UDim2.fromScale(0.5, 0.5),
-						Size = UDim2.fromScale(0.5, 0.5),
+						--Position = UDim2.fromScale(0.5, 0.5),
+						Size = UDim2.fromOffset(150, 50),
+						ButtonText = "skibidi",
+						ZIndex = 2,
+					}),
+					scope:button({
+						--Position = UDim2.fromScale(0.5, 0.5),
+						Size = UDim2.fromOffset(150, 50),
+						ButtonText = "skibidi",
+						ZIndex = 2,
+					}),
+					scope:button({
+						--Position = UDim2.fromScale(0.5, 0.5),
+						Size = UDim2.fromOffset(150, 50),
+						ButtonText = "skibidi",
+						ZIndex = 2,
+					}),
+					scope:button({
+						--Position = UDim2.fromScale(0.5, 0.5),
+						Size = UDim2.fromOffset(150, 50),
 						ButtonText = "skibidi",
 						ZIndex = 2,
 					}),
@@ -66,4 +82,14 @@ return function(
 			}),
 		},
 	})
+	--[[
+	print(settingsFrame:GetChildren())
+
+	local observer = scope:Observer(settingsFrame.ScrollingFrame.UIListLayout.AbsoluteContentSize)
+	observer:onBind(function()
+		local absoluteSize = settingsFrame.ScrollingFrame.UIListLayout.AbsoluteContentSize
+		settingsFrame.ScrollingFrame.CanvasSize = UDim2.fromOffset(0, absoluteSize.Y)
+	end)]]
+
+	return settingsFrame
 end

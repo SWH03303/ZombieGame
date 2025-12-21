@@ -9,12 +9,14 @@ local function Message(
 	scope: Fusion.Scope,
 	props: {
 		Text: UsedAs<string>,
+		Size: UsedAs<UDim2>?,
 	}
 )
 	return scope:New("TextLabel")({
 		AutomaticSize = "XY",
 		BackgroundTransparency = 1,
 		Text = props.Text,
+		Size = props.Size,
 	})
 end
 
