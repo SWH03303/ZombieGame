@@ -28,12 +28,15 @@ return function(
 		TextColor3: UsedAs<Color3>?,
 		ButtonText: UsedAs<string>?,
 		FontName: UsedAs<Enum.Font>?,
+		TextScaled: UsedAs<BoolValue>?,
+		TextSize: UsedAs<IntValue>?,
 
 		BackgroundColor3: UsedAs<Color3>?,
 		BorderSizePixel: UsedAs<IntValue>?,
 		BorderColor3: UsedAs<Color3>?,
 
 		ExtraChildren: UsedAs<SharedTable>?,
+		OnEventFunction: UsedAs<Instance>?,
 	}
 )
 	return scope:New("TextButton")({
@@ -46,13 +49,12 @@ return function(
 		ZIndex = props.ZIndex or 0,
 
 		Text = props.ButtonText,
-		TextSize = 28,
+		TextSize = props.TextSize or 28,
 		TextColor3 = props.TextColor3 or Color3.new(0.513725, 0.513725, 0.513725),
 		FontFace = Font.fromName("ComicNeueAngular"),
+		TextScaled = props.TextScaled,
 
-		[OnEvent("Activated")] = function()
-			--print("nigger")
-		end,
+		[OnEvent("Activated")] = props.OnEventFunction,
 
 		[Children] = TableUtil.addIn({
 			scope:New("UICorner")({

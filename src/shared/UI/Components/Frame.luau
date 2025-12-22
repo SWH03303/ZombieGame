@@ -47,7 +47,7 @@ return function(
 				CornerRadius = UDim.new(0, 8),
 			}),
 			scope:New("UIStroke")({
-				BorderStrokePosition = Enum.BorderStrokePosition.Center,
+				BorderStrokePosition = Enum.BorderStrokePosition.Outer,
 				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
 				Thickness = props.BorderSizePixel or 5,
 				Color = props.BorderColor3 or Color3.new(0.517647, 0.517647, 0.517647),

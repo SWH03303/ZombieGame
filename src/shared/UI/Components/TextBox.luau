@@ -15,7 +15,7 @@ local function Message(
 		TextSize: UsedAs<IntValue>?,
 	}
 )
-	return scope:New("TextLabel")({
+	return scope:New("TextBox")({
 		AutomaticSize = "XY",
 		BackgroundTransparency = 1,
 		Text = props.Text,
