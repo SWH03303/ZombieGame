@@ -2,7 +2,13 @@ local rs = game:GetService("ReplicatedStorage")
 local packages = rs:WaitForChild("Packages")
 local shared = rs:WaitForChild("Shared")
 local ui = shared:WaitForChild("UI")
+local Text = require(script.Parent.Text)
 local Fusion = require(packages:WaitForChild("Fusion"))
+local scoped = Fusion.scoped
+local peek = Fusion.peek
+local Children = Fusion.Children
+local OnEvent = Fusion.OnEvent
+local Computed = Fusion.Computed
 type UsedAs<T> = Fusion.UsedAs<T>
 
 local function Message(
@@ -13,9 +19,12 @@ local function Message(
 		TextScaled: UsedAs<BoolValue>?,
 		TextColor3: UsedAs<string>?,
 		TextSize: UsedAs<IntValue>?,
+
+		FocusLostEvent: UsedAs<any>?,
 	}
 )
-	return scope:New("TextBox")({
+	local textBox
+	textBox = scope:New("TextBox")({
 		AutomaticSize = "XY",
 		BackgroundTransparency = 1,
 		Text = props.Text,
@@ -24,7 +33,12 @@ local function Message(
 		TextSize = props.TextSize or 28,
 		TextColor3 = props.TextColor3 or Color3.new(0.513725, 0.513725, 0.513725),
 		FontFace = Font.fromName("ComicNeueAngular"),
+		ClearTextOnFocus = true,
+
+		[OnEvent("FocusLost")] = props.FocusLostEvent,
 	})
+
+	return textBox
 end
 
 return Message

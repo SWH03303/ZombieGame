@@ -1,3 +1,4 @@
+local OmniRecommendationsService = game:GetService("OmniRecommendationsService")
 local rs = game:GetService("ReplicatedStorage")
 local packages = rs:WaitForChild("Packages")
 local shared = rs:WaitForChild("Shared")
@@ -31,6 +32,8 @@ return function(
 		emptyFrame = require(components:WaitForChild("EmptyFrame")),
 		textBox = require(components:WaitForChild("TextBox")),
 		masterVolume = scope:Value(100),
+		masterVolumeMax = 200,
+		masterVolumeMin = 0,
 	})
 
 	local function addPadding(num, childFold)
@@ -54,6 +57,38 @@ return function(
 			return val + n
 		end
 	end
+
+	local function lostFocusNumbericTextBox(n, currentVal, max, min)
+		if tonumber(n) == nil then
+			return currentVal
+		elseif tonumber(n) > max then
+			return max
+		elseif tonumber(n) < min then
+			return min
+		else
+			return tonumber(n)
+		end
+	end
+
+	local masterVolumeTextBox
+	masterVolumeTextBox = scope:textBox({
+		Text = scope.masterVolume,
+		Size = UDim2.fromOffset(120, 75),
+		TextSize = 50,
+
+		FocusLostEvent = function()
+			local currentVal = peek(scope.masterVolume)
+			scope.masterVolume:set(
+				lostFocusNumbericTextBox(
+					masterVolumeTextBox.Text,
+					currentVal,
+					scope.masterVolumeMax,
+					scope.masterVolumeMin
+				)
+			)
+			masterVolumeTextBox.Text = peek(scope.masterVolume)
+		end,
+	})
 
 	local settingsFrameChildren = {
 		scope:scrollingFrame({
@@ -91,21 +126,17 @@ return function(
 							ButtonText = "-",
 							LayoutOrder = 1,
 							TextSize = 50,
-							[OnEvent("Activated")] = function()
-								--print("nigger")
+							OnEventFunction = function()
+								scope.masterVolume:set(
+									addValue(-1, peek(scope.masterVolume), scope.masterVolumeMax, scope.masterVolumeMin)
+								)
 							end,
 						}),
 						scope:frame({
 							Size = UDim2.fromOffset(120, 75),
 							LayoutOrder = 2,
 							BorderSizePixel = 0,
-							ExtraChildren = {
-								scope:textBox({
-									Text = peek(scope.masterVolume),
-									Size = UDim2.fromOffset(120, 75),
-									TextSize = 50,
-								}),
-							},
+							ExtraChildren = { masterVolumeTextBox },
 						}),
 						scope:button({
 							BorderSizePixel = 0,
@@ -114,7 +145,9 @@ return function(
 							LayoutOrder = 3,
 							TextSize = 50,
 							OnEventFunction = function()
-								print("nigger")
+								scope.masterVolume:set(
+									addValue(1, peek(scope.masterVolume), scope.masterVolumeMax, scope.masterVolumeMin)
+								)
 							end,
 						}),
 					},
