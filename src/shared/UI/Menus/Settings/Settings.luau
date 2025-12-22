@@ -29,11 +29,9 @@ return function(
 		emptyFrame = require(components:WaitForChild("EmptyFrame")),
 	})
 
-	--[[]]
-	local function addPadding(num, childFold) -- fixing this
+	local function addPadding(num, childFold)
 		local paddedChildFold = {}
 		for _, v in pairs(childFold) do
-			--print("huh")
 			if v:IsA("Frame") then
 				table.insert(paddedChildFold, scope:emptyFrame({ Size = UDim2.fromScale(1, num) }))
 			end
@@ -49,13 +47,11 @@ return function(
 			BackgroundColor3 = Color3.new(0.8, 0.811765, 0.847059),
 			Position = UDim2.fromScale(0.25, 0.25),
 			ZIndex = 1,
-			ExtraChildren = {
+			ExtraChildren = addPadding(0.1, {
 				scope:New("UIListLayout")({
 					HorizontalAlignment = Enum.HorizontalAlignment.Center,
 				}),
 
-				scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
-
 				scope:emptyFrame({
 					Size = UDim2.fromScale(1, 0.3),
 					ExtraChildren = {
@@ -79,8 +75,6 @@ return function(
 					},
 				}),
 
-				scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
-
 				scope:emptyFrame({
 					Size = UDim2.fromScale(1, 0.3),
 					ExtraChildren = {
@@ -103,8 +97,6 @@ return function(
 						}),
 					},
 				}),
-
-				scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
 
 				scope:emptyFrame({
 					Size = UDim2.fromScale(1, 0.3),
@@ -130,7 +122,7 @@ return function(
 				}),
 
 				--scope:emptyFrame({ Size = UDim2.fromScale(1, 0.05) }),
-			},
+			}),
 		}),
 	}
 
@@ -140,7 +132,7 @@ return function(
 		Position = UDim2.fromScale(0, 0),
 		Size = UDim2.fromScale(1, 1),
 
-		[Children] = addPadding(0.05, settingsFrameChildren),
+		[Children] = settingsFrameChildren,
 	})
 	--[[
 	print(settingsFrame:GetChildren())
