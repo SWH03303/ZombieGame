@@ -13,6 +13,7 @@ local function Message(
 		TextScaled: UsedAs<BoolValue>?,
 		TextColor3: UsedAs<string>?,
 		TextSize: UsedAs<IntValue>?,
+		TextXAlignment: UsedAs<any>?,
 	}
 )
 	return scope:New("TextLabel")({
@@ -24,6 +25,7 @@ local function Message(
 		TextSize = props.TextSize or 28,
 		TextColor3 = props.TextColor3 or Color3.new(0.513725, 0.513725, 0.513725),
 		FontFace = Font.fromName("ComicNeueAngular"),
+		TextXAlignment = props.TextXAlignment,
 	})
 end
 
