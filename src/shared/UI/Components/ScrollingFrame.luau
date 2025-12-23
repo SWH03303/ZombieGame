@@ -27,8 +27,11 @@ return function(
 		Size: UsedAs<UDim2>?,
 		LayoutOrder: UsedAs<number>?,
 		ZIndex: UsedAs<IntValue>?,
+		ScrollingDirection: UsedAs<any>?,
+		CornerRadius: UsedAs<UDim>?,
 
 		BackgroundColor3: UsedAs<Color3>?,
+		BackgroundTransparency: UsedAs<number>?,
 		BorderSizePixel: UsedAs<IntValue>?,
 		BorderColor3: UsedAs<Color3>?,
 		ExtraChildren: UsedAs<SharedTable>?,
@@ -37,6 +40,7 @@ return function(
 	local scrollingFrame = scope:New("ScrollingFrame")({
 		CanvasSize = UDim2.fromScale(0, 0),
 		AutomaticCanvasSize = Enum.AutomaticSize.Y,
+		ScrollingDirection = props.ScrollingDirection or Enum.ScrollingDirection.Y,
 
 		BackgroundColor3 = props.BackgroundColor3 or Color3.new(0.898039, 0.898039, 0.898039),
 		Position = props.Position,
@@ -44,15 +48,18 @@ return function(
 		Size = props.Size,
 		LayoutOrder = props.LayoutOrder,
 		ZIndex = props.ZIndex or 0,
+		BackgroundTransparency = props.BackgroundTransparency or 0,
+		ScrollBarImageTransparency = 0.8,
 
 		[Children] = TableUtil.addIn({
 			scope:New("UICorner")({
-				CornerRadius = UDim.new(0, 8),
+				CornerRadius = props.CornerRadius or UDim.new(0.1, 0),
 			}),
 			scope:New("UIStroke")({
 				BorderStrokePosition = Enum.BorderStrokePosition.Center,
 				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-				Thickness = props.BorderSizePixel or 5,
+				StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize,
+				Thickness = props.BorderSizePixel or 0.2,
 				Color = props.BorderColor3 or Color3.new(0.517647, 0.517647, 0.517647),
 			}),
 		}, props.ExtraChildren),

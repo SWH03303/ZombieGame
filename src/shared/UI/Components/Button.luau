@@ -24,6 +24,7 @@ return function(
 		Size: UsedAs<UDim2>?,
 		LayoutOrder: UsedAs<number>?,
 		ZIndex: UsedAs<IntValue>?,
+		CornerRadius: UsedAs<UDim>?,
 
 		TextColor3: UsedAs<Color3>?,
 		ButtonText: UsedAs<string>?,
@@ -58,12 +59,13 @@ return function(
 
 		[Children] = TableUtil.addIn({
 			scope:New("UICorner")({
-				CornerRadius = UDim.new(0, 8),
+				CornerRadius = props.CornerRadius or UDim.new(0.1, 0),
 			}),
 			scope:New("UIStroke")({
 				BorderStrokePosition = Enum.BorderStrokePosition.Center,
 				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
-				Thickness = props.BorderSizePixel or 5,
+				StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize,
+				Thickness = props.BorderSizePixel or 0.2,
 				Color = props.BorderColor3 or Color3.new(0.517647, 0.517647, 0.517647),
 			}),
 		}, props.ExtraChildren),

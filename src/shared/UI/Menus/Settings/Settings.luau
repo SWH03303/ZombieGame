@@ -103,14 +103,14 @@ return function(
 		return content
 	end
 	local settingsFrameChildren = {
-		scope:New("UIAspectRatioConstraint")({ AspectRatio = 1920 / 1080 }),
+		--scope:New("UIAspectRatioConstraint")({ AspectRatio = 1920 / 1080 }),
 		--Heading
 		scope:frame({
 			Size = UDim2.fromScale(650 / 1920, 120 / 1080),
 			BackgroundColor3 = Color3.new(0.858824, 0.87451, 0.407843),
 			Position = UDim2.fromScale(700 / 1920, 170 / 1080),
 			ZIndex = 2,
-			BorderSizePixel = 8,
+			BorderSizePixel = 8 / 120,
 			BorderColor3 = Color3.new(0.737255, 0.756863, 0.196078),
 
 			ExtraChildren = {
@@ -130,7 +130,7 @@ return function(
 			BackgroundColor3 = Color3.new(0.87451, 0.407843, 0.407843),
 			Position = UDim2.fromScale(1430 / 1920, 155 / 1080),
 			ZIndex = 2,
-			BorderSizePixel = 8,
+			BorderSizePixel = 8 / 70,
 			BorderColor3 = Color3.new(0.670588, 0.176471, 0.176471),
 			ButtonText = "X",
 			TextScaled = true,
@@ -144,8 +144,10 @@ return function(
 			BackgroundColor3 = Color3.new(0.811765, 0.811765, 0.811765),
 			Position = UDim2.fromScale(960 / 1920, 500 / 1080),
 			ZIndex = 1,
-			BorderSizePixel = 8,
+			BorderSizePixel = 8 / 600,
 			BorderColor3 = Color3.new(0.529412, 0.529412, 0.529412),
+			BackgroundTransparency = 0.2,
+			CornerRadius = UDim.new(0.02, 0),
 
 			ExtraChildren = tableUtils.addIn({
 				scope:New("UIListLayout")({
