@@ -29,6 +29,7 @@ return function(
 		Parent: UsedAs<Instance>?,
 	}
 )
+	print("---------------------------------")
 	local scope = scope:innerScope({
 		button = require(components:WaitForChild("Button")),
 		frame = require(components:WaitForChild("Frame")),
@@ -39,6 +40,10 @@ return function(
 		sliderComponent = require(uiSettingsFold:WaitForChild("SliderComponent")),
 		topSectionComponent = require(uiSettingsFold:WaitForChild("TopSectionComponent")),
 		yesNoComponent = require(uiSettingsFold:WaitForChild("YesNoComponent")),
+	})
+
+	local inner = {
+		settingsOpen = scope:Value(false),
 
 		masterVolume = { Value = scope:Value(100), Min = 0, Max = 200 },
 		musicVolume = { Value = scope:Value(100), Min = 0, Max = 200 },
@@ -68,12 +73,18 @@ return function(
 
 			{ "topSectionComponent", "Control" },
 		},
-	})
+	}
 
 	local function loadContent(padding: number)
 		local content = {}
 
-		for _, v in pairs(scope.content) do
+		local settingsOpenObserver = scope:Observer(inner.settingsOpen)
+		settingsOpenObserver:onBind(function()
+			if settingsOpenObserver then
+			end
+		end)
+
+		for _, v in pairs(inner.content) do
 			local contentType = v[1]
 			table.insert(content, scope:emptyFrame({ Size = UDim2.fromScale(20, padding / 600) }))
 			if contentType == "sliderComponent" then
@@ -81,9 +92,9 @@ return function(
 					content,
 					scope:sliderComponent({
 						Name = v[2],
-						Value = scope[v[3]].Value,
-						MaxValue = scope[v[3]].Max,
-						MinValue = scope[v[3]].Min,
+						Value = inner[v[3]].Value,
+						MaxValue = inner[v[3]].Max,
+						MinValue = inner[v[3]].Min,
 					})
 				)
 			elseif contentType == "yesNoComponent" then
@@ -91,7 +102,7 @@ return function(
 					content,
 					scope:yesNoComponent({
 						Name = v[2],
-						Value = scope[v[3]].Value,
+						Value = inner[v[3]].Value,
 					})
 				)
 			elseif contentType == "topSectionComponent" then
@@ -103,12 +114,13 @@ return function(
 		return content
 	end
 	local settingsFrameChildren = {
-		--scope:New("UIAspectRatioConstraint")({ AspectRatio = 1920 / 1080 }),
+		scope:New("UIAspectRatioConstraint")({ AspectRatio = 1920 / 1080 }),
 		--Heading
 		scope:frame({
 			Size = UDim2.fromScale(650 / 1920, 120 / 1080),
 			BackgroundColor3 = Color3.new(0.858824, 0.87451, 0.407843),
 			Position = UDim2.fromScale(700 / 1920, 170 / 1080),
+			AnchorPoint = Vector2.new(0.5, 0.5),
 			ZIndex = 2,
 			BorderSizePixel = 8 / 120,
 			BorderColor3 = Color3.new(0.737255, 0.756863, 0.196078),
@@ -137,6 +149,25 @@ return function(
 			TextColor3 = Color3.new(0.670588, 0.176471, 0.176471),
 
 			ExtraChildren = { scope:New("UIAspectRatioConstraint")({ AspectRatio = 1 }) },
+		}),
+		--Open Button
+		scope:button({
+			Size = UDim2.fromScale(140 / 1920, 70 / 1080),
+			BackgroundColor3 = Color3.new(0.607843, 0.607843, 0.607843),
+			Position = UDim2.fromScale(100 / 1920, 500 / 1080),
+			ZIndex = 2,
+			BorderSizePixel = 8 / 70,
+			BorderColor3 = Color3.new(0.494118, 0.494118, 0.494118),
+			ButtonText = "Settings",
+			TextScaled = true,
+			TextColor3 = Color3.new(0.403922, 0.403922, 0.403922),
+
+			OnEventFunction = function()
+				inner.settingsOpen:set(not peek(inner.settingsOpen))
+				print(peek(inner.settingsOpen))
+			end,
+
+			ExtraChildren = { scope:New("UIAspectRatioConstraint")({ AspectRatio = 2 }) },
 		}),
 		--Main Frame
 		scope:scrollingFrame({
