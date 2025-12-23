@@ -22,6 +22,7 @@ type UsedAs<T> = Fusion.UsedAs<T>
 return function(
 	scope: Fusion.Scope,
 	props: {
+		Visible: UsedAs<boolean>?,
 		Position: UsedAs<UDim2>?,
 		AnchorPoint: UsedAs<Vector2>?,
 		Size: UsedAs<UDim2>?,
@@ -38,6 +39,7 @@ return function(
 	}
 )
 	local scrollingFrame = scope:New("ScrollingFrame")({
+		Visible = props.Visible,
 		CanvasSize = UDim2.fromScale(0, 0),
 		AutomaticCanvasSize = Enum.AutomaticSize.Y,
 		ScrollingDirection = props.ScrollingDirection or Enum.ScrollingDirection.Y,

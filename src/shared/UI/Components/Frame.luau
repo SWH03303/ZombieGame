@@ -22,6 +22,7 @@ type UsedAs<T> = Fusion.UsedAs<T>
 return function(
 	scope: Fusion.Scope,
 	props: {
+		Visible: UsedAs<boolean>?,
 		Position: UsedAs<UDim2>?,
 		AnchorPoint: UsedAs<Vector2>?,
 		Size: UsedAs<UDim2>?,
@@ -36,6 +37,7 @@ return function(
 	}
 )
 	return scope:New("Frame")({
+		Visible = props.Visible,
 		BackgroundColor3 = props.BackgroundColor3 or Color3.new(0.898039, 0.898039, 0.898039),
 		Position = props.Position,
 		AnchorPoint = props.AnchorPoint or Vector2.new(0.5, 0.5),
