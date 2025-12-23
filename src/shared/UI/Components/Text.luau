@@ -14,6 +14,8 @@ local function Message(
 		TextColor3: UsedAs<string>?,
 		TextSize: UsedAs<IntValue>?,
 		TextXAlignment: UsedAs<any>?,
+		AnchorPoint: UsedAs<Vector2>?,
+		Position: UsedAs<Vector2>?,
 	}
 )
 	return scope:New("TextLabel")({
@@ -26,6 +28,8 @@ local function Message(
 		TextColor3 = props.TextColor3 or Color3.new(0.513725, 0.513725, 0.513725),
 		FontFace = Font.fromName("ComicNeueAngular"),
 		TextXAlignment = props.TextXAlignment,
+		AnchorPoint = props.AnchorPoint or Vector2.new(0.5, 0.5),
+		Position = props.Position,
 	})
 end
 

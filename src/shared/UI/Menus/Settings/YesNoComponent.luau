@@ -36,7 +36,7 @@ return function(
 	end)
 
 	return scope:frame({
-		Size = UDim2.fromOffset(900, 100),
+		Size = UDim2.fromScale(900 / 1000, 100 / 600),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.new(0.470588, 0.470588, 0.470588),
 		ExtraChildren = {
@@ -45,21 +45,21 @@ return function(
 				VerticalAlignment = Enum.VerticalAlignment.Center,
 				FillDirection = Enum.FillDirection.Horizontal,
 				SortOrder = Enum.SortOrder.LayoutOrder,
-				Padding = UDim.new(0, 20),
+				Padding = UDim.new(20 / 900, 0),
 			}),
 			scope:text({
 				Text = props.Name,
-				Size = UDim2.fromOffset(685, 75),
-				TextSize = 50,
+				Size = UDim2.fromScale(685 / 900, 60 / 100),
+				TextScaled = true,
 				TextColor3 = Color3.new(0.890196, 0.890196, 0.890196),
 				TextXAlignment = Enum.TextXAlignment.Left,
 			}),
 			scope:button({
 				BorderSizePixel = 0,
-				Size = UDim2.fromOffset(75, 75),
+				Size = UDim2.fromScale(75 / 900, 75 / 100),
 				ButtonText = displayText,
 				LayoutOrder = 3,
-				TextSize = 65,
+				TextScaled = true,
 				OnEventFunction = function()
 					props.Value:set(not peek(props.Value))
 				end,

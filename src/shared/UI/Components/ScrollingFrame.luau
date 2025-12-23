@@ -40,7 +40,7 @@ return function(
 
 		BackgroundColor3 = props.BackgroundColor3 or Color3.new(0.898039, 0.898039, 0.898039),
 		Position = props.Position,
-		AnchorPoint = props.AnchorPoint,
+		AnchorPoint = props.AnchorPoint or Vector2.new(0.5, 0.5),
 		Size = props.Size,
 		LayoutOrder = props.LayoutOrder,
 		ZIndex = props.ZIndex or 0,

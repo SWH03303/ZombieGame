@@ -62,8 +62,9 @@ return function(
 	local TextBox
 	TextBox = scope:textBox({
 		Text = props.Value,
-		Size = UDim2.fromOffset(120, 75),
-		TextSize = 50,
+		Size = UDim2.fromScale(1, 0.75),
+		Position = UDim2.fromScale(0.5, 0.5),
+		TextScaled = true,
 
 		FocusLostEvent = function()
 			local currentVal = peek(props.Value)
@@ -73,7 +74,7 @@ return function(
 	})
 
 	return scope:frame({
-		Size = UDim2.fromOffset(900, 100),
+		Size = UDim2.fromScale(900 / 1000, 100 / 600),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.new(0.470588, 0.470588, 0.470588),
 		ExtraChildren = {
@@ -82,37 +83,37 @@ return function(
 				VerticalAlignment = Enum.VerticalAlignment.Center,
 				FillDirection = Enum.FillDirection.Horizontal,
 				SortOrder = Enum.SortOrder.LayoutOrder,
-				Padding = UDim.new(0, 20),
+				Padding = UDim.new(20 / 900, 0),
 			}),
 			scope:text({
 				Text = props.Name,
-				Size = UDim2.fromOffset(450, 75),
-				TextSize = 50,
+				Size = UDim2.fromScale(450 / 900, 60 / 100),
+				TextScaled = true,
 				TextColor3 = Color3.new(0.890196, 0.890196, 0.890196),
 				TextXAlignment = Enum.TextXAlignment.Left,
 			}),
 			scope:button({
 				BorderSizePixel = 0,
-				Size = UDim2.fromOffset(75, 75),
+				Size = UDim2.fromScale(75 / 900, 75 / 100),
 				ButtonText = "-",
 				LayoutOrder = 1,
-				TextSize = 60,
+				TextScaled = true,
 				OnEventFunction = function()
 					props.Value:set(addValue(-5, peek(props.Value), props.MaxValue, props.MinValue))
 				end,
 			}),
 			scope:frame({
-				Size = UDim2.fromOffset(120, 75),
+				Size = UDim2.fromScale(120 / 900, 75 / 100),
 				LayoutOrder = 2,
 				BorderSizePixel = 0,
 				ExtraChildren = { TextBox },
 			}),
 			scope:button({
 				BorderSizePixel = 0,
-				Size = UDim2.fromOffset(75, 75),
+				Size = UDim2.fromScale(75 / 900, 75 / 100),
 				ButtonText = "+",
 				LayoutOrder = 3,
-				TextSize = 60,
+				TextScaled = true,
 				OnEventFunction = function()
 					props.Value:set(addValue(5, peek(props.Value), props.MaxValue, props.MinValue))
 				end,

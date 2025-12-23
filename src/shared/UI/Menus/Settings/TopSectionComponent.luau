@@ -35,15 +35,16 @@ return function(
 	})
 
 	return scope:frame({
-		Size = UDim2.fromOffset(900, 100),
+		Size = UDim2.fromScale(900 / 1000, 100 / 600),
 		BorderSizePixel = 0,
 		BackgroundColor3 = Color3.new(0.309804, 0.309804, 0.309804),
 		ExtraChildren = {
 			scope:text({
 				Text = props.Name,
-				Size = UDim2.fromOffset(900, 100),
-				TextSize = 70,
+				Size = UDim2.fromScale(1, 0.7),
 				TextColor3 = Color3.new(0.890196, 0.890196, 0.890196),
+				TextScaled = true,
+				Position = UDim2.fromScale(0.5, 0.5),
 			}),
 		},
 	})

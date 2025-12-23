@@ -37,7 +37,7 @@ return function(
 	return scope:New("Frame")({
 		BackgroundColor3 = props.BackgroundColor3 or Color3.new(0.898039, 0.898039, 0.898039),
 		Position = props.Position,
-		AnchorPoint = props.AnchorPoint,
+		AnchorPoint = props.AnchorPoint or Vector2.new(0.5, 0.5),
 		Size = props.Size,
 		LayoutOrder = props.LayoutOrder,
 		ZIndex = props.ZIndex or 0,
@@ -47,7 +47,7 @@ return function(
 				CornerRadius = UDim.new(0, 8),
 			}),
 			scope:New("UIStroke")({
-				BorderStrokePosition = Enum.BorderStrokePosition.Outer,
+				BorderStrokePosition = Enum.BorderStrokePosition.Center,
 				ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
 				Thickness = props.BorderSizePixel or 5,
 				Color = props.BorderColor3 or Color3.new(0.517647, 0.517647, 0.517647),

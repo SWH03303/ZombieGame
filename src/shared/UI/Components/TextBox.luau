@@ -19,12 +19,16 @@ local function Message(
 		TextScaled: UsedAs<BoolValue>?,
 		TextColor3: UsedAs<string>?,
 		TextSize: UsedAs<IntValue>?,
+		AnchorPoint: UsedAs<Vector2>?,
+		Position: UsedAs<UDim2>?,
 
 		FocusLostEvent: UsedAs<any>?,
 	}
 )
 	local textBox
 	textBox = scope:New("TextBox")({
+		Position = props.Position,
+		AnchorPoint = props.AnchorPoint or Vector2.new(0.5, 0.5),
 		AutomaticSize = "XY",
 		BackgroundTransparency = 1,
 		Text = props.Text,

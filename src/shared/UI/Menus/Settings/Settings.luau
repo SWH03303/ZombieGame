@@ -75,7 +75,7 @@ return function(
 
 		for _, v in pairs(scope.content) do
 			local contentType = v[1]
-			table.insert(content, scope:emptyFrame({ Size = UDim2.fromOffset(20, padding) }))
+			table.insert(content, scope:emptyFrame({ Size = UDim2.fromScale(20, padding / 600) }))
 			if contentType == "sliderComponent" then
 				table.insert(
 					content,
@@ -98,17 +98,17 @@ return function(
 				table.insert(content, scope:topSectionComponent({ Name = v[2] }))
 			end
 		end
-		table.insert(content, scope:emptyFrame({ Size = UDim2.fromOffset(20, padding) }))
+		table.insert(content, scope:emptyFrame({ Size = UDim2.fromScale(20, padding / 600) }))
 
 		return content
 	end
-
 	local settingsFrameChildren = {
+		scope:New("UIAspectRatioConstraint")({ AspectRatio = 1920 / 1080 }),
 		--Heading
-		scope:scrollingFrame({
-			Size = UDim2.fromOffset(650, 120),
+		scope:frame({
+			Size = UDim2.fromScale(650 / 1920, 120 / 1080),
 			BackgroundColor3 = Color3.new(0.858824, 0.87451, 0.407843),
-			Position = UDim2.fromOffset(700 - 325, 170 - 60),
+			Position = UDim2.fromScale(700 / 1920, 170 / 1080),
 			ZIndex = 2,
 			BorderSizePixel = 8,
 			BorderColor3 = Color3.new(0.737255, 0.756863, 0.196078),
@@ -116,29 +116,33 @@ return function(
 			ExtraChildren = {
 				scope:text({
 					Text = "Settings",
-					TextSize = 85,
+					TextScaled = true,
 					TextColor3 = Color3.new(0.564706, 0.576471, 0.164706),
-					Size = UDim2.fromOffset(600, 120),
+					Position = UDim2.fromScale(0.5, 0.5),
+					Size = UDim2.fromScale(1, 0.7),
 				}),
+				scope:New("UIAspectRatioConstraint")({ AspectRatio = 650 / 120 }),
 			},
 		}),
 		--Close Button
 		scope:button({
-			Size = UDim2.fromOffset(70, 70),
+			Size = UDim2.fromScale(70 / 1920, 70 / 1080),
 			BackgroundColor3 = Color3.new(0.87451, 0.407843, 0.407843),
-			Position = UDim2.fromOffset(1430 - 35, 155 - 35),
+			Position = UDim2.fromScale(1430 / 1920, 155 / 1080),
 			ZIndex = 2,
 			BorderSizePixel = 8,
 			BorderColor3 = Color3.new(0.670588, 0.176471, 0.176471),
 			ButtonText = "X",
-			TextSize = 75,
+			TextScaled = true,
 			TextColor3 = Color3.new(0.670588, 0.176471, 0.176471),
+
+			ExtraChildren = { scope:New("UIAspectRatioConstraint")({ AspectRatio = 1 }) },
 		}),
 		--Main Frame
 		scope:scrollingFrame({
-			Size = UDim2.fromOffset(1000, 600),
+			Size = UDim2.fromScale(1000 / 1920, 600 / 1080),
 			BackgroundColor3 = Color3.new(0.811765, 0.811765, 0.811765),
-			Position = UDim2.fromOffset(960 - 500, 500 - 300),
+			Position = UDim2.fromScale(960 / 1920, 500 / 1080),
 			ZIndex = 1,
 			BorderSizePixel = 8,
 			BorderColor3 = Color3.new(0.529412, 0.529412, 0.529412),
@@ -148,6 +152,7 @@ return function(
 					HorizontalAlignment = Enum.HorizontalAlignment.Center,
 				}),
 				scope:emptyFrame({ Size = UDim2.fromOffset(20, 20) }),
+				scope:New("UIAspectRatioConstraint")({ AspectRatio = 1000 / 600 }),
 			}, loadContent(20)),
 		}),
 	}
