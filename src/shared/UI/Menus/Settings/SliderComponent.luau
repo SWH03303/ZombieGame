@@ -96,7 +96,7 @@ return function(
 				Size = UDim2.fromOffset(75, 75),
 				ButtonText = "-",
 				LayoutOrder = 1,
-				TextSize = 50,
+				TextSize = 60,
 				OnEventFunction = function()
 					props.Value:set(addValue(-5, peek(props.Value), props.MaxValue, props.MinValue))
 				end,
@@ -112,7 +112,7 @@ return function(
 				Size = UDim2.fromOffset(75, 75),
 				ButtonText = "+",
 				LayoutOrder = 3,
-				TextSize = 50,
+				TextSize = 60,
 				OnEventFunction = function()
 					props.Value:set(addValue(5, peek(props.Value), props.MaxValue, props.MinValue))
 				end,

@@ -29,9 +29,9 @@ return function(
 	local displayText = scope:Computed(function(use, scope)
 		use(props.Value)
 		if peek(props.Value) then
-			return "Yes"
+			return "✓"
 		else
-			return "No"
+			return " "
 		end
 	end)
 
@@ -59,7 +59,7 @@ return function(
 				Size = UDim2.fromOffset(75, 75),
 				ButtonText = displayText,
 				LayoutOrder = 3,
-				TextSize = 50,
+				TextSize = 65,
 				OnEventFunction = function()
 					props.Value:set(not peek(props.Value))
 				end,

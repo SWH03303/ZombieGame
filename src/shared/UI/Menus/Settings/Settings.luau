@@ -82,8 +82,8 @@ return function(
 					scope:sliderComponent({
 						Name = v[2],
 						Value = scope[v[3]].Value,
-						MaxValue = scope[v[3]].Value.Max,
-						MinValue = scope[v[3]].Value.Min,
+						MaxValue = scope[v[3]].Max,
+						MinValue = scope[v[3]].Min,
 					})
 				)
 			elseif contentType == "yesNoComponent" then
@@ -104,6 +104,37 @@ return function(
 	end
 
 	local settingsFrameChildren = {
+		--Heading
+		scope:scrollingFrame({
+			Size = UDim2.fromOffset(650, 120),
+			BackgroundColor3 = Color3.new(0.858824, 0.87451, 0.407843),
+			Position = UDim2.fromOffset(700 - 325, 170 - 60),
+			ZIndex = 2,
+			BorderSizePixel = 8,
+			BorderColor3 = Color3.new(0.737255, 0.756863, 0.196078),
+
+			ExtraChildren = {
+				scope:text({
+					Text = "Settings",
+					TextSize = 85,
+					TextColor3 = Color3.new(0.564706, 0.576471, 0.164706),
+					Size = UDim2.fromOffset(600, 120),
+				}),
+			},
+		}),
+		--Close Button
+		scope:button({
+			Size = UDim2.fromOffset(70, 70),
+			BackgroundColor3 = Color3.new(0.87451, 0.407843, 0.407843),
+			Position = UDim2.fromOffset(1430 - 35, 155 - 35),
+			ZIndex = 2,
+			BorderSizePixel = 8,
+			BorderColor3 = Color3.new(0.670588, 0.176471, 0.176471),
+			ButtonText = "X",
+			TextSize = 75,
+			TextColor3 = Color3.new(0.670588, 0.176471, 0.176471),
+		}),
+		--Main Frame
 		scope:scrollingFrame({
 			Size = UDim2.fromOffset(1000, 600),
 			BackgroundColor3 = Color3.new(0.811765, 0.811765, 0.811765),
