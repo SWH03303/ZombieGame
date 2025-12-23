@@ -192,8 +192,9 @@ return function(
 	local settingsFrame = scope:New("Frame")({
 		Parent = props.Parent,
 		Transparency = 1,
-		Position = UDim2.fromScale(0, 0),
+		Position = UDim2.fromScale(0.5, 0.5),
 		Size = UDim2.fromScale(1, 1),
+		AnchorPoint = Vector2.new(0.5, 0.5),
 
 		[Children] = settingsFrameChildren,
 	})
