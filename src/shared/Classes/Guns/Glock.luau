@@ -7,6 +7,8 @@ local services = shared:WaitForChild("Services")
 local platformModules = modules:WaitForChild("Platform")
 
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Janitor = require(ReplicatedStorage.Packages.Janitor)
 local gunBase = require(script.Parent.GunBase) --serviceLoader:GetService("GunBase")
 
 local Glock = {}
@@ -37,19 +39,28 @@ function Glock.New(char)
 
 	newGun.reloadTime = 1.5
 
-	newGun.fireSound = require(platformModules:WaitForChild("CloneSound"))(
-		assets:WaitForChild("Sounds"):WaitForChild("Glock"):WaitForChild("Fire"),
-		hrp
+	newGun.fireSound = newGun.janitor:Add(
+		require(platformModules:WaitForChild("CloneSound"))(
+			assets:WaitForChild("Sounds"):WaitForChild("Glock"):WaitForChild("Fire"),
+			hrp
+		),
+		"Destroy"
 	)
-	newGun.fireAnim = require(platformModules:WaitForChild("CloneAnimation"))(
-		"rbxassetid://124396564823100",
-		viewModel,
-		viewModelAnimator
+	newGun.fireAnim = newGun.janitor:Add(
+		require(platformModules:WaitForChild("CloneAnimation"))(
+			"rbxassetid://124396564823100",
+			viewModel,
+			viewModelAnimator
+		),
+		"Destroy"
 	)
-	newGun.reloadAnim = require(platformModules:WaitForChild("CloneAnimation"))(
-		"rbxassetid://91793492884293",
-		viewModel,
-		viewModelAnimator
+	newGun.reloadAnim = newGun.janitor:Add(
+		require(platformModules:WaitForChild("CloneAnimation"))(
+			"rbxassetid://91793492884293",
+			viewModel,
+			viewModelAnimator
+		),
+		"Destroy"
 	)
 
 	newGun.viewmodel = viewModel

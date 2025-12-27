@@ -7,7 +7,7 @@ local modules = shared:WaitForChild("Modules")
 local services = shared:WaitForChild("Services")
 local Players = game:GetService("Players")
 local RSviewmodelFolder = rs:WaitForChild("Assets"):WaitForChild("ViewModels")
-local janitor = require(packages:WaitForChild("Janitor"))
+local Janitor = require(packages:WaitForChild("Janitor"))
 
 local Gun = {}
 Gun.__index = Gun
@@ -15,14 +15,6 @@ Gun.__index = Gun
 local VfxService = require(services:WaitForChild("VfxService"):WaitForChild("VfxServiceClient"))
 local platformModules = modules:WaitForChild("Platform")
 local gameModules = modules:WaitForChild("Game")
-
-local defaultAsset = {
-	["Sound"] = assets.Sounds.Glock.Fire,
-	--rbxassetid://124396564823100
-	["ShootAnim"] = "rbxassetid://72333481697984",
-
-	["ReloadAnim"] = "rbxassetid://91793492884293",
-}
 
 function Gun:Init()
 	--[[
@@ -34,16 +26,10 @@ end
 
 function Gun:GetViewModel(name, camera)
 	local loadedViewmodelFold = rf:WaitForChild("ViewmodelFoldPlayer")
-	--[[
-	if loadedViewmodelFold == nil then
-		loadedViewmodelFold = Instance.new("Folder")
-		loadedViewmodelFold.Parent = rs
-		loadedViewmodelFold.Name = "ViewmodelFoldPlayer"
-	end]]
 
 	local viewmodel
 
-	for i, v in pairs(camera:GetChildren()) do
+	for _, v in pairs(camera:GetChildren()) do
 		if v:IsA("Model") then
 			v.Parent = loadedViewmodelFold
 		end
@@ -72,6 +58,7 @@ function Gun.New(char)
 
 	local newGun = {}
 
+	newGun.janitor = Janitor.new()
 	newGun.Name = "Gun"
 	local viewModel = Gun:GetViewModel("Gun", workspace.Camera)
 	newGun.Damage = 10
@@ -82,8 +69,6 @@ function Gun.New(char)
 	newGun.FireRate = 0.15
 	newGun.ReloadTime = 2.5
 	newGun.MaxSpread = 3
-
-	newGun.aimSmooth = 0.125
 
 	newGun.debounce = false
 
@@ -108,6 +93,7 @@ function Gun.New(char)
 	newGun.swayCF = CFrame.new()
 	newGun.lastCameraCF = CFrame.new()
 	newGun.aimCF = CFrame.new()
+	newGun.aimSmooth = 0.125
 
 	newGun.hud = player.PlayerGui:WaitForChild("HUD")
 
@@ -225,10 +211,6 @@ function Gun:RenderWork()
 		self.aimCF = self.aimCF:Lerp(offset, self.aimSmooth)
 		self.currAimsway = self.normalswayAMT
 	end
-end
-
-function Gun:Destroy()
-	--gotta work on this
 end
 
 return Gun

@@ -1,8 +1,10 @@
 local rs = game:GetService("ReplicatedStorage")
+local packages = rs:WaitForChild("Packages")
 local assets = rs:WaitForChild("Assets")
 local shared = rs:WaitForChild("Shared")
 local modules = shared:WaitForChild("Modules")
 local services = shared:WaitForChild("Services")
+local Janitor = require(packages:WaitForChild("Janitor"))
 
 local platformModules = modules:WaitForChild("Platform")
 
@@ -42,19 +44,28 @@ function AK96.New(char)
 
 	newAK96.reloadTime = 2
 
-	newAK96.fireSound = require(platformModules:WaitForChild("CloneSound"))(
-		assets:WaitForChild("Sounds"):WaitForChild("AK96"):WaitForChild("Fire"),
-		hrp
+	newAK96.fireSound = newAK96.janitor:Add(
+		require(platformModules:WaitForChild("CloneSound"))(
+			assets:WaitForChild("Sounds"):WaitForChild("AK96"):WaitForChild("Fire"),
+			hrp
+		),
+		"Destroy"
 	)
-	newAK96.fireAnim = require(platformModules:WaitForChild("CloneAnimation"))(
-		"rbxassetid://72333481697984",
-		viewModel,
-		viewModelAnimator
+	newAK96.fireAnim = newAK96.janitor:Add(
+		require(platformModules:WaitForChild("CloneAnimation"))(
+			"rbxassetid://72333481697984",
+			viewModel,
+			viewModelAnimator
+		),
+		"Destroy"
 	)
-	newAK96.reloadAnim = require(platformModules:WaitForChild("CloneAnimation"))(
-		"rbxassetid://91793492884293",
-		viewModel,
-		viewModelAnimator
+	newAK96.reloadAnim = newAK96.janitor:Add(
+		require(platformModules:WaitForChild("CloneAnimation"))(
+			"rbxassetid://91793492884293",
+			viewModel,
+			viewModelAnimator
+		),
+		"Destroy"
 	)
 
 	newAK96.viewmodel = viewModel

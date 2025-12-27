@@ -1,8 +1,10 @@
 local rs = game:GetService("ReplicatedStorage")
+local packages = rs:WaitForChild("Packages")
 local assets = rs:WaitForChild("Assets")
 local shared = rs:WaitForChild("Shared")
 local modules = shared:WaitForChild("Modules")
 local services = shared:WaitForChild("Services")
+local Janitor = require(packages:WaitForChild("Janitor"))
 
 local platformModules = modules:WaitForChild("Platform")
 
@@ -37,19 +39,28 @@ function ToxicSpas.New(char)
 
 	newGun.reloadTime = 1.5
 
-	newGun.fireSound = require(platformModules:WaitForChild("CloneSound"))(
-		assets:WaitForChild("Sounds"):WaitForChild("Toxic Spas"):WaitForChild("Fire"),
-		hrp
+	newGun.fireSound = newGun.janitor:Add(
+		require(platformModules:WaitForChild("CloneSound"))(
+			assets:WaitForChild("Sounds"):WaitForChild("Toxic Spas"):WaitForChild("Fire"),
+			hrp
+		),
+		"Destroy"
 	)
-	newGun.fireAnim = require(platformModules:WaitForChild("CloneAnimation"))(
-		"rbxassetid://138438224028806",
-		viewModel,
-		viewModelAnimator
+	newGun.fireAnim = newGun.janitor:Add(
+		require(platformModules:WaitForChild("CloneAnimation"))(
+			"rbxassetid://138438224028806",
+			viewModel,
+			viewModelAnimator
+		),
+		"Destroy"
 	)
-	newGun.reloadAnim = require(platformModules:WaitForChild("CloneAnimation"))(
-		"rbxassetid://113494729900105",
-		viewModel,
-		viewModelAnimator
+	newGun.reloadAnim = newGun.janitor:Add(
+		require(platformModules:WaitForChild("CloneAnimation"))(
+			"rbxassetid://113494729900105",
+			viewModel,
+			viewModelAnimator
+		),
+		"Destroy"
 	)
 
 	newGun.viewmodel = viewModel
