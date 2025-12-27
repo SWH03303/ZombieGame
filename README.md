@@ -14,4 +14,6 @@ Next, open `ZombieGame.rbxlx` in Roblox Studio and start the Rojo server:
 rojo serve
 ```
 
+wally-package-types -s sourcemap.json Packages/
+
 For more help, check out [the Rojo documentation](https://rojo.space/docs).

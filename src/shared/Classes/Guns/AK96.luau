@@ -59,7 +59,7 @@ function AK96.New(char)
 
 	newAK96.viewmodel = viewModel
 
-	setmetatable(newAK96, AK96)
+	--setmetatable(newAK96, AK96)
 
 	return newAK96
 end

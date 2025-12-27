@@ -4,8 +4,11 @@ local player = game:GetService("Players").LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
 local rs = game:GetService("ReplicatedStorage")
+local rf = game:GetService("ReplicatedFirst")
+local packages = rs:WaitForChild("Packages")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
+local janitor = require(packages:WaitForChild("Janitor"))
 
 local GunClassFold = rs:WaitForChild("Shared"):WaitForChild("Classes"):WaitForChild("Guns")
 
@@ -43,7 +46,7 @@ end
 function loadSlot(Item)
 	if gun then
 		gun.canShoot = false
-		gun.viewmodel.Parent = rs:WaitForChild("ViewmodelFoldPlayer")
+		gun.viewmodel.Parent = rf:WaitForChild("ViewmodelFoldPlayer")
 	end
 
 	gun = loadedGun[Item]

@@ -104,6 +104,7 @@ return function(
 
 		return content
 	end
+
 	local settingsFrameChildren = {
 		scope:New("UIAspectRatioConstraint")({ AspectRatio = 1920 / 1080 }),
 		--Heading

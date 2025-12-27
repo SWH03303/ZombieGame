@@ -1,10 +1,13 @@
 local rs = game:GetService("ReplicatedStorage")
+local rf = game:GetService("ReplicatedFirst")
+local packages = rs:WaitForChild("Packages")
 local assets = rs:WaitForChild("Assets")
 local shared = rs:WaitForChild("Shared")
 local modules = shared:WaitForChild("Modules")
 local services = shared:WaitForChild("Services")
 local Players = game:GetService("Players")
 local RSviewmodelFolder = rs:WaitForChild("Assets"):WaitForChild("ViewModels")
+local janitor = require(packages:WaitForChild("Janitor"))
 
 local Gun = {}
 Gun.__index = Gun
@@ -30,12 +33,13 @@ function Gun:Init()
 end
 
 function Gun:GetViewModel(name, camera)
-	local loadedViewmodelFold = rs:FindFirstChild("ViewmodelFoldPlayer")
+	local loadedViewmodelFold = rf:WaitForChild("ViewmodelFoldPlayer")
+	--[[
 	if loadedViewmodelFold == nil then
 		loadedViewmodelFold = Instance.new("Folder")
 		loadedViewmodelFold.Parent = rs
 		loadedViewmodelFold.Name = "ViewmodelFoldPlayer"
-	end
+	end]]
 
 	local viewmodel
 
@@ -83,7 +87,7 @@ function Gun.New(char)
 
 	newGun.debounce = false
 
-	newGun.fireSound = require(platformModules:WaitForChild("CloneSound"))(defaultAsset["Sound"], hrp)
+	newGun.fireSound = nil
 
 	newGun.canAim = true
 	newGun.isReloading = false
