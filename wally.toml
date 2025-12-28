@@ -11,7 +11,7 @@ PartCache = "andremhpra/partcache@1.0.0"
 TableUtil = "sleitnick/table-util@1.2.1"
 ProfileStore = "detourious/loleris-profilestore@1.0.0"
 Janitor = "howmanysmall/already-janitor@1.16.0"
-Bytenet = "ffrostflame/bytenet@0.4.6"
+Packet = "sjdinsd/packet@0.1.91"
 
 [server-dependencies]
 ProfileService = "firebird702/profileservice@1.1.0"

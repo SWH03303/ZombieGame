@@ -7,12 +7,14 @@ local rs = game:GetService("ReplicatedStorage")
 local runService = game:GetService("RunService")
 local ServerServices = game:GetService("ServerScriptService").Server.Services
 local sharedServices = rs.Shared.Services
-local ProfileStore = require(ReplicatedStorage.Packages.ProfileStore)
-local PlayerDataServiceClient = require(ReplicatedStorage.Shared.Services.PlayerDataService.PlayerDataServiceClient)
-local clientService = require(sharedServices.PlayerDataService.PlayerDataServiceClient)
+local shared = rs:WaitForChild("Shared")
+local modules = shared.Modules
 
-local playerDataTemplate = clientService.DEFAULT_PLAYER_DATA
+local ProfileStore = require(ReplicatedStorage.Packages.ProfileStore)
+local defaultData = require(sharedServices.PlayerDataService.PlayerDataDefault)
+local playerDataTemplate = defaultData.DEFAULT_PLAYER_DATA
 local profileStore = require(rs.Packages.ProfileStore)
+local packet = require(modules.Core.Packets)
 
 local DATA_STORE_KEY = "Production"
 if RunService:IsStudio() then
@@ -46,6 +48,11 @@ function Local.LoadProfile(player: Player)
 
 	profile:AddUserId(player.UserId)
 	profile:Reconcile()
+	--Alert the client
+	if profile then
+		print("alert")
+		packet.alertLoadedData:FireClient(player, profile.Data)
+	end
 
 	profile.OnSessionEnd:Connect(function()
 		profiles[player] = nil
@@ -69,7 +76,7 @@ function Local.RemoveProfile(player: Player)
 	end
 end
 
-function Shared.GetData(player: Player): PlayerDataServiceClient.PlayerData?
+function Shared.GetData(player: Player): defaultData.PlayerData?
 	local profile = profiles[player]
 	if not profile then
 		return
@@ -84,10 +91,15 @@ function Shared.Update(player: Player, num)
 		return
 	end
 
-	local sensitivity = data.settings.sensitivity
-	data.settings.sensitivity += num
+	return
+end
 
-	print(Shared.GetData(player))
+packet.getPlayerDataPacket.OnServerInvoke = function(player)
+	local profile = profiles[player]
+	if not profile then
+		return
+	end
+	return profile.Data
 end
 
 Local.OnStart()

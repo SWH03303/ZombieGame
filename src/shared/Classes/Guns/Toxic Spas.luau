@@ -21,32 +21,32 @@ function ToxicSpas.New(char)
 	local hrp = char:WaitForChild("HumanoidRootPart")
 	local player = Players:GetPlayerFromCharacter(char)
 
-	local newGun = gunBase.New(char)
+	local self = gunBase.New(char)
 	local viewModel = gunBase:GetViewModel(script.Name, workspace.Camera)
 	local viewModelAnimator = viewModel:WaitForChild("Humanoid"):WaitForChild("Animator")
 
-	newGun.Name = script.Name
-	newGun.Ammo = 8
-	newGun.MaxAmmo = 8
-	newGun.Capacity = 64
-	newGun.Auto = false
-	newGun.FireRate = 1
+	self.Name = script.Name
+	self.Ammo = 8
+	self.MaxAmmo = 8
+	self.Capacity = 64
+	self.Auto = false
+	self.FireRate = 1
 
-	newGun.canAim = true
-	newGun.aimSmooth = 0.125
+	self.canAim = true
+	self.aimSmooth = 0.125
 
-	newGun.debounce = false
+	self.debounce = false
+	self.reloadTime = 1.5
 
-	newGun.reloadTime = 1.5
-
-	newGun.fireSound = newGun.janitor:Add(
+	self.fireSound = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneSound"))(
 			assets:WaitForChild("Sounds"):WaitForChild("Toxic Spas"):WaitForChild("Fire"),
 			hrp
 		),
 		"Destroy"
 	)
-	newGun.fireAnim = newGun.janitor:Add(
+
+	self.fireAnim = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneAnimation"))(
 			"rbxassetid://138438224028806",
 			viewModel,
@@ -54,7 +54,8 @@ function ToxicSpas.New(char)
 		),
 		"Destroy"
 	)
-	newGun.reloadAnim = newGun.janitor:Add(
+
+	self.reloadAnim = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneAnimation"))(
 			"rbxassetid://113494729900105",
 			viewModel,
@@ -63,11 +64,11 @@ function ToxicSpas.New(char)
 		"Destroy"
 	)
 
-	newGun.viewmodel = viewModel
+	self.viewmodel = viewModel
 
-	setmetatable(newGun, ToxicSpas)
+	setmetatable(self, ToxicSpas)
 
-	return newGun
+	return self
 end
 
 return ToxicSpas

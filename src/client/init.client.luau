@@ -12,3 +12,6 @@ require(gunService:WaitForChild("GunServiceClient"))
 
 local uiFold = shared:WaitForChild("UI")
 require(uiFold:WaitForChild("UI"))
+
+local playerDataService = services:WaitForChild("PlayerDataService")
+require(playerDataService:WaitForChild("PlayerDataServiceClient"))

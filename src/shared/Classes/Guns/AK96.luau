@@ -21,37 +21,36 @@ function AK96.New(char)
 	local hrp = char:WaitForChild("HumanoidRootPart")
 	local player = Players:GetPlayerFromCharacter(char)
 
-	local newAK96 = gunBase.New(char)
+	local self = gunBase.New(char)
 	local viewModel = gunBase:GetViewModel(script.Name, workspace.Camera)
 	local viewModelAnimator = viewModel:WaitForChild("Humanoid"):WaitForChild("Animator")
 
-	newAK96.Name = script.Name
-	newAK96.Ammo = 30
-	newAK96.MaxAmmo = 30
-	newAK96.Capacity = 180
-	newAK96.Auto = true
-	newAK96.FireRate = 0.15
-	newAK96.MaxSpread = 3
-	newAK96.Damage = 10
+	self.Name = script.Name
+	self.Ammo = 30
+	self.MaxAmmo = 30
+	self.Capacity = 180
+	self.Auto = true
+	self.FireRate = 0.15
+	self.MaxSpread = 3
+	self.Damage = 10
 
-	newAK96.canAim = true
-	newAK96.aimSmooth = 0.08
+	self.canAim = true
+	self.aimSmooth = 0.08
 
-	--newAK96.fireSound = gunBase["GeneralModules"].CloneSound(game:GetService("ReplicatedStorage").Sounds.AK96.Fire, hrp)
-	--print(gunBase["GeneralModules"].CloneSound(game:GetService("ReplicatedStorage").Sounds.AK96.Fire, hrp))
+	-- self.fireSound = gunBase["GeneralModules"].CloneSound(game:GetService("ReplicatedStorage").Sounds.AK96.Fire, hrp)
 
-	newAK96.debounce = false
+	self.debounce = false
+	self.reloadTime = 2
 
-	newAK96.reloadTime = 2
-
-	newAK96.fireSound = newAK96.janitor:Add(
+	self.fireSound = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneSound"))(
 			assets:WaitForChild("Sounds"):WaitForChild("AK96"):WaitForChild("Fire"),
 			hrp
 		),
 		"Destroy"
 	)
-	newAK96.fireAnim = newAK96.janitor:Add(
+
+	self.fireAnim = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneAnimation"))(
 			"rbxassetid://72333481697984",
 			viewModel,
@@ -59,7 +58,8 @@ function AK96.New(char)
 		),
 		"Destroy"
 	)
-	newAK96.reloadAnim = newAK96.janitor:Add(
+
+	self.reloadAnim = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneAnimation"))(
 			"rbxassetid://91793492884293",
 			viewModel,
@@ -68,11 +68,9 @@ function AK96.New(char)
 		"Destroy"
 	)
 
-	newAK96.viewmodel = viewModel
+	self.viewmodel = viewModel
 
-	--setmetatable(newAK96, AK96)
-
-	return newAK96
+	return self
 end
 
 return AK96

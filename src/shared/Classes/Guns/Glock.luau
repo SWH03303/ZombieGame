@@ -21,32 +21,32 @@ function Glock.New(char)
 	local hrp = char:WaitForChild("HumanoidRootPart")
 	local player = Players:GetPlayerFromCharacter(char)
 
-	local newGun = gunBase.New(char)
+	local self = gunBase.New(char)
 	local viewModel = gunBase:GetViewModel(script.Name, workspace.Camera)
 	local viewModelAnimator = viewModel:WaitForChild("Humanoid"):WaitForChild("Animator")
 
-	newGun.Name = script.Name
-	newGun.Ammo = 17
-	newGun.MaxAmmo = 17
-	newGun.Capacity = 102
-	newGun.Auto = false
-	newGun.FireRate = 0.15
+	self.Name = script.Name
+	self.Ammo = 17
+	self.MaxAmmo = 17
+	self.Capacity = 102
+	self.Auto = false
+	self.FireRate = 0.15
 
-	newGun.canAim = true
-	newGun.aimSmooth = 0.125
+	self.canAim = true
+	self.aimSmooth = 0.125
 
-	newGun.debounce = false
+	self.debounce = false
+	self.reloadTime = 1.5
 
-	newGun.reloadTime = 1.5
-
-	newGun.fireSound = newGun.janitor:Add(
+	self.fireSound = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneSound"))(
 			assets:WaitForChild("Sounds"):WaitForChild("Glock"):WaitForChild("Fire"),
 			hrp
 		),
 		"Destroy"
 	)
-	newGun.fireAnim = newGun.janitor:Add(
+
+	self.fireAnim = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneAnimation"))(
 			"rbxassetid://124396564823100",
 			viewModel,
@@ -54,7 +54,8 @@ function Glock.New(char)
 		),
 		"Destroy"
 	)
-	newGun.reloadAnim = newGun.janitor:Add(
+
+	self.reloadAnim = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneAnimation"))(
 			"rbxassetid://91793492884293",
 			viewModel,
@@ -63,11 +64,11 @@ function Glock.New(char)
 		"Destroy"
 	)
 
-	newGun.viewmodel = viewModel
+	self.viewmodel = viewModel
 
-	setmetatable(newGun, Glock)
+	setmetatable(self, Glock)
 
-	return newGun
+	return self
 end
 
 return Glock

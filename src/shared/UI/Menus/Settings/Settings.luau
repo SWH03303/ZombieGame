@@ -29,7 +29,6 @@ return function(
 		Parent: UsedAs<Instance>?,
 	}
 )
-	print("---------------------------------")
 	local scope = scope:innerScope({
 		button = require(components:WaitForChild("Button")),
 		frame = require(components:WaitForChild("Frame")),

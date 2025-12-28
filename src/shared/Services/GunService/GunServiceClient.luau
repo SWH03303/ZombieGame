@@ -14,7 +14,7 @@ local janitor = Janitor.new()
 local GunClassFold = rs:WaitForChild("Shared"):WaitForChild("Classes"):WaitForChild("Guns")
 
 local camera = game.Workspace.CurrentCamera
-camera.FieldOfView = 70 ---------------------FOV
+--amera.FieldOfView = 70 ---------------------FOV
 
 local inventory = {
 	"AK96",
@@ -25,15 +25,16 @@ local inventory = {
 
 local loadedGun = {}
 
-local module = nil
 local gun = nil
 local currentSlot = 1
 
 function createGuns(char: Model)
 	for i = 1, 3 do
-		module = require(GunClassFold:WaitForChild(inventory[i]))
-		loadedGun[inventory[i]] = module.New(char)
-		--janitor:Add(loadedGun[inventory[i]])
+		local module = require(GunClassFold:WaitForChild(inventory[i]))
+		local newGun = module.New(char)
+		loadedGun[inventory[i]] = newGun
+		newGun.viewmodel.Parent = rf:WaitForChild("ViewmodelFoldPlayer")
+		janitor:Add(loadedGun[inventory[i]], "Destroy")
 	end
 end
 
@@ -48,12 +49,11 @@ function loadSlot(Item)
 	gun.canShoot = true
 end
 
-player.CharacterAdded:Connect(function(char)
-	print("nig")
+local characterAdded = function(char)
 	local hum = char:WaitForChild("Humanoid")
 
 	createGuns(char)
-	loadSlot(inventory[1])
+	loadSlot(inventory[currentSlot])
 
 	janitor:Add(
 		RunService.RenderStepped:Connect(function()
@@ -132,11 +132,19 @@ player.CharacterAdded:Connect(function(char)
 
 	janitor:Add(
 		hum.Died:Connect(function()
-			janitor:CleanUp()
+			currentSlot = 1
+			janitor:Cleanup()
 			loadedGun = {}
+			gun = nil
 		end),
 		"Disconnect"
 	)
-end)
+end
+
+player.CharacterAdded:Connect(characterAdded)
+local character = player.Character
+if character then
+	characterAdded(character)
+end
 
 return gunServiceClient

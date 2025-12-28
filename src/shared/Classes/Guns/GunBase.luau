@@ -17,10 +17,7 @@ local platformModules = modules:WaitForChild("Platform")
 local gameModules = modules:WaitForChild("Game")
 
 function Gun:Init()
-	--[[
-	Gun["GeneralModules"] = serviceLoader:GetService("GeneralModules")
-	Gun["Hitscan"] = serviceLoader:GetService("Hitscan")
-	Gun["VfxService"] = serviceLoader:GetService("VfxService")]]
+	--
 	return true
 end
 
@@ -55,53 +52,51 @@ function Gun.New(char)
 	local hum = char:WaitForChild("Humanoid")
 	local hrp = char.HumanoidRootPart
 	local player = Players:GetPlayerFromCharacter(char)
+	local self = setmetatable({}, Gun)
 
-	local newGun = {}
+	self.janitor = Janitor.new()
+	self.Name = "Gun"
 
-	newGun.janitor = Janitor.new()
-	newGun.Name = "Gun"
 	local viewModel = Gun:GetViewModel("Gun", workspace.Camera)
-	newGun.Damage = 10
-	newGun.Auto = false
-	newGun.Ammo = 10
-	newGun.MaxAmmo = 10
-	newGun.Capacity = 100
-	newGun.FireRate = 0.15
-	newGun.ReloadTime = 2.5
-	newGun.MaxSpread = 3
 
-	newGun.debounce = false
+	self.Damage = 10
+	self.Auto = false
+	self.Ammo = 10
+	self.MaxAmmo = 10
+	self.Capacity = 100
+	self.FireRate = 0.15
+	self.ReloadTime = 2.5
+	self.MaxSpread = 3
 
-	newGun.fireSound = nil
+	self.debounce = false
+	self.fireSound = nil
 
-	newGun.canAim = true
-	newGun.isReloading = false
-	newGun.canShoot = true
-	newGun.isShooting = false
-	newGun.isAiming = false
+	self.canAim = true
+	self.isReloading = false
+	self.canShoot = true
+	self.isShooting = false
+	self.isAiming = false
 
-	newGun.fireAnim = nil
-	newGun.reloadAnim = nil
+	self.fireAnim = nil
+	self.reloadAnim = nil
 
-	newGun.char = char
-	newGun.viewmodel = viewModel
+	self.char = char
+	self.viewmodel = viewModel
 
-	newGun.camera = workspace.Camera
-	newGun.normalswayAMT = 0.7
-	newGun.aimswayAmount = 0.2
-	newGun.currAimsway = 0
-	newGun.swayCF = CFrame.new()
-	newGun.lastCameraCF = CFrame.new()
-	newGun.aimCF = CFrame.new()
-	newGun.aimSmooth = 0.125
+	self.camera = workspace.Camera
+	self.normalswayAMT = 0.7
+	self.aimswayAmount = 0.2
+	self.currAimsway = 0
+	self.swayCF = CFrame.new()
+	self.lastCameraCF = CFrame.new()
+	self.aimCF = CFrame.new()
+	self.aimSmooth = 0.125
 
-	newGun.hud = player.PlayerGui:WaitForChild("HUD")
+	self.hud = player.PlayerGui:WaitForChild("HUD")
 
-	newGun.char = char
-	newGun.hum = hum
+	self.hum = hum
 
-	setmetatable(newGun, Gun)
-	return newGun
+	return self
 end
 
 local random = Random.new()
@@ -211,6 +206,11 @@ function Gun:RenderWork()
 		self.aimCF = self.aimCF:Lerp(offset, self.aimSmooth)
 		self.currAimsway = self.normalswayAMT
 	end
+end
+
+function Gun:Destroy()
+	self.janitor:Cleanup()
+	--print(self.Name)
 end
 
 return Gun
