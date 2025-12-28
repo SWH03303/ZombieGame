@@ -8,22 +8,24 @@ local mainFrame = require(ui:WaitForChild("Menus"):WaitForChild("Settings"):Wait
 
 local player = game.Players.LocalPlayer
 
-local fusion = require(packages:WaitForChild("Fusion"))
-local scoped = fusion.scoped
-local Children = fusion.Children
+local Fusion = require(packages:WaitForChild("Fusion"))
+local scoped = Fusion.scoped
+local Children = Fusion.Children
+local peek = Fusion.peek
 
-local scope = scoped({
-	New = fusion.New,
-	Value = fusion.Value,
-})
+local scope = scoped(Fusion, {})
 
 local screen_gui = scope:New("ScreenGui")({
 	Name = "Settings",
 	Parent = player.PlayerGui,
 
 	[Children] = {
-		mainFrame({}),
+		mainFrame.frame({}),
 	},
 })
+
+while task.wait(1) do
+	print(peek(mainFrame.content.adsSensitivityMultiplier.Value))
+end
 
 return settings

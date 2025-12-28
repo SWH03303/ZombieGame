@@ -50,7 +50,6 @@ function Local.LoadProfile(player: Player)
 	profile:Reconcile()
 	--Alert the client
 	if profile then
-		print("alert")
 		packet.alertLoadedData:FireClient(player, profile.Data)
 	end
 
