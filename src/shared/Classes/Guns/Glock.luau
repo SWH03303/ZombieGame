@@ -57,7 +57,7 @@ function Glock.New(char)
 
 	self.reloadAnim = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneAnimation"))(
-			"rbxassetid://91793492884293",
+			"rbxassetid://98827193877938",
 			viewModel,
 			viewModelAnimator
 		),

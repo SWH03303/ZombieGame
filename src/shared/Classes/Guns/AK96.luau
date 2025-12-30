@@ -61,7 +61,7 @@ function AK96.New(char)
 
 	self.reloadAnim = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneAnimation"))(
-			"rbxassetid://91793492884293",
+			"rbxassetid://96834634609369",
 			viewModel,
 			viewModelAnimator
 		),
