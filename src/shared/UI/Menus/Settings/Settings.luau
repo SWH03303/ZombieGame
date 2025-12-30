@@ -5,6 +5,7 @@ local shared = rs:WaitForChild("Shared")
 
 local module = shared:WaitForChild("Modules")
 local tableUtils = require(module:WaitForChild("Platform"):WaitForChild("TableUtils"))
+local packet = require(module:WaitForChild("Core"):WaitForChild("Packets"))
 
 local ui = shared:WaitForChild("UI")
 local uiSettingsFold = ui:WaitForChild("Menus"):WaitForChild("Settings")
@@ -30,7 +31,7 @@ local inner = {
 	musicVolume = { Value = scope:Value(100), Min = 0, Max = 200 },
 	effectVolume = { Value = scope:Value(100), Min = 0, Max = 200 },
 
-	pov = { Value = scope:Value(90), Min = 30, Max = 120 },
+	fieldOfView = { Value = scope:Value(90), Min = 30, Max = 120 },
 	sensitivity = { Value = scope:Value(100), Min = 5, Max = 200 },
 	adsSensitivityMultiplier = { Value = scope:Value(100), Min = 5, Max = 200 },
 	cameraZoomEffect = { Value = scope:Value(100), Min = 0, Max = 100 },
@@ -44,7 +45,7 @@ local inner = {
 		{ "sliderComponent", "Effect volume", "effectVolume" },
 
 		{ "topSectionComponent", "Gameplay" },
-		{ "sliderComponent", "Field of view", "pov" },
+		{ "sliderComponent", "Field of view", "fieldOfView" },
 		{ "sliderComponent", "Sensitivity", "sensitivity" },
 		{ "sliderComponent", "ADS Multiplier", "adsSensitivityMultiplier" },
 		{ "sliderComponent", "Camera Zoom Effect", "cameraZoomEffect" },
@@ -55,6 +56,17 @@ local inner = {
 		{ "topSectionComponent", "Control" },
 	},
 }
+
+--Load player settings
+packet.alertLoadedData.OnClientEvent:Connect(function(data)
+	local playerSettings = data.settings
+	if playerSettings then
+		for name, setting in pairs(playerSettings) do
+			inner[name].Value:set(setting.Value)
+		end
+	end
+end)
+
 return {
 	content = inner,
 	frame = function(

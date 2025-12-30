@@ -5,16 +5,30 @@ local player = game:GetService("Players").LocalPlayer
 
 local rs = game:GetService("ReplicatedStorage")
 local rf = game:GetService("ReplicatedFirst")
+local shared = rs:WaitForChild("Shared")
+local modules = shared:WaitForChild("Modules")
+local services = shared:WaitForChild("Services")
+local player = game:GetService("Players").LocalPlayer
+local playerDataService = services:WaitForChild("PlayerDataService")
 local packages = rs:WaitForChild("Packages")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local Janitor = require(packages:WaitForChild("Janitor"))
 local janitor = Janitor.new()
 
+local packet = require(modules:WaitForChild("Core"):WaitForChild("Packets"))
+
+local playerSettings = require(playerDataService:WaitForChild("PlayerDataServiceClient")).playerSettingsData
 local GunClassFold = rs:WaitForChild("Shared"):WaitForChild("Classes"):WaitForChild("Guns")
 
 local camera = game.Workspace.CurrentCamera
---amera.FieldOfView = 70 ---------------------FOV
+
+janitor:Add(
+	packet.updateSettingsAlert.OnClientEvent:Connect(function()
+		camera.FieldOfView = playerSettings.fieldOfView
+	end),
+	"Disconnect"
+)
 
 local inventory = {
 	"AK96",

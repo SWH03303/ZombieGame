@@ -2,17 +2,17 @@ local Shared = {}
 
 Shared.DEFAULT_PLAYER_DATA = {
 	settings = {
-		masterVolume = 100,
-		musicVolume = 100,
-		effectVolume = 100,
+		masterVolume = { Value = 100, Min = 0, Max = 200 },
+		musicVolume = { Value = 100, Min = 0, Max = 200 },
+		effectVolume = { Value = 100, Min = 0, Max = 200 },
 
-		pov = 90,
-		sensitivity = 100,
-		adsSensitivityMultiplier = 100,
-		cameraZoomEffect = 100,
-		enableTexture = true,
-		damageNumber = true,
-		hideMuzzle = true,
+		fieldOfView = { Value = 90, Min = 30, Max = 120 },
+		sensitivity = { Value = 100, Min = 5, Max = 200 },
+		adsSensitivityMultiplier = { Value = 100, Min = 5, Max = 200 },
+		cameraZoomEffect = { Value = 100, Min = 0, Max = 100 },
+		enableTexture = { Value = true },
+		damageNumber = { Value = true },
+		hideMuzzle = { Value = true },
 	},
 }
 

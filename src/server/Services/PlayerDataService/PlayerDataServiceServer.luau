@@ -18,7 +18,7 @@ local packet = require(modules.Core.Packets)
 
 local DATA_STORE_KEY = "Production"
 if RunService:IsStudio() then
-	DATA_STORE_KEY = "Test"
+	DATA_STORE_KEY = "test1"
 end
 
 local playerStore = ProfileStore.New(DATA_STORE_KEY, playerDataTemplate)
@@ -84,22 +84,38 @@ function Shared.GetData(player: Player): defaultData.PlayerData?
 	return profile.Data
 end
 
-function Shared.Update(player: Player, num)
-	local data = Shared.GetData(player)
-	if not data then
-		return
-	end
-
-	return
-end
+function Shared.Update(player: Player, num) end
 
 packet.getPlayerDataPacket.OnServerInvoke = function(player)
-	local profile = profiles[player]
-	if not profile then
+	print("trying to send")
+	local data = Shared.GetData(player)
+	if not data then
+		print("cant")
 		return
 	end
-	return profile.Data
+	return data
 end
+
+packet.updateSettings.OnServerEvent:Connect(function(player, name, value)
+	local data = Shared.GetData(player)
+	if not data or data.settings[name] == nil or typeof(value) ~= typeof(data.settings[name].Value) then
+		return
+	end
+
+	local min = data.settings[name].Min
+	local max = data.settings[name].Max
+	if min ~= nil and value < min then
+		data.settings[name].Value = min
+	elseif max ~= nil and value > max then
+		data.settings[name].Value = max
+	else
+		data.settings[name].Value = value
+	end
+
+	packet.updateSettingsAlert:FireClient(player)
+	--print(`The new value of {name} is: `, data.settings[name].Value)
+	return
+end)
 
 Local.OnStart()
 

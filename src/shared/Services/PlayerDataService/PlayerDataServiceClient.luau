@@ -1,3 +1,4 @@
+local LogReporterService = game:GetService("LogReporterService")
 local rs = game:GetService("ReplicatedStorage")
 local rf = game:GetService("ReplicatedFirst")
 local packages = rs:WaitForChild("Packages")
@@ -16,8 +17,11 @@ local defaultData = require(playerDataService:WaitForChild("PlayerDataDefault"))
 local Local = {}
 local Shared = {}
 
-Shared.playerData = defaultData
+local settingsUi =
+	require(shared:WaitForChild("UI"):WaitForChild("Menus"):WaitForChild("Settings"):WaitForChild("SettingsInit"))
+Shared.playerSettingsData = settingsUi.SettingsData
 
+Shared.playerData = defaultData
 packet.alertLoadedData.OnClientEvent:Connect(function(data)
 	Shared.playerData = data
 end)
