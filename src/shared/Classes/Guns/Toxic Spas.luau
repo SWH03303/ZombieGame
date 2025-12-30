@@ -31,12 +31,12 @@ function ToxicSpas.New(char)
 	self.Capacity = 64
 	self.Auto = false
 	self.FireRate = 1
+	self.ReloadTime = 2.5
 
 	self.canAim = true
 	self.aimSmooth = 0.125
 
 	self.debounce = false
-	self.reloadTime = 1.5
 
 	self.fireSound = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneSound"))(
@@ -66,7 +66,7 @@ function ToxicSpas.New(char)
 
 	self.viewmodel = viewModel
 
-	setmetatable(self, ToxicSpas)
+	--setmetatable(self, ToxicSpas)
 
 	return self
 end

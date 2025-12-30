@@ -82,7 +82,7 @@ function Gun.New(char)
 	self.MaxAmmo = 10
 	self.Capacity = 100
 	self.FireRate = 0.15
-	self.ReloadTime = 2.5
+	self.ReloadTime = 2
 	self.MaxSpread = 3
 	self.ADSmultiplier = 1.5
 

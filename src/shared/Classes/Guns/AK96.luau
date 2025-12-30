@@ -33,6 +33,7 @@ function AK96.New(char)
 	self.FireRate = 0.15
 	self.MaxSpread = 3
 	self.Damage = 10
+	self.ReloadTime = 2
 
 	self.canAim = true
 	self.aimSmooth = 0.08
@@ -40,7 +41,6 @@ function AK96.New(char)
 	-- self.fireSound = gunBase["GeneralModules"].CloneSound(game:GetService("ReplicatedStorage").Sounds.AK96.Fire, hrp)
 
 	self.debounce = false
-	self.reloadTime = 2
 
 	self.fireSound = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneSound"))(

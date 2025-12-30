@@ -31,12 +31,12 @@ function Glock.New(char)
 	self.Capacity = 102
 	self.Auto = false
 	self.FireRate = 0.15
+	self.ReloadTime = 1.5
 
 	self.canAim = true
 	self.aimSmooth = 0.125
 
 	self.debounce = false
-	self.reloadTime = 1.5
 
 	self.fireSound = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneSound"))(
@@ -65,8 +65,7 @@ function Glock.New(char)
 	)
 
 	self.viewmodel = viewModel
-
-	setmetatable(self, Glock)
+	--setmetatable(self, Glock)
 
 	return self
 end
