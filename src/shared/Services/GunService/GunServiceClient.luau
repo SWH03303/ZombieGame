@@ -16,19 +16,10 @@ local RunService = game:GetService("RunService")
 local Janitor = require(packages:WaitForChild("Janitor"))
 local janitor = Janitor.new()
 
-local packet = require(modules:WaitForChild("Core"):WaitForChild("Packets"))
-
 local playerSettings = require(playerDataService:WaitForChild("PlayerDataServiceClient")).playerSettingsData
 local GunClassFold = rs:WaitForChild("Shared"):WaitForChild("Classes"):WaitForChild("Guns")
 
 local camera = game.Workspace.CurrentCamera
-
-janitor:Add(
-	packet.updateSettingsAlert.OnClientEvent:Connect(function()
-		camera.FieldOfView = playerSettings.fieldOfView
-	end),
-	"Disconnect"
-)
 
 local inventory = {
 	"AK96",
@@ -70,9 +61,9 @@ local characterAdded = function(char)
 	loadSlot(inventory[currentSlot])
 
 	janitor:Add(
-		RunService.RenderStepped:Connect(function()
+		RunService.RenderStepped:Connect(function(dt)
 			if gun then
-				gun:RenderWork()
+				gun:RenderWork(dt)
 			end
 		end),
 		"Disconnect"

@@ -7,19 +7,36 @@ local modules = shared:WaitForChild("Modules")
 local services = shared:WaitForChild("Services")
 local Players = game:GetService("Players")
 local RSviewmodelFolder = rs:WaitForChild("Assets"):WaitForChild("ViewModels")
+local platformModules = modules:WaitForChild("Platform")
+local gameModules = modules:WaitForChild("Game")
 local Janitor = require(packages:WaitForChild("Janitor"))
+local playerDataService = services:WaitForChild("PlayerDataService")
+local VfxService = require(services:WaitForChild("VfxService"):WaitForChild("VfxServiceClient"))
 
 local Gun = {}
 Gun.__index = Gun
 
-local VfxService = require(services:WaitForChild("VfxService"):WaitForChild("VfxServiceClient"))
-local platformModules = modules:WaitForChild("Platform")
-local gameModules = modules:WaitForChild("Game")
+local packet = require(modules:WaitForChild("Core"):WaitForChild("Packets"))
+local janitor = Janitor.new()
+local playerSettings = require(playerDataService:WaitForChild("PlayerDataServiceClient")).playerSettingsData
 
 function Gun:Init()
 	--
 	return true
 end
+
+local camera = game.Workspace.CurrentCamera
+local originalFOV = playerSettings.fieldOfView
+local cameraZoomEffect = playerSettings.cameraZoomEffect
+camera.FieldOfView = originalFOV
+janitor:Add(
+	packet.updateSettingsAlert.OnClientEvent:Connect(function()
+		camera.FieldOfView = playerSettings.fieldOfView
+		originalFOV = playerSettings.fieldOfView
+		cameraZoomEffect = playerSettings.cameraZoomEffect
+	end),
+	"Disconnect"
+)
 
 function Gun:GetViewModel(name, camera)
 	local loadedViewmodelFold = rf:WaitForChild("ViewmodelFoldPlayer")
@@ -67,6 +84,7 @@ function Gun.New(char)
 	self.FireRate = 0.15
 	self.ReloadTime = 2.5
 	self.MaxSpread = 3
+	self.ADSmultiplier = 1.5
 
 	self.debounce = false
 	self.fireSound = nil
@@ -84,13 +102,15 @@ function Gun.New(char)
 	self.viewmodel = viewModel
 
 	self.camera = workspace.Camera
-	self.normalswayAMT = 0.7
+	self.normalswayAMT = 2
 	self.aimswayAmount = 0.2
 	self.currAimsway = 0
 	self.swayCF = CFrame.new()
 	self.lastCameraCF = CFrame.new()
 	self.aimCF = CFrame.new()
 	self.aimSmooth = 0.125
+	self.zoomInElapsed = 0
+	self.zoomOutElapsed = self.aimSmooth
 
 	self.hud = player.PlayerGui:WaitForChild("HUD")
 
@@ -178,7 +198,11 @@ function Gun:Reload()
 	end
 end
 
-function Gun:RenderWork()
+function Gun:RenderWork(dt)
+	local function lerp(num, goal, i)
+		return num + (goal - num) * i
+	end
+
 	local rot = self.camera.CFrame:ToObjectSpace(self.lastCameraCF)
 	local x, y, z = rot:ToOrientation()
 	self.swayCF =
@@ -201,10 +225,18 @@ function Gun:RenderWork()
 		local offset = self.viewmodel.AimPart.CFrame:ToObjectSpace(self.viewmodel.PrimaryPart.CFrame)
 		self.aimCF = self.aimCF:Lerp(offset, self.aimSmooth)
 		self.currAimsway = self.aimswayAmount
+		camera.FieldOfView = lerp(
+			camera.FieldOfView,
+			originalFOV / (1 + (self.ADSmultiplier - 1) * (cameraZoomEffect / 100)),
+			self.aimSmooth
+		)
 	else
 		local offset = CFrame.new()
 		self.aimCF = self.aimCF:Lerp(offset, self.aimSmooth)
 		self.currAimsway = self.normalswayAMT
+		if originalFOV ~= camera.FieldOfView then
+			camera.FieldOfView = lerp(camera.FieldOfView, originalFOV, self.aimSmooth)
+		end
 	end
 end
 

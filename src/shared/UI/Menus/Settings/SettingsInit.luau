@@ -48,12 +48,25 @@ for name, config in pairs(mainFrame.content) do
 	end
 end
 
+janitor:Add(
+	packet.alertLoadedData.OnClientEvent:Connect(function(data)
+		local playerSettings = data.settings
+		if playerSettings then
+			for name, setting in pairs(playerSettings) do
+				mainFrame.content[name].Value:set(setting.Value)
+			end
+		end
+	end),
+	"Disconnect"
+)
+
 print(convertedContent)
 
 function Shared:Destroy()
 	for _, observer in pairs(observers) do
 		Fusion.doCleanup(observer)
 	end
+	janitor:Cleanup()
 end
 
 Shared.SettingsData = convertedContent

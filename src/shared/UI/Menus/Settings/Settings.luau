@@ -1,11 +1,12 @@
 local ScriptProfilerService = game:GetService("ScriptProfilerService")
+local runService = game:GetService("RunService")
 local rs = game:GetService("ReplicatedStorage")
 local packages = rs:WaitForChild("Packages")
 local shared = rs:WaitForChild("Shared")
 
 local module = shared:WaitForChild("Modules")
 local tableUtils = require(module:WaitForChild("Platform"):WaitForChild("TableUtils"))
-local packet = require(module:WaitForChild("Core"):WaitForChild("Packets"))
+local packet
 
 local ui = shared:WaitForChild("UI")
 local uiSettingsFold = ui:WaitForChild("Menus"):WaitForChild("Settings")
@@ -47,7 +48,7 @@ local inner = {
 		{ "topSectionComponent", "Gameplay" },
 		{ "sliderComponent", "Field of view", "fieldOfView" },
 		{ "sliderComponent", "Sensitivity", "sensitivity" },
-		{ "sliderComponent", "ADS Multiplier", "adsSensitivityMultiplier" },
+		{ "sliderComponent", "ADS Sensitivity", "adsSensitivityMultiplier" },
 		{ "sliderComponent", "Camera Zoom Effect", "cameraZoomEffect" },
 		{ "yesNoComponent", "Enable Texture", "enableTexture" },
 		{ "yesNoComponent", "Show damage number", "damageNumber" },
@@ -58,14 +59,6 @@ local inner = {
 }
 
 --Load player settings
-packet.alertLoadedData.OnClientEvent:Connect(function(data)
-	local playerSettings = data.settings
-	if playerSettings then
-		for name, setting in pairs(playerSettings) do
-			inner[name].Value:set(setting.Value)
-		end
-	end
-end)
 
 return {
 	content = inner,
