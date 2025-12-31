@@ -1,27 +1,20 @@
 local rs = game:GetService("ReplicatedStorage")
-
+local rf = game:GetService("ReplicatedFirst")
+local packages = rs:WaitForChild("Packages")
+local assets = rs:WaitForChild("Assets")
+local shared = rs:WaitForChild("Shared")
+local classes = shared:WaitForChild("Classes")
+local vfxFold = classes:WaitForChild("Vfx")
+local modules = shared:WaitForChild("Modules")
+local services = shared:WaitForChild("Services")
 local partCacheModule = require(rs:WaitForChild("Packages"):WaitForChild("PartCache"))
 
 local vfx = {}
 
 local bullet = rs:WaitForChild("Assets"):WaitForChild("Vfx"):WaitForChild("Bullet")
 local pCache = partCacheModule.new(bullet, 3)
-print("initialized")
-function vfx:CreateBulletTrail(pos1, pos2)
-	task.spawn(function()
-		local part = pCache:GetPart()
-		part.Position = pos1
-		part.Trail.Enabled = true
-		part.Parent = workspace
-		task.wait(0.001)
-		part.Position = pos2
 
-		task.wait(0.1)
-		part.Trail.Enabled = false
-		pCache:ReturnPart(part)
-	end)
-
-	return
-end
+vfx.CreateBulletTrail = require(vfxFold:WaitForChild("BulletTrail"))
+vfx.CreateGunMuzzle = require(vfxFold:WaitForChild("GunMuzzle"))
 
 return vfx

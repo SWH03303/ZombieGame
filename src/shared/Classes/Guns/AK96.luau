@@ -34,6 +34,8 @@ function AK96.New(char)
 	self.MaxSpread = 3
 	self.Damage = 10
 	self.ReloadTime = 2
+	self.Spread = 0.015
+	self.AimSpread = 0.005
 
 	self.canAim = true
 	self.aimSmooth = 0.08

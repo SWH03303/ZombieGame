@@ -6,9 +6,11 @@ local shared = rs:WaitForChild("Shared")
 local modules = shared:WaitForChild("Modules")
 local services = shared:WaitForChild("Services")
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RSviewmodelFolder = rs:WaitForChild("Assets"):WaitForChild("ViewModels")
 local platformModules = modules:WaitForChild("Platform")
 local gameModules = modules:WaitForChild("Game")
+local VfxServiceClient = require(ReplicatedStorage.Shared.Services.VfxService.VfxServiceClient)
 local Janitor = require(packages:WaitForChild("Janitor"))
 local playerDataService = services:WaitForChild("PlayerDataService")
 local VfxService = require(services:WaitForChild("VfxService"):WaitForChild("VfxServiceClient"))
@@ -78,13 +80,18 @@ function Gun.New(char)
 
 	self.Damage = 10
 	self.Auto = false
+	self.Burst = 0
+	self.BurstDelay = 0
+	self.MultiShot = 1
 	self.Ammo = 10
 	self.MaxAmmo = 10
 	self.Capacity = 100
 	self.FireRate = 0.15
 	self.ReloadTime = 2
-	self.MaxSpread = 3
+	self.Spread = 0.02
+	self.AimSpread = 0.01
 	self.ADSmultiplier = 1.5
+	self.BulletTheme = "Yellow"
 
 	self.debounce = false
 	self.fireSound = nil
@@ -123,17 +130,24 @@ local random = Random.new()
 
 function Gun:Shoot()
 	local function createRayAndShoot()
+		local spread
+		if self.isAiming then
+			spread = self.AimSpread
+		else
+			spread = self.Spread
+		end
+
 		local rayOrigin = self.char.Head.Position
 		local rayDirection = (self.camera.CFrame * CFrame.Angles(
-			random:NextNumber(-0.01, 0.01),
-			random:NextNumber(-0.01, 0.01),
+			random:NextNumber(-spread, spread),
+			random:NextNumber(-spread, spread),
 			0
 		)).LookVector * 500
 		local filter = { self.char }
 		local attPos = self.viewmodel.GunTipAtt.Value.WorldPosition
 		local hitscan = require(gameModules.Hitscan):CreateRay(rayOrigin, rayDirection, filter)
 		--print(hitscan)
-		VfxService:CreateBulletTrail(attPos, hitscan.Position)
+		VfxService.CreateBulletTrail(attPos, hitscan.Position, self.BulletTheme)
 	end
 
 	if self.isReloading or not self.canShoot or self.debounce or self.Ammo <= 0 then
@@ -147,10 +161,15 @@ function Gun:Shoot()
 
 	--------SEMI
 	if not self.Auto then
+		VfxServiceClient.CreateGunMuzzle(self.viewmodel.GunTipAtt.Value, self.BulletTheme)
 		self.fireAnim:Play(0)
 		self.Ammo -= 1
 		self.fireSound:Play()
-		createRayAndShoot()
+		for _ = 1, self.MultiShot do
+			task.spawn(function()
+				createRayAndShoot()
+			end)
+		end
 		return
 	end
 
@@ -161,6 +180,7 @@ function Gun:Shoot()
 	self.isShooting = true
 	task.spawn(function()
 		while self.isShooting and self.Ammo > 0 and self.canShoot do
+			VfxServiceClient.CreateGunMuzzle(self.viewmodel.GunTipAtt.Value, self.BulletTheme)
 			self.fireAnim:Play(0)
 			self.fireSound:Play()
 			self.Ammo -= 1

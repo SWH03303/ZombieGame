@@ -32,6 +32,8 @@ function Glock.New(char)
 	self.Auto = false
 	self.FireRate = 0.15
 	self.ReloadTime = 1.5
+	self.Spread = 0.01
+	self.AimSpread = 0.005
 
 	self.canAim = true
 	self.aimSmooth = 0.125
@@ -57,7 +59,7 @@ function Glock.New(char)
 
 	self.reloadAnim = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneAnimation"))(
-			"rbxassetid://98827193877938",
+			"rbxassetid://136725233403611",
 			viewModel,
 			viewModelAnimator
 		),

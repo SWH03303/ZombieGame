@@ -30,8 +30,12 @@ function ToxicSpas.New(char)
 	self.MaxAmmo = 8
 	self.Capacity = 64
 	self.Auto = false
+	self.MultiShot = 5
 	self.FireRate = 1
 	self.ReloadTime = 2.5
+	self.BulletTheme = "Green"
+	self.Spread = 0.05
+	self.AimSpread = 0.05
 
 	self.canAim = true
 	self.aimSmooth = 0.125
