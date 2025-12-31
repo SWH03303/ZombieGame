@@ -38,7 +38,7 @@ local inner = {
 	cameraZoomEffect = { Value = scope:Value(100), Min = 0, Max = 100 },
 	enableTexture = { Value = scope:Value(true) },
 	damageNumber = { Value = scope:Value(true) },
-	hideMuzzle = { Value = scope:Value(true) },
+	hideMuzzle = { Value = scope:Value(false) },
 	content = {
 		{ "topSectionComponent", "Sound" },
 		{ "sliderComponent", "Master volume", "masterVolume" },

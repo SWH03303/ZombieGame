@@ -12,7 +12,7 @@ Shared.DEFAULT_PLAYER_DATA = {
 		cameraZoomEffect = { Value = 100, Min = 0, Max = 100 },
 		enableTexture = { Value = true },
 		damageNumber = { Value = true },
-		hideMuzzle = { Value = true },
+		hideMuzzle = { Value = false },
 	},
 }
 

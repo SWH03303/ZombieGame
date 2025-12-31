@@ -30,12 +30,14 @@ end
 local camera = game.Workspace.CurrentCamera
 local originalFOV = playerSettings.fieldOfView
 local cameraZoomEffect = playerSettings.cameraZoomEffect
+local hideMuzzle = playerSettings.hideMuzzle
 camera.FieldOfView = originalFOV
 janitor:Add(
 	packet.updateSettingsAlert.OnClientEvent:Connect(function()
 		camera.FieldOfView = playerSettings.fieldOfView
 		originalFOV = playerSettings.fieldOfView
 		cameraZoomEffect = playerSettings.cameraZoomEffect
+		hideMuzzle = playerSettings.hideMuzzle
 	end),
 	"Disconnect"
 )
@@ -146,7 +148,13 @@ function Gun:Shoot()
 		local filter = { self.char }
 		local attPos = self.viewmodel.GunTipAtt.Value.WorldPosition
 		local hitscan = require(gameModules.Hitscan):CreateRay(rayOrigin, rayDirection, filter)
-		--print(hitscan)
+		local hit = hitscan.Instance
+		if hit and hit.Parent:FindFirstChild("Humanoid") then
+			task.spawn(function()
+				local damageDealt = packet.shoot:Fire(self.char, hit.Parent, hit.Name)
+				--print(`{self.char.Name} shot {hit.Parent.Name} in the {hit.Name} dealing {damageDealt} HP`)
+			end)
+		end
 		VfxService.CreateBulletTrail(attPos, hitscan.Position, self.BulletTheme)
 	end
 
@@ -161,7 +169,10 @@ function Gun:Shoot()
 
 	--------SEMI
 	if not self.Auto then
-		VfxServiceClient.CreateGunMuzzle(self.viewmodel.GunTipAtt.Value, self.BulletTheme)
+		if not hideMuzzle then
+			VfxServiceClient.CreateGunMuzzle(self.viewmodel.GunTipAtt.Value, self.BulletTheme)
+		end
+
 		self.fireAnim:Play(0)
 		self.Ammo -= 1
 		self.fireSound:Play()
@@ -180,7 +191,10 @@ function Gun:Shoot()
 	self.isShooting = true
 	task.spawn(function()
 		while self.isShooting and self.Ammo > 0 and self.canShoot do
-			VfxServiceClient.CreateGunMuzzle(self.viewmodel.GunTipAtt.Value, self.BulletTheme)
+			if not hideMuzzle then
+				VfxServiceClient.CreateGunMuzzle(self.viewmodel.GunTipAtt.Value, self.BulletTheme)
+			end
+
 			self.fireAnim:Play(0)
 			self.fireSound:Play()
 			self.Ammo -= 1
