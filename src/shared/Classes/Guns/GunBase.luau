@@ -152,7 +152,7 @@ function Gun:Shoot()
 		local hit = hitscan.Instance
 		if hit and hit.Parent:FindFirstChild("Humanoid") then
 			task.spawn(function()
-				local damageDealt = packet.shoot:Fire(self.char, hit.Parent, hit.Name)
+				local damageDealt = packet.shoot:Fire(self.char, hit.Parent, hit.Name, self.Name)
 				--print(`{self.char.Name} shot {hit.Parent.Name} in the {hit.Name} dealing {damageDealt} HP`)
 			end)
 		end

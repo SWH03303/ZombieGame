@@ -10,26 +10,11 @@ local platformModules = modules:WaitForChild("Platform")
 
 local Players = game:GetService("Players")
 local gunBase = require(script.Parent.GunBase) --serviceLoader:GetService("GunBase")
+local gunStats = require(script.Parent.GunStats)
 
 local ToxicSpas = {}
 ToxicSpas.__index = ToxicSpas
 setmetatable(ToxicSpas, gunBase)
-
-ToxicSpas.gunStats = {
-	Name = script.Name,
-	Ammo = 8,
-	MaxAmmo = 8,
-	Capacity = 64,
-	Auto = false,
-	MultiShot = 5,
-	Damage = 9,
-	CritDamage = 12,
-	FireRate = 1,
-	ReloadTime = 2.5,
-	BulletTheme = "Green",
-	Spread = 0.05,
-	AimSpread = 0.05,
-}
 
 function ToxicSpas.New(char)
 	local hum = char:WaitForChild("Humanoid")
@@ -44,7 +29,7 @@ function ToxicSpas.New(char)
 	self.canAim = true
 	self.aimSmooth = 0.125
 
-	for statName, value in pairs(ToxicSpas.gunStats) do
+	for statName, value in pairs(gunStats["Toxic Spas"]) do
 		self[statName] = value
 	end
 

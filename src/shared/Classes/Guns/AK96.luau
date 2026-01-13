@@ -10,25 +10,11 @@ local platformModules = modules:WaitForChild("Platform")
 
 local Players = game:GetService("Players")
 local gunBase = require(script.Parent.GunBase) --serviceLoader:GetService("GunBase")
+local gunStats = require(script.Parent.GunStats)
 
 local AK96 = {}
 AK96.__index = AK96
 setmetatable(AK96, gunBase)
-
-AK96.gunStats = {
-	Name = script.Name,
-	Ammo = 30,
-	MaxAmmo = 30,
-	Capacity = 180,
-	Auto = true,
-	FireRate = 0.15,
-	MaxSpread = 3,
-	Damage = 10,
-	CritDamage = 15,
-	ReloadTime = 2,
-	Spread = 0.015,
-	AimSpread = 0.005,
-}
 
 function AK96.New(char)
 	local hum = char:WaitForChild("Humanoid")
@@ -40,7 +26,7 @@ function AK96.New(char)
 	local viewModel = gunBase:GetViewModel(script.Name, workspace.Camera)
 	local viewModelAnimator = viewModel:WaitForChild("Humanoid"):WaitForChild("Animator")
 
-	for statName, value in pairs(AK96.gunStats) do
+	for statName, value in pairs(gunStats.AK96) do
 		self[statName] = value
 	end
 
