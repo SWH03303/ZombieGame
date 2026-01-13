@@ -13,9 +13,19 @@ print(gunStats)
 
 packet.shoot.OnServerInvoke = function(player, shooter, enemy, hitPart, gunName)
 	--print(gunStats)
-	local damage = print(
-		`{player.Name} shot {enemy.Name} in the {hitPart} dealing {gunStats[gunName].Damage} HP using {gunName} (SERVER)`
-	)
+	if enemy:GetAttribute("Team") == "Ally" then
+		return 67
+	end
+
+	local damage
+	if hitPart == "Head" then
+		damage = gunStats[gunName].CritDamage
+		print(`{player.Name} shot {enemy.Name} in the {hitPart} dealing {damage} HP using {gunName} (SERVER)`)
+	else
+		damage = gunStats[gunName].Damage
+		print(`{player.Name} shot {enemy.Name} in the {hitPart} dealing {damage} HP using {gunName} (SERVER)`)
+	end
+	enemy.Humanoid.Health -= damage
 	return 67
 end
 
