@@ -81,6 +81,7 @@ function Gun.New(char)
 	local viewModel = Gun:GetViewModel("Gun", workspace.Camera)
 
 	self.Damage = 10
+	self.CritDamage = 15
 	self.Auto = false
 	self.Burst = 0
 	self.BurstDelay = 0

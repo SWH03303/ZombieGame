@@ -15,6 +15,21 @@ local AK96 = {}
 AK96.__index = AK96
 setmetatable(AK96, gunBase)
 
+AK96.gunStats = {
+	Name = script.Name,
+	Ammo = 30,
+	MaxAmmo = 30,
+	Capacity = 180,
+	Auto = true,
+	FireRate = 0.15,
+	MaxSpread = 3,
+	Damage = 10,
+	CritDamage = 15,
+	ReloadTime = 2,
+	Spread = 0.015,
+	AimSpread = 0.005,
+}
+
 function AK96.New(char)
 	local hum = char:WaitForChild("Humanoid")
 	local animator = hum:WaitForChild("Animator")
@@ -25,17 +40,9 @@ function AK96.New(char)
 	local viewModel = gunBase:GetViewModel(script.Name, workspace.Camera)
 	local viewModelAnimator = viewModel:WaitForChild("Humanoid"):WaitForChild("Animator")
 
-	self.Name = script.Name
-	self.Ammo = 30
-	self.MaxAmmo = 30
-	self.Capacity = 180
-	self.Auto = true
-	self.FireRate = 0.15
-	self.MaxSpread = 3
-	self.Damage = 10
-	self.ReloadTime = 2
-	self.Spread = 0.015
-	self.AimSpread = 0.005
+	for statName, value in pairs(AK96.gunStats) do
+		self[statName] = value
+	end
 
 	self.canAim = true
 	self.aimSmooth = 0.08

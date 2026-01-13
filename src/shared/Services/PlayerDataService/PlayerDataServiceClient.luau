@@ -26,4 +26,13 @@ packet.alertLoadedData.OnClientEvent:Connect(function(data)
 	Shared.playerData = data
 end)
 
+--sound handler
+local sound = game:GetService("SoundService")
+packet.updateSettingsAlert.OnClientEvent:Connect(function()
+	local masterVolume = Shared.playerSettingsData.masterVolume
+	local musicVolume = Shared.playerSettingsData.musicVolume
+	local effectVolume = Shared.playerSettingsData.effectVolume
+	sound.SoundEffect.Volume = (masterVolume / 100) * (effectVolume / 100)
+end)
+
 return Shared

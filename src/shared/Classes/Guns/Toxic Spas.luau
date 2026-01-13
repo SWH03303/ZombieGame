@@ -15,6 +15,22 @@ local ToxicSpas = {}
 ToxicSpas.__index = ToxicSpas
 setmetatable(ToxicSpas, gunBase)
 
+ToxicSpas.gunStats = {
+	Name = script.Name,
+	Ammo = 8,
+	MaxAmmo = 8,
+	Capacity = 64,
+	Auto = false,
+	MultiShot = 5,
+	Damage = 9,
+	CritDamage = 12,
+	FireRate = 1,
+	ReloadTime = 2.5,
+	BulletTheme = "Green",
+	Spread = 0.05,
+	AimSpread = 0.05,
+}
+
 function ToxicSpas.New(char)
 	local hum = char:WaitForChild("Humanoid")
 	local animator = hum:WaitForChild("Animator")
@@ -25,20 +41,12 @@ function ToxicSpas.New(char)
 	local viewModel = gunBase:GetViewModel(script.Name, workspace.Camera)
 	local viewModelAnimator = viewModel:WaitForChild("Humanoid"):WaitForChild("Animator")
 
-	self.Name = script.Name
-	self.Ammo = 8
-	self.MaxAmmo = 8
-	self.Capacity = 64
-	self.Auto = false
-	self.MultiShot = 5
-	self.FireRate = 1
-	self.ReloadTime = 2.5
-	self.BulletTheme = "Green"
-	self.Spread = 0.05
-	self.AimSpread = 0.05
-
 	self.canAim = true
 	self.aimSmooth = 0.125
+
+	for statName, value in pairs(ToxicSpas.gunStats) do
+		self[statName] = value
+	end
 
 	self.debounce = false
 

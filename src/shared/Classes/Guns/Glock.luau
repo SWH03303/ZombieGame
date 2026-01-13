@@ -15,6 +15,20 @@ local Glock = {}
 Glock.__index = Glock
 setmetatable(Glock, gunBase)
 
+Glock.gunStats = {
+	Name = script.Name,
+	Ammo = 17,
+	MaxAmmo = 17,
+	Capacity = 102,
+	Auto = false,
+	Damage = 8,
+	CritDamage = 12,
+	FireRate = 0.15,
+	ReloadTime = 1.5,
+	Spread = 0.01,
+	AimSpread = 0.005,
+}
+
 function Glock.New(char)
 	local hum = char:WaitForChild("Humanoid")
 	local animator = hum:WaitForChild("Animator")
@@ -25,15 +39,9 @@ function Glock.New(char)
 	local viewModel = gunBase:GetViewModel(script.Name, workspace.Camera)
 	local viewModelAnimator = viewModel:WaitForChild("Humanoid"):WaitForChild("Animator")
 
-	self.Name = script.Name
-	self.Ammo = 17
-	self.MaxAmmo = 17
-	self.Capacity = 102
-	self.Auto = false
-	self.FireRate = 0.15
-	self.ReloadTime = 1.5
-	self.Spread = 0.01
-	self.AimSpread = 0.005
+	for statName, value in pairs(Glock.gunStats) do
+		self[statName] = value
+	end
 
 	self.canAim = true
 	self.aimSmooth = 0.125
