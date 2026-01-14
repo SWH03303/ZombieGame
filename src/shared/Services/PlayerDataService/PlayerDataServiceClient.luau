@@ -18,7 +18,7 @@ local Local = {}
 local Shared = {}
 
 local settingsUi =
-	require(shared:WaitForChild("UI"):WaitForChild("Menus"):WaitForChild("Settings"):WaitForChild("SettingsInit"))
+	require(shared:WaitForChild("UI"):WaitForChild("Menus"):WaitForChild("Settings"):WaitForChild("SettingsHandler"))
 Shared.playerSettingsData = settingsUi.SettingsData
 
 Shared.playerData = defaultData

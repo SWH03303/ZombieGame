@@ -31,6 +31,7 @@ return function(
 
 		CornerRadius: UsedAs<UDim>?,
 		BackgroundColor3: UsedAs<Color3>?,
+		BackgroundTransparency: UsedAs<NumberValue>?,
 		BorderSizePixel: UsedAs<IntValue>?,
 		BorderColor3: UsedAs<Color3>?,
 		ExtraChildren: UsedAs<SharedTable>?,
@@ -44,6 +45,7 @@ return function(
 		Size = props.Size,
 		LayoutOrder = props.LayoutOrder,
 		ZIndex = props.ZIndex or 0,
+		BackgroundTransparency = props.BackgroundTransparency or 0,
 
 		[Children] = TableUtil.addIn({
 			scope:New("UICorner")({
