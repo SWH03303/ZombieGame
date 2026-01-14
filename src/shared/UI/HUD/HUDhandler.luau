@@ -77,6 +77,6 @@ function Shared:Destroy()
 	janitor:Cleanup()
 end
 
-Shared.SettingsData = convertedContent
+Shared.Content = convertedContent
 
 return Shared
