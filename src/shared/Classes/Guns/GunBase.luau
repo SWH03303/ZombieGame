@@ -14,6 +14,7 @@ local VfxServiceClient = require(ReplicatedStorage.Shared.Services.VfxService.Vf
 local Janitor = require(packages:WaitForChild("Janitor"))
 local playerDataService = services:WaitForChild("PlayerDataService")
 local VfxService = require(services:WaitForChild("VfxService"):WaitForChild("VfxServiceClient"))
+local hudUI = require(shared:WaitForChild("UI"):WaitForChild("HUD"):WaitForChild("HUDhandler"))
 
 local Gun = {}
 Gun.__index = Gun
@@ -132,6 +133,8 @@ end
 local random = Random.new()
 
 function Gun:Shoot()
+	hudUI.HitMarker()
+
 	local function createRayAndShoot()
 		local spread
 		if self.isAiming then
@@ -245,12 +248,12 @@ function Gun:RenderWork(dt)
 	self.lastCameraCF = self.camera.CFrame
 
 	if self.viewmodel then
-		self.hud.GunName.Text = self.Name
-		self.hud.Ammo.Text = self.Ammo
-		self.hud.Ammo.MaxAmmo.Text = self.Capacity
+		hudUI.Content.gunName:set(self.Name)
+		hudUI.Content.ammo:set(self.Ammo)
+		hudUI.Content.maxAmmo:set(self.Capacity)
 	end
 
-	for i, v in pairs(self.camera:GetChildren()) do
+	for _, v in pairs(self.camera:GetChildren()) do
 		if v:IsA("Model") then
 			v:SetPrimaryPartCFrame(self.camera.CFrame * self.swayCF * self.aimCF)
 		end

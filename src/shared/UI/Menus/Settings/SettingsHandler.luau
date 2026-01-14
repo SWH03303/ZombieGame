@@ -23,6 +23,7 @@ local scope = scoped(Fusion, {})
 local screen_gui = scope:New("ScreenGui")({
 	Name = "Settings",
 	Parent = player.PlayerGui,
+	ScreenInsets = Enum.ScreenInsets.None,
 
 	[Children] = {
 		mainFrame.frame({}),
@@ -50,6 +51,7 @@ end
 
 janitor:Add(
 	packet.alertLoadedData.OnClientEvent:Connect(function(data)
+		--print(mainFrame.content)
 		local playerSettings = data.settings
 		if playerSettings then
 			for name, setting in pairs(playerSettings) do
@@ -60,6 +62,7 @@ janitor:Add(
 	"Disconnect"
 )
 
+print(`settings stuff:`)
 print(convertedContent)
 
 function Shared:Destroy()

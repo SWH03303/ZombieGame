@@ -21,14 +21,15 @@ local Observer = Fusion.Observer
 local scope = scoped(Fusion, {})
 
 local screen_gui = scope:New("ScreenGui")({
-	Name = "Settings",
+	Name = "HUD",
 	Parent = player.PlayerGui,
+	ScreenInsets = Enum.ScreenInsets.None,
 
 	[Children] = {
 		hud.frame({}),
 	},
 })
-
+--[[
 local convertedContent = {}
 local observers = {}
 for name, config in pairs(hud.content) do
@@ -46,37 +47,25 @@ for name, config in pairs(hud.content) do
 			end)
 		)
 	end
-end
+end]]
 
 --Hit animation
---[[
+
 Shared.HitMarker = function()
-	cursorModule.content.hitMarkerTransparency:set(0)
+	hud.content.hitMarkerTransparency:set(0)
+	--[[
 	local style = TweenInfo.new(0.5)
-	cursorModule.content.hitMarkerTransparency = scope:Tween(scope:Value(1), style)
-]]
-
-janitor:Add(
-	packet.alertLoadedData.OnClientEvent:Connect(function(data)
-		local playerSettings = data.settings
-		if playerSettings then
-			for name, setting in pairs(playerSettings) do
-				hud.content[name].Value:set(setting.Value)
-			end
-		end
-	end),
-	"Disconnect"
-)
-
-print(convertedContent)
+	hud.content.hitMarkerTransparency = scope:Tween(scope:Value(1), style)]]
+end
 
 function Shared:Destroy()
+	--[[
 	for _, observer in pairs(observers) do
 		Fusion.doCleanup(observer)
-	end
+	end]]
 	janitor:Cleanup()
 end
 
-Shared.Content = convertedContent
+Shared.Content = hud.content
 
 return Shared

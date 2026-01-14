@@ -16,5 +16,6 @@ local Players = game:GetService("Players")
 --moduleLoader:FetchAllServices(uiFold, uiFold:WaitForChild("UI"))
 
 local settings = require(uiFold:WaitForChild("Menus"):WaitForChild("Settings"):WaitForChild("SettingsHandler"))
+local hud = require(uiFold:WaitForChild("HUD"):WaitForChild("HUDhandler"))
 
 return ui

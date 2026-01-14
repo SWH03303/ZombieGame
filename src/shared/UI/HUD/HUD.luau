@@ -62,7 +62,7 @@ return {
 			--HitMarker
 			scope:New("ImageLabel")({
 				Position = UDim2.fromScale(0.5, 0.5),
-				Size = UDim2.fromScale(0.05, 0.05),
+				Size = UDim2.fromScale(0.025, 0.025),
 				AnchorPoint = Vector2.new(0.5, 0.5),
 				Image = "http://www.roblox.com/asset/?id=1648882980",
 				Transparency = 1,
@@ -91,14 +91,14 @@ return {
 						Size = UDim2.fromScale(1, 0.5),
 						TextScaled = true,
 						TextColor3 = Color3.new(1, 1, 1),
-						Text = peek(inner.gunName),
+						Text = inner.gunName,
 					}),
 					scope:text({
 						Position = UDim2.fromScale(0.5, 0.5),
 						Size = UDim2.fromScale(1, 0.5),
 						TextScaled = true,
 						TextColor3 = Color3.new(1, 1, 1),
-						Text = `{peek(inner.ammo)} / {peek(inner.maxAmmo)}`,
+						Text = inner.ammo,
 					}),
 				},
 			}),
