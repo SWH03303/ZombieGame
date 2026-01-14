@@ -28,6 +28,8 @@ local scope = scoped(Fusion, {})
 
 --Load player settings
 
+local hitmarkerTweenInfo = TweenInfo.new(0.5)
+
 local inner = {
 	hitMarker = scope:Value(false),
 	hitMarkerTransparency = scope:Value(1),
@@ -66,7 +68,7 @@ return {
 				AnchorPoint = Vector2.new(0.5, 0.5),
 				Image = "http://www.roblox.com/asset/?id=1648882980",
 				Transparency = 1,
-				ImageTransparency = inner.hitMarkerTransparency,
+				ImageTransparency = scope:Tween(inner.hitMarkerTransparency, hitmarkerTweenInfo),
 
 				[Children] = {
 					scope:New("UIAspectRatioConstraint")({ AspectRatio = 1 }),
