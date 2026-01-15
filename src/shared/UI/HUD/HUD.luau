@@ -1,3 +1,4 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ScriptProfilerService = game:GetService("ScriptProfilerService")
 local runService = game:GetService("RunService")
 local rs = game:GetService("ReplicatedStorage")
@@ -5,6 +6,7 @@ local packages = rs:WaitForChild("Packages")
 local shared = rs:WaitForChild("Shared")
 
 local module = shared:WaitForChild("Modules")
+local EmptyFrame = require(ReplicatedStorage.Shared.UI.Components.EmptyFrame)
 local tableUtils = require(module:WaitForChild("Platform"):WaitForChild("TableUtils"))
 local packet
 
@@ -57,7 +59,7 @@ local inner = {
 	hitMarker = scope:Value(false),
 	gunName = scope:Value("Glock"),
 	ammo = scope:Value(10),
-	maxAmmo = scope:Value(100),
+	maxAmmo = scope:Value(10),
 	createHitMarkerFunction = createHitMarker,
 }
 
@@ -97,21 +99,50 @@ return {
 				ExtraChildren = {
 					scope:New("UIAspectRatioConstraint")({ AspectRatio = 2.5 }),
 					scope:New("UIListLayout")({
-						HorizontalAlignment = Enum.HorizontalAlignment.Left,
+						HorizontalAlignment = Enum.HorizontalAlignment.Center,
+						SortOrder = Enum.SortOrder.LayoutOrder,
 					}),
+
 					scope:text({
 						Position = UDim2.fromScale(0.5, 0.5),
 						Size = UDim2.fromScale(1, 0.5),
 						TextScaled = true,
 						TextColor3 = Color3.new(1, 1, 1),
 						Text = inner.gunName,
+						LayoutOrder = 1,
 					}),
-					scope:text({
+					scope:emptyFrame({
 						Position = UDim2.fromScale(0.5, 0.5),
 						Size = UDim2.fromScale(1, 0.5),
-						TextScaled = true,
-						TextColor3 = Color3.new(1, 1, 1),
-						Text = inner.ammo,
+						LayoutOrder = 2,
+						ExtraChildren = {
+							scope:New("UIAspectRatioConstraint")({ AspectRatio = 1.5 }),
+							scope:New("UIListLayout")({
+								HorizontalAlignment = Enum.HorizontalAlignment.Center,
+								FillDirection = Enum.FillDirection.Horizontal,
+							}),
+							scope:text({
+								Position = UDim2.fromScale(0.5, 0.5),
+								Size = UDim2.fromScale(1, 1),
+								TextScaled = true,
+								TextColor3 = Color3.new(1, 1, 1),
+								Text = inner.ammo,
+							}),
+							scope:text({
+								Position = UDim2.fromScale(0.5, 0.5),
+								Size = UDim2.fromScale(0.2, 1),
+								TextScaled = true,
+								TextColor3 = Color3.new(1, 1, 1),
+								Text = "/",
+							}),
+							scope:text({
+								Position = UDim2.fromScale(0.5, 0.5),
+								Size = UDim2.fromScale(1, 1),
+								TextScaled = true,
+								TextColor3 = Color3.new(1, 1, 1),
+								Text = inner.maxAmmo,
+							}),
+						},
 					}),
 				},
 			}),
