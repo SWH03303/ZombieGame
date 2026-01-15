@@ -26,16 +26,39 @@ type UsedAs<T> = Fusion.UsedAs<T>
 
 local scope = scoped(Fusion, {})
 
---Load player settings
+function createHitMarker(screenFrame)
+	local transGoal = scope:Value(0)
+	local sizeGoal = scope:Value(UDim2.fromScale(0.05, 0.05))
+	local sizeTweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Back)
 
-local hitmarkerTweenInfo = TweenInfo.new(0.5)
+	local hitmarker = scope:New("ImageLabel")({
+		Parent = screenFrame,
+		Position = UDim2.fromScale(0.5, 0.5),
+		Size = scope:Tween(sizeGoal, sizeTweenInfo),
+		AnchorPoint = Vector2.new(0.5, 0.5),
+		Image = "http://www.roblox.com/asset/?id=1648882980",
+		Transparency = 1,
+		ImageTransparency = scope:Tween(transGoal, TweenInfo.new(0.5)),
+
+		[Children] = {
+			scope:New("UIAspectRatioConstraint")({ AspectRatio = 1 }),
+		},
+	})
+	transGoal:set(1)
+	sizeGoal:set(UDim2.fromScale(0.025, 0.025))
+
+	task.spawn(function()
+		task.wait(1)
+		Fusion.doCleanup(hitmarker)
+	end)
+end
 
 local inner = {
 	hitMarker = scope:Value(false),
-	hitMarkerTransparency = scope:Value(1),
 	gunName = scope:Value("Glock"),
 	ammo = scope:Value(10),
 	maxAmmo = scope:Value(100),
+	createHitMarkerFunction = createHitMarker,
 }
 
 return {
@@ -62,18 +85,6 @@ return {
 			scope:New("UIAspectRatioConstraint")({ AspectRatio = 1920 / 1080 }),
 
 			--HitMarker
-			scope:New("ImageLabel")({
-				Position = UDim2.fromScale(0.5, 0.5),
-				Size = UDim2.fromScale(0.025, 0.025),
-				AnchorPoint = Vector2.new(0.5, 0.5),
-				Image = "http://www.roblox.com/asset/?id=1648882980",
-				Transparency = 1,
-				ImageTransparency = scope:Tween(inner.hitMarkerTransparency, hitmarkerTweenInfo),
-
-				[Children] = {
-					scope:New("UIAspectRatioConstraint")({ AspectRatio = 1 }),
-				},
-			}),
 
 			--Ammo/Gun name
 			scope:frame({
@@ -115,6 +126,7 @@ return {
 
 			[Children] = screenFrameChildren,
 		})
+
 		return screenFrame
 	end,
 }

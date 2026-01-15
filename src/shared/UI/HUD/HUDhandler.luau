@@ -19,14 +19,14 @@ local peek = Fusion.peek
 local Observer = Fusion.Observer
 
 local scope = scoped(Fusion, {})
-
+local hudFrame = hud.frame({})
 local screen_gui = scope:New("ScreenGui")({
 	Name = "HUD",
 	Parent = player.PlayerGui,
 	ScreenInsets = Enum.ScreenInsets.None,
 
 	[Children] = {
-		hud.frame({}),
+		hudFrame,
 	},
 })
 --[[
@@ -52,10 +52,7 @@ end]]
 --Hit animation
 
 Shared.HitMarker = function()
-	hud.content.hitMarkerTransparency:set(0)
-	--[[
-	local style = TweenInfo.new(0.5)
-	hud.content.hitMarkerTransparency = scope:Tween(scope:Value(1), style)]]
+	hud.content.createHitMarkerFunction(hudFrame)
 end
 
 function Shared:Destroy()

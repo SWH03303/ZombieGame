@@ -133,8 +133,6 @@ end
 local random = Random.new()
 
 function Gun:Shoot()
-	hudUI.HitMarker()
-
 	local function createRayAndShoot()
 		local spread
 		if self.isAiming then
@@ -154,6 +152,8 @@ function Gun:Shoot()
 		local hitscan = require(gameModules.Hitscan):CreateRay(rayOrigin, rayDirection, filter)
 		local hit = hitscan.Instance
 		if hit and hit.Parent:FindFirstChild("Humanoid") then
+			hudUI.HitMarker()
+
 			task.spawn(function()
 				local damageDealt = packet.shoot:Fire(self.char, hit.Parent, hit.Name, self.Name)
 				--print(`{self.char.Name} shot {hit.Parent.Name} in the {hit.Name} dealing {damageDealt} HP`)
