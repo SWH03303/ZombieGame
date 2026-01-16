@@ -152,7 +152,11 @@ function Gun:Shoot()
 		local hitscan = require(gameModules.Hitscan):CreateRay(rayOrigin, rayDirection, filter)
 		local hit = hitscan.Instance
 		if hit and hit.Parent:FindFirstChild("Humanoid") then
-			hudUI.HitMarker()
+			if hit.Name == "Head" then
+				hudUI.HitMarker(true)
+			else
+				hudUI.HitMarker(false)
+			end
 
 			task.spawn(function()
 				local damageDealt = packet.shoot:Fire(self.char, hit.Parent, hit.Name, self.Name)

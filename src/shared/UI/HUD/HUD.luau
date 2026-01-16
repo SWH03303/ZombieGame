@@ -28,17 +28,23 @@ type UsedAs<T> = Fusion.UsedAs<T>
 
 local scope = scoped(Fusion, {})
 
-function createHitMarker(screenFrame)
+function createHitMarker(screenFrame, critical: boolean)
 	local transGoal = scope:Value(0)
 	local sizeGoal = scope:Value(UDim2.fromScale(0.05, 0.05))
 	local sizeTweenInfo = TweenInfo.new(0.5, Enum.EasingStyle.Back)
 
+	local hitmarkerImage
+	if not critical then
+		hitmarkerImage = "http://www.roblox.com/asset/?id=1648882980"
+	else
+		hitmarkerImage = "http://www.roblox.com/asset/?id=14270092991"
+	end
 	local hitmarker = scope:New("ImageLabel")({
 		Parent = screenFrame,
 		Position = UDim2.fromScale(0.5, 0.5),
 		Size = scope:Tween(sizeGoal, sizeTweenInfo),
 		AnchorPoint = Vector2.new(0.5, 0.5),
-		Image = "http://www.roblox.com/asset/?id=1648882980",
+		Image = hitmarkerImage,
 		Transparency = 1,
 		ImageTransparency = scope:Tween(transGoal, TweenInfo.new(0.5)),
 
@@ -46,6 +52,7 @@ function createHitMarker(screenFrame)
 			scope:New("UIAspectRatioConstraint")({ AspectRatio = 1 }),
 		},
 	})
+
 	transGoal:set(1)
 	sizeGoal:set(UDim2.fromScale(0.025, 0.025))
 

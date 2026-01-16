@@ -51,8 +51,8 @@ end]]
 
 --Hit animation
 
-Shared.HitMarker = function()
-	hud.content.createHitMarkerFunction(hudFrame)
+Shared.HitMarker = function(critical: boolean)
+	hud.content.createHitMarkerFunction(hudFrame, critical)
 end
 
 function Shared:Destroy()

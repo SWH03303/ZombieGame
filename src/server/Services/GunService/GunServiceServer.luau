@@ -1,4 +1,3 @@
-local LogReporterService = game:GetService("LogReporterService")
 local rs = game:GetService("ReplicatedStorage")
 local shared = rs.Shared
 local modules = shared.Modules
@@ -14,7 +13,7 @@ print(gunStats)
 packet.shoot.OnServerInvoke = function(player, shooter, enemy, hitPart, gunName)
 	--print(gunStats)
 	if enemy:GetAttribute("Team") == "Ally" then
-		return 67
+		return 0
 	end
 
 	local damage
@@ -26,7 +25,7 @@ packet.shoot.OnServerInvoke = function(player, shooter, enemy, hitPart, gunName)
 		--print(`{player.Name} shot {enemy.Name} in the {hitPart} dealing {damage} HP using {gunName} (SERVER)`)
 	end
 	enemy.Humanoid.Health -= damage
-	return 67
+	return damage
 end
 
 return Shared

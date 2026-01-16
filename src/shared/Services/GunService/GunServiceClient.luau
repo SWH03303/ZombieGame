@@ -12,6 +12,7 @@ local player = game:GetService("Players").LocalPlayer
 local playerDataService = services:WaitForChild("PlayerDataService")
 local packages = rs:WaitForChild("Packages")
 local UserInputService = game:GetService("UserInputService")
+local keybindModule = require(modules:WaitForChild("Game"):WaitForChild("Keybind"))
 local RunService = game:GetService("RunService")
 local Janitor = require(packages:WaitForChild("Janitor"))
 local janitor = Janitor.new()
@@ -69,6 +70,27 @@ local characterAdded = function(char)
 		"Disconnect"
 	)
 
+	keybindModule.EnableContext("InGame")
+	local function changeSlotKeyPress(num: number, keycode)
+		local action = keybindModule.GetAction("InGame", `ButtonPress({num})`)
+		action.KeyboardBinding.KeyCode = keycode
+		janitor:Add(
+			action.Pressed:Connect(function()
+				print("dog")
+				if currentSlot ~= num and gun ~= nil and gun.isReloading == false then
+					loadSlot(inventory[num])
+					currentSlot = num
+					gun.aimCF = CFrame.new()
+				end
+			end),
+			"Disconnect"
+		)
+	end
+
+	changeSlotKeyPress(1, Enum.KeyCode.One)
+	changeSlotKeyPress(2, Enum.KeyCode.Two)
+	changeSlotKeyPress(3, Enum.KeyCode.Three)
+	--[[
 	janitor:Add(
 		UserInputService.InputBegan:Connect(function(input, IsTyping)
 			local function load(num)
@@ -120,7 +142,7 @@ local characterAdded = function(char)
 			end
 		end),
 		"Disconnect"
-	)
+	)]]
 
 	janitor:Add(
 		UserInputService.InputEnded:Connect(function(input)

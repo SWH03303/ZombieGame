@@ -163,18 +163,18 @@ return {
 				BackgroundColor3 = Color3.new(0.607843, 0.607843, 0.607843),
 				Position = UDim2.fromScale(100 / 1920, 500 / 1080),
 				ZIndex = 2,
-				BorderSizePixel = 8 / 70,
+				BorderSizePixel = 0 / 70,
 				BorderColor3 = Color3.new(0.494118, 0.494118, 0.494118),
-				ButtonText = "Settings",
+				ButtonText = "⚙️",
 				TextScaled = true,
-				TextColor3 = Color3.new(0.403922, 0.403922, 0.403922),
+				TextColor3 = Color3.new(0.623529, 0.623529, 0.623529),
 
 				OnEventFunction = function()
 					inner.settingsOpen:set(not peek(inner.settingsOpen))
 					--print(peek(scope.settingsOpen))
 				end,
 
-				ExtraChildren = { scope:New("UIAspectRatioConstraint")({ AspectRatio = 2 }) },
+				ExtraChildren = { scope:New("UIAspectRatioConstraint")({ AspectRatio = 1 }) },
 			}),
 			--Main Frame
 			scope:scrollingFrame({
