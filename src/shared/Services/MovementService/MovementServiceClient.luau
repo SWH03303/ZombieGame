@@ -12,9 +12,23 @@ local janitor = Janitor.new()
 local player = game:GetService("Players").LocalPlayer
 local gravityVector = game.Workspace.Gravity
 
+local playerStats = {
+	Health = 100,
+	MaxHealth = 100,
+	WalkSpeed = 20,
+	JumpHeight = 3.6,
+}
+local HiddenStats = {
+	MaxSpeed = 50,
+}
+
 local function onCharacterAdded(char: Model)
 	if char == nil then
 		return
+	end
+	local hum = char.Humanoid
+	for stat, val in playerStats do
+		hum[stat] = val
 	end
 	local hrp = char:WaitForChild("HumanoidRootPart") :: Part
 	local vectorForce = Instance.new("VectorForce", hrp)
