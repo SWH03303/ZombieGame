@@ -16,5 +16,7 @@ local pCache = partCacheModule.new(bullet, 3)
 
 vfx.CreateBulletTrail = require(vfxFold:WaitForChild("BulletTrail"))
 vfx.CreateGunMuzzle = require(vfxFold:WaitForChild("GunMuzzle"))
+vfx.EnableSpeedlines = require(vfxFold:WaitForChild("Speedlines")).EnableSpeedlines
+vfx.DisableSpeedlines = require(vfxFold:WaitForChild("Speedlines")).DisableSpeedlines
 
 return vfx
