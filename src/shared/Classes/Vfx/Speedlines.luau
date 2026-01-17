@@ -1,7 +1,5 @@
 local Shared = {}
 
-print("innit speedlines")
-
 local runService = game:GetService("RunService")
 local rs = game:GetService("ReplicatedStorage")
 local assets = rs:WaitForChild("Assets")
