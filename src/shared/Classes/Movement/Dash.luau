@@ -3,6 +3,8 @@ local Shared = {
 	CoolDown = 0.5,
 }
 
+print("innit dash")
+
 local rs = game:GetService("ReplicatedStorage")
 local shared = rs:WaitForChild("Shared")
 local assets = rs:WaitForChild("Assets")
@@ -59,10 +61,10 @@ janitor:Add(
 		slide.Parent = char.HumanoidRootPart.RootAttachment
 		slide.Attachment0 = char.HumanoidRootPart.RootAttachment
 
-		vfxService.EnableSpeedlines(char, 20)
+		vfxService.EnableSpeedlines(char, 1500)
 
-		task.delay(0.25, function()
-			vfxService.DisableSpeedlines(char)
+		task.delay(0.5, function()
+			vfxService.DisableSpeedlines()
 		end)
 		debris:AddItem(slide, 0.25)
 	end),
