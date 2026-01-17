@@ -17,7 +17,7 @@ local Keybind = {
 } :: KeybindImpl
 
 -- constant variables
-local ACTION_TEMPLATE = script.ActionTemplate
+local ACTION_TEMPLATE = game:GetService("ReplicatedStorage"):WaitForChild("Assets"):WaitForChild("ActionTemplate")
 local ALWAYS_ON_STATE = "idle" -- this state will always be on
 
 -- Private variables

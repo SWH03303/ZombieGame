@@ -70,13 +70,11 @@ local characterAdded = function(char)
 		"Disconnect"
 	)
 
-	keybindModule.EnableContext("InGame")
 	local function changeSlotKeyPress(num: number, keycode)
 		local action = keybindModule.GetAction("InGame", `ButtonPress({num})`)
 		action.KeyboardBinding.KeyCode = keycode
 		janitor:Add(
 			action.Pressed:Connect(function()
-				print("dog")
 				if currentSlot ~= num and gun ~= nil and gun.isReloading == false then
 					loadSlot(inventory[num])
 					currentSlot = num
@@ -90,69 +88,43 @@ local characterAdded = function(char)
 	changeSlotKeyPress(1, Enum.KeyCode.One)
 	changeSlotKeyPress(2, Enum.KeyCode.Two)
 	changeSlotKeyPress(3, Enum.KeyCode.Three)
-	--[[
+
+	keybindModule.EnableContext("InGame")
+
+	local mouse1 = keybindModule.GetAction("InGame", "Mouse1")
+	mouse1.KeyboardBinding.KeyCode = Enum.KeyCode.MouseLeftButton
 	janitor:Add(
-		UserInputService.InputBegan:Connect(function(input, IsTyping)
-			local function load(num)
-				loadSlot(inventory[num])
-				currentSlot = num
-				gun.aimCF = CFrame.new()
-			end
-
-			if IsTyping then
-				return
-			end
-
-			if input.KeyCode == Enum.KeyCode.One then
-				if currentSlot ~= 1 and gun ~= nil and gun.isReloading == false then
-					load(1)
-				end
-			end
-
-			if input.KeyCode == Enum.KeyCode.Two then
-				if currentSlot ~= 2 and gun ~= nil and gun.isReloading == false then
-					load(2)
-				end
-			end
-
-			if input.KeyCode == Enum.KeyCode.Three then
-				if currentSlot ~= 3 and gun ~= nil and gun.isReloading == false then
-					load(3)
-				end
-			end
-
-			if input.KeyCode == Enum.KeyCode.Four then
-				if currentSlot ~= 4 and gun ~= nil and gun.isReloading == false then
-					load(4)
-				end
-			end
-
-			if input.UserInputType == Enum.UserInputType.MouseButton2 and gun ~= nil then
-				gun.isAiming = true
-			end
-
-			if input.UserInputType == Enum.UserInputType.MouseButton1 and gun ~= nil then
-				gun:Shoot()
-			end
-
-			if input.KeyCode == Enum.KeyCode.R and gun ~= nil then
-				task.spawn(function()
-					gun:Reload()
-				end)
-			end
+		mouse1.Pressed:Connect(function()
+			gun:Shoot()
 		end),
 		"Disconnect"
-	)]]
-
+	)
 	janitor:Add(
-		UserInputService.InputEnded:Connect(function(input)
-			if input.UserInputType == Enum.UserInputType.MouseButton2 and gun ~= nil then
-				gun.isAiming = false
-			end
+		mouse1.Released:Connect(function()
+			gun.isShooting = false
+		end),
+		"Disconnect"
+	)
 
-			if input.UserInputType == Enum.UserInputType.MouseButton1 and gun ~= nil then
-				gun.isShooting = false
-			end
+	local mouse2 = keybindModule.GetAction("InGame", "Mouse2")
+	mouse2.KeyboardBinding.KeyCode = Enum.KeyCode.MouseRightButton
+	janitor:Add(
+		mouse2.Pressed:Connect(function()
+			gun.isAiming = true
+		end),
+		"Disconnect"
+	)
+	janitor:Add(
+		mouse2.Released:Connect(function()
+			gun.isAiming = false
+		end),
+		"Disconnect"
+	)
+	local reload = keybindModule.GetAction("InGame", "Reload")
+	reload.KeyboardBinding.KeyCode = Enum.KeyCode.R
+	janitor:Add(
+		reload.Pressed:Connect(function()
+			gun:Reload()
 		end),
 		"Disconnect"
 	)

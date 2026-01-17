@@ -15,3 +15,6 @@ require(uiFold:WaitForChild("UI"))
 
 local playerDataService = services:WaitForChild("PlayerDataService")
 require(playerDataService:WaitForChild("PlayerDataServiceClient"))
+
+local movementService = services:WaitForChild("MovementService")
+require(movementService:WaitForChild("MovementServiceClient"))
