@@ -24,7 +24,12 @@ local dashAction = keybindModule.GetAction("InGame", "Dash")
 dashAction.KeyboardBinding.KeyCode = Enum.KeyCode.LeftShift
 dashAction.Pressed:Connect(function()
 	local char = player.Character or player.CharacterAdded:Wait()
-	local hrp = char.HumanoidRootPart :: Part
+	local hrp = char:FindFirstChild("HumanoidRootPart") :: Part
+
+	if not hrp then
+		return
+	end
+
 	local dashSound = require(modules.Platform.CloneSound)(
 		assets:WaitForChild("Sounds"):WaitForChild("Movement"):WaitForChild("Dash"),
 		hrp
@@ -45,6 +50,7 @@ dashAction.Pressed:Connect(function()
 	local z = GetMoveVector.Z
 
 	local vectorVelocity
+
 	if (x == 0 and z == 0) or (z < -0.8) then
 		vectorVelocity = hrp.CFrame.LookVector * 65
 	elseif z > 0.8 then
