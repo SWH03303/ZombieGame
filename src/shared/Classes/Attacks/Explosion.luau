@@ -61,8 +61,6 @@ function Explosion.Knockback(self: Explosion, char: Model, power: number, durati
 				vectorVelocity = -hrp.CFrame.RightVector * power + upVector
 			end
 		else
-			print(hrp.Position)
-			print(self.hitboxCframe)
 			local direction = (hrp.Position - self.hitboxCframe.Position).Unit
 			vectorVelocity = direction * power
 		end

@@ -18,3 +18,6 @@ require(playerDataService:WaitForChild("PlayerDataServiceClient"))
 
 local movementService = services:WaitForChild("MovementService")
 require(movementService:WaitForChild("MovementServiceClient"))
+
+local attackService = services:WaitForChild("AttacksService")
+require(attackService:WaitForChild("AttackServiceClient"))

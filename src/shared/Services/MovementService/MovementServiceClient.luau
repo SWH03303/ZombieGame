@@ -20,7 +20,7 @@ local playerStats = {
 	JumpHeight = 3.6,
 }
 local HiddenStats = {
-	MaxSpeed = 50,
+	MaxSpeed = 80,
 	MaxFallSpeed = -40,
 }
 
@@ -40,14 +40,17 @@ function movementService.AddSpeed(char: Model, value: number, duration: number, 
 		updateSpeed()
 
 		if airBoost then
-			local c
-			c = hum:GetPropertyChangedSignal("FloorMaterial"):Connect(function(material)
-				if material ~= Enum.Material.Air then
-					rawSpeed -= value
-					updateSpeed()
-					print(hum.WalkSpeed)
-					c:Disconnect() ------------------------FIX DIS PLS
-				end
+			task.spawn(function()
+				task.wait(0.25)
+				local c
+				c = hum:GetPropertyChangedSignal("FloorMaterial"):Connect(function(material)
+					if material ~= Enum.Material.Air then
+						rawSpeed -= value
+						updateSpeed()
+						c:Disconnect()
+					end
+				end)
+				janitor:Add(c, "Disconnect")
 			end)
 		else
 			task.delay(duration, function()
@@ -55,8 +58,6 @@ function movementService.AddSpeed(char: Model, value: number, duration: number, 
 				updateSpeed()
 			end)
 		end
-
-		print(hum.WalkSpeed)
 	end
 end
 packets.addSpeed.OnClientEvent:Connect(function(speed, duration, airboost)

@@ -6,6 +6,7 @@ local assets = rs:WaitForChild("Assets")
 local speedlines = assets:WaitForChild("Vfx"):WaitForChild("Speedlines"):Clone() :: Part
 local camera = game.Workspace.CurrentCamera
 speedlines.Parent = camera
+speedlines.Position = Vector3.new(0, -500, 0)
 
 local offset = 10
 
