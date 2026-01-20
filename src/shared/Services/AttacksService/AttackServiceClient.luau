@@ -1,0 +1,3 @@
+local AttackServiceClient = {}
+
+return AttackServiceClient

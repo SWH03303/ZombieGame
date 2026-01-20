@@ -7,7 +7,7 @@ local shared = rs:WaitForChild("Shared")
 local modules = shared:WaitForChild("Modules")
 local services = shared:WaitForChild("Services")
 local packages = rs:WaitForChild("Packages")
---local movementService = require(services:WaitForChild("MovementService"):WaitForChild("MovementServiceClient"))
+local packets = require(modules:WaitForChild("Core"):WaitForChild("Packets"))
 local Hitbox = require(packages:WaitForChild("Hitbox"))
 local applyKnockback = require(modules:WaitForChild("Game"):WaitForChild("Applyknockback"))
 
@@ -45,7 +45,6 @@ function Explosion.Knockback(self: Explosion, char: Model, power: number, durati
 	local upVector = hrp.CFrame.UpVector * power
 	local vectorVelocity = hrp.CFrame.LookVector * power + upVector
 	if player then
-		--movementService.AddSpeed(char, power / 3, 0, true)
 		if hum.FloorMaterial == Enum.Material.Air then
 			local moveDir = hum.MoveDirection
 			local localDir = hrp.CFrame:VectorToObjectSpace(moveDir)
@@ -72,6 +71,10 @@ function Explosion.Knockback(self: Explosion, char: Model, power: number, durati
 		--uhh
 	end
 	applyKnockback(hrp.RootAttachment, vectorVelocity, Vector3.new(40000, 40000, 40000), duration)
+end
+
+function Explosion.AddSpeed(player: Player, speedIncrease: number, duration: number, airboost: boolean)
+	packets.addSpeed:FireClient(player, speedIncrease, duration, airboost)
 end
 
 return Explosion

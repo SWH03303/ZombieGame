@@ -19,6 +19,7 @@ while true do
 			local humanoid = char:FindFirstChildOfClass("Humanoid")
 			humanoid:TakeDamage(10)
 			Explosion.Knockback(explosion, char, 100, 0.25)
+			Explosion.AddSpeed(players:GetPlayerFromCharacter(char), 100, 0, true)
 		end
 	end)
 	task.wait(1)

@@ -5,6 +5,7 @@ local rs = game:GetService("ReplicatedStorage")
 local shared = rs:WaitForChild("Shared")
 local movementClass = shared:WaitForChild("Classes"):WaitForChild("Movement")
 local modules = shared:WaitForChild("Modules")
+local packets = require(modules:WaitForChild("Core"):WaitForChild("Packets"))
 local keybindModule = require(modules:WaitForChild("Game"):WaitForChild("Keybind"))
 local runService = game:GetService("RunService")
 local Janitor = require(rs:WaitForChild("Packages"):WaitForChild("Janitor"))
@@ -44,7 +45,8 @@ function movementService.AddSpeed(char: Model, value: number, duration: number, 
 				if material ~= Enum.Material.Air then
 					rawSpeed -= value
 					updateSpeed()
-					c:Disconnect()
+					print(hum.WalkSpeed)
+					c:Disconnect() ------------------------FIX DIS PLS
 				end
 			end)
 		else
@@ -53,8 +55,16 @@ function movementService.AddSpeed(char: Model, value: number, duration: number, 
 				updateSpeed()
 			end)
 		end
+
+		print(hum.WalkSpeed)
 	end
 end
+packets.addSpeed.OnClientEvent:Connect(function(speed, duration, airboost)
+	local char = player.Character
+	if char then
+		movementService.AddSpeed(char, speed, duration, airboost)
+	end
+end)
 
 local function onCharacterAdded(char: Model)
 	if char == nil then
@@ -74,7 +84,7 @@ local function onCharacterAdded(char: Model)
 		runService.RenderStepped:Connect(function(dt)
 			local vel = hrp.AssemblyLinearVelocity
 			local y = vel.Y
-			local SMOOTH = HiddenStats.MaxFallSpeed * -2 / 3
+			local SMOOTH = -HiddenStats.MaxFallSpeed
 			if y < HiddenStats.MaxFallSpeed then
 				local targetY = HiddenStats.MaxFallSpeed
 				local newY = y + (targetY - y) * math.clamp(SMOOTH * dt, 0, 1)
