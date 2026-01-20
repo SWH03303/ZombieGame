@@ -5,12 +5,15 @@ local players = game:GetService("Players")
 local rs = game:GetService("ReplicatedStorage")
 local shared = rs:WaitForChild("Shared")
 local modules = shared:WaitForChild("Modules")
+local services = shared:WaitForChild("Services")
 local packages = rs:WaitForChild("Packages")
+--local movementService = require(services:WaitForChild("MovementService"):WaitForChild("MovementServiceClient"))
 local Hitbox = require(packages:WaitForChild("Hitbox"))
 local applyKnockback = require(modules:WaitForChild("Game"):WaitForChild("Applyknockback"))
 
 export type Explosion = {
 	hitbox: typeof(Hitbox.new()),
+	hitboxCframe: CFrame,
 }
 
 function Explosion.new(size: Vector3, cframe: CFrame, debug: boolean, lifeTime: number): Explosion
@@ -25,6 +28,7 @@ function Explosion.new(size: Vector3, cframe: CFrame, debug: boolean, lifeTime: 
 	hitbox:Start()
 
 	self.hitbox = hitbox
+	self.hitboxCframe = cframe
 
 	return self
 end
@@ -41,6 +45,7 @@ function Explosion.Knockback(self: Explosion, char: Model, power: number, durati
 	local upVector = hrp.CFrame.UpVector * power
 	local vectorVelocity = hrp.CFrame.LookVector * power + upVector
 	if player then
+		--movementService.AddSpeed(char, power / 3, 0, true)
 		if hum.FloorMaterial == Enum.Material.Air then
 			local moveDir = hum.MoveDirection
 			local localDir = hrp.CFrame:VectorToObjectSpace(moveDir)
@@ -57,7 +62,10 @@ function Explosion.Knockback(self: Explosion, char: Model, power: number, durati
 				vectorVelocity = -hrp.CFrame.RightVector * power + upVector
 			end
 		else
-			vectorVelocity = -hrp.CFrame.RightVector * power
+			print(hrp.Position)
+			print(self.hitboxCframe)
+			local direction = (hrp.Position - self.hitboxCframe.Position).Unit
+			vectorVelocity = direction * power
 		end
 	else
 		print("fling npc")

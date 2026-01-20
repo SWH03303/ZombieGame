@@ -18,7 +18,7 @@ while true do
 		for _, char in ipairs(hitCharacters) do
 			local humanoid = char:FindFirstChildOfClass("Humanoid")
 			humanoid:TakeDamage(10)
-			Explosion:Knockback(char, 300, 0.25)
+			Explosion.Knockback(explosion, char, 100, 0.25)
 		end
 	end)
 	task.wait(1)

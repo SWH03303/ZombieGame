@@ -36,7 +36,7 @@ end
 
 function Shared.Stop()
 	runService:UnbindFromRenderStep("Speedlines")
-	speedlines.Position = speedlines.Position - Vector3.new(0, 100, 0)
+	speedlines.Position = speedlines.Position - Vector3.new(0, 500, 0)
 end
 
 return Shared
