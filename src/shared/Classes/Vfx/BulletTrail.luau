@@ -1,7 +1,8 @@
 local rs = game:GetService("ReplicatedStorage")
 local partCacheModule = require(rs:WaitForChild("Packages"):WaitForChild("PartCache"))
 local bullet = rs:WaitForChild("Assets"):WaitForChild("Vfx"):WaitForChild("Bullet")
-local pCache = partCacheModule.new(bullet, 3, workspace.Projectiles)
+local pCache = partCacheModule.new(bullet, 2, workspace.Projectiles)
+--print("create bullets")
 
 local theme = {
 	Yellow = {

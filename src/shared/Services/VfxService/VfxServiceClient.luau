@@ -11,9 +11,6 @@ local partCacheModule = require(rs:WaitForChild("Packages"):WaitForChild("PartCa
 
 local vfx = {}
 
-local bullet = rs:WaitForChild("Assets"):WaitForChild("Vfx"):WaitForChild("Bullet")
-local pCache = partCacheModule.new(bullet, 3)
-
 vfx.CreateBulletTrail = require(vfxFold:WaitForChild("BulletTrail"))
 vfx.CreateGunMuzzle = require(vfxFold:WaitForChild("GunMuzzle"))
 vfx.EnableSpeedlines = require(vfxFold:WaitForChild("Speedlines")).Start

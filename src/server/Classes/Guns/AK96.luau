@@ -11,7 +11,7 @@ local sharedClasses = shared.Classes
 local attacks = sharedClasses.Attacks
 local projectile = require(attacks.Projectile)
 local partCacheModule = require(rs:WaitForChild("Packages"):WaitForChild("PartCache"))
-local pCache = partCacheModule.new(assets.Vfx.Ball, 3)
+local pCache = partCacheModule.new(assets.Vfx.Ball, 2, workspace.Projectiles)
 
 export type abilityInfo = {
 	cframe: CFrame,
@@ -32,7 +32,7 @@ packets.useAbility.OnServerEvent:Connect(function(player: Player, info: abilityI
 		local function onHit(bullet)
 			for _, p in pairs(pCache.InUse) do
 				if p == bullet then
-					local explosion = Explosion.new(Vector3.new(20, 20, 20), CFrame.new(bullet.Position), true, 0.5)
+					local explosion = Explosion.new(Vector3.new(20, 20, 20), CFrame.new(bullet.Position), true, 0.25)
 
 					explosion.hitbox.OnHit:Once(function(hitCharacters)
 						for _, hitChar in ipairs(hitCharacters) do
