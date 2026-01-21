@@ -7,7 +7,7 @@ realm = "shared"
 [dependencies]
 Promise = "evaera/promise@4.0.0"
 Fusion = "elttob/fusion@0.3.0"
-PartCache = "andremhpra/partcache@1.0.0"
+PartCache = "4igz/partcache@1.0.1"
 TableUtil = "sleitnick/table-util@1.2.1"
 ProfileStore = "detourious/loleris-profilestore@1.0.0"
 Janitor = "howmanysmall/janitor@1.18.3"

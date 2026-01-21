@@ -67,14 +67,16 @@ function AK96.New(char): typeof(AK96)
 
 	self.viewmodel = viewModel
 
-	local cd = 1
+	local cd = self.Ability1CD
 	local canuse = true
 	self.Ability1 = function()
 		if not canuse then
 			return
 		end
 
-		packets.useAbility:Fire({ hrp.CFrame })
+		self.fireAnim:Play(0)
+		local pos = self.viewmodel.Launcher.Attachment.WorldPosition
+		packets.useAbility:Fire({ position = pos, direction = self.camera.CFrame.LookVector, power = 75 })
 		print("AK96 skill 1 used")
 
 		canuse = false
