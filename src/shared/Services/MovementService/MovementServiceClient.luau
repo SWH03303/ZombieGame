@@ -28,7 +28,8 @@ local rawSpeed = playerStats.WalkSpeed
 function movementService.AddSpeed(char: Model, value: number, duration: number, airBoost: boolean)
 	local hum = char.Humanoid :: Humanoid
 
-	local function updateSpeed()
+	local function updateSpeed() -- FIX TS PLS PLS PLS
+		print(rawSpeed)
 		if rawSpeed > HiddenStats.MaxSpeed then
 			hum.WalkSpeed = HiddenStats.MaxSpeed
 		else

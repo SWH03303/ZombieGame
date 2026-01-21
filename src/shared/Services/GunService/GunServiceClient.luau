@@ -142,7 +142,7 @@ local characterAdded = function(char)
 		currentSlot = 1
 		janitor:Cleanup()
 		for _, gun in pairs(loadedGun) do
-			gun:Destroy()
+			print("Destroy guns")
 		end
 		loadedGun = {}
 		gun = nil

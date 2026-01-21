@@ -81,6 +81,7 @@ local SHAPE = {
 	AimSpread = 0.01,
 	ADSmultiplier = 1.5,
 	BulletTheme = "Yellow",
+	janitor = typeof(Janitor.new()),
 }
 
 export type Gun = typeof(SHAPE)

@@ -28,6 +28,8 @@ function Projectile.NewSimpleCaster(
 	local caster = fastcast.new()
 	local behavior = fastcast.newBehavior()
 
+	print("New CASTER") -- ADD A WAY TO DELETE CASTER WHEN PLAYER LEAVES
+
 	local params = RaycastParams.new()
 	params.FilterType = Enum.RaycastFilterType.Include
 	params.FilterDescendantsInstances = Filter

@@ -29,12 +29,12 @@ packets.useAbility.OnServerEvent:Connect(function(player: Player, info: abilityI
 	local hrp = char.HumanoidRootPart :: Part
 
 	if caster == nil then
-		function onHit(bullet)
+		local function onHit(bullet)
 			for _, p in pairs(pCache.InUse) do
 				if p == bullet then
 					local explosion = Explosion.new(Vector3.new(20, 20, 20), CFrame.new(bullet.Position), true, 0.5)
 
-					explosion.hitbox.OnHit:Connect(function(hitCharacters)
+					explosion.hitbox.OnHit:Once(function(hitCharacters)
 						for _, hitChar in ipairs(hitCharacters) do
 							local hitPlayer = players:GetPlayerFromCharacter(hitChar)
 							local humanoid = hitChar:FindFirstChildOfClass("Humanoid")
@@ -57,5 +57,9 @@ packets.useAbility.OnServerEvent:Connect(function(player: Player, info: abilityI
 
 	projectile.Fire(caster, info.position, info.direction, info.power)
 end)
+
+function AK96:Destroy()
+	print("ak destroyed")
+end
 
 return AK96
