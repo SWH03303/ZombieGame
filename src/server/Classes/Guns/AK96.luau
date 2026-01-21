@@ -22,6 +22,8 @@ export type abilityInfo = {
 
 local caster = nil
 
+local Explosion = require(attacks.Explosion)
+
 packets.useAbility.OnServerEvent:Connect(function(player: Player, info: abilityInfo)
 	local char = player.Character
 	local hrp = char.HumanoidRootPart :: Part
@@ -30,6 +32,20 @@ packets.useAbility.OnServerEvent:Connect(function(player: Player, info: abilityI
 		function onHit(bullet)
 			for _, p in pairs(pCache.InUse) do
 				if p == bullet then
+					local explosion = Explosion.new(Vector3.new(20, 20, 20), CFrame.new(bullet.Position), true, 0.5)
+
+					explosion.hitbox.OnHit:Connect(function(hitCharacters)
+						for _, hitChar in ipairs(hitCharacters) do
+							local hitPlayer = players:GetPlayerFromCharacter(hitChar)
+							local humanoid = hitChar:FindFirstChildOfClass("Humanoid")
+							humanoid:TakeDamage(10)
+							Explosion.Knockback(explosion, hitChar, 100, 0.25)
+							if hitPlayer then
+								Explosion.AddSpeed(hitPlayer, 100, 0, true)
+							end
+						end
+					end)
+
 					pCache:ReturnPart(bullet)
 					return
 				end

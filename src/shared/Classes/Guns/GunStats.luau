@@ -14,7 +14,7 @@ gunStats["Toxic Spas"] = {
 	BulletTheme = "Green",
 	Spread = 0.05,
 	AimSpread = 0.05,
-	Ability1CD = 1,
+	Ability1CD = 0.1,
 }
 
 gunStats.Glock = {
@@ -29,7 +29,7 @@ gunStats.Glock = {
 	ReloadTime = 1.5,
 	Spread = 0.01,
 	AimSpread = 0.005,
-	Ability1CD = 1,
+	Ability1CD = 0.1,
 }
 
 gunStats.AK96 = {
@@ -45,7 +45,7 @@ gunStats.AK96 = {
 	ReloadTime = 2,
 	Spread = 0.015,
 	AimSpread = 0.005,
-	Ability1CD = 1,
+	Ability1CD = 0.1,
 }
 
 return gunStats

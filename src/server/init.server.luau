@@ -10,6 +10,7 @@ local Hitbox = require(ReplicatedStorage.Packages.Hitbox)
 local playerDataService = require(script.Services.PlayerDataService.PlayerDataServiceServer)
 local gunService = require(script.Services.GunService.GunServiceServer)
 
+--[[
 local Explosion = require(game.ReplicatedStorage.Shared.Classes.Attacks.Explosion)
 while true do
 	local explosion = Explosion.new(Vector3.new(10, 10, 10), workspace.HitboxTest.CFrame, true, 0.5)
@@ -23,4 +24,4 @@ while true do
 		end
 	end)
 	task.wait(1)
-end
+end]]
