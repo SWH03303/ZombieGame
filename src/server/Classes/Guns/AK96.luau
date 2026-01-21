@@ -28,7 +28,13 @@ packets.useAbility.OnServerEvent:Connect(function(player: Player, info: abilityI
 
 	if caster == nil then
 		function onHit(bullet)
-			pCache:ReturnPart(bullet)
+			for _, p in pairs(pCache.InUse) do
+				if p == bullet then
+					pCache:ReturnPart(bullet)
+					return
+				end
+			end
+			return
 		end
 		caster = projectile.NewSimpleCaster(onHit, pCache, 100, Vector3.new(0, -50, 0), workspace.Projectiles, { char })
 	end

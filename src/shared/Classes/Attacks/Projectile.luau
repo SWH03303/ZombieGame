@@ -59,9 +59,7 @@ function Projectile.NewSimpleCaster(
 	)
 
 	caster.CastTerminating:Connect(function(activeCast)
-		--print(activeCast)
-
-		--onHit(activeCast.RayInfo.CosmeticBulletObject)
+		onHit(activeCast.RayInfo.CosmeticBulletObject)
 	end)
 
 	self.caster = caster

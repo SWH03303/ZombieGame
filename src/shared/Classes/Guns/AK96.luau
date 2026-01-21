@@ -77,7 +77,6 @@ function AK96.New(char): typeof(AK96)
 		self.fireAnim:Play(0)
 		local pos = self.viewmodel.Launcher.Attachment.WorldPosition
 		packets.useAbility:Fire({ position = pos, direction = self.camera.CFrame.LookVector, power = 75 })
-		print("AK96 skill 1 used")
 
 		canuse = false
 		task.delay(cd, function()
