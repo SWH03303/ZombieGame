@@ -23,11 +23,6 @@ local packet = require(modules:WaitForChild("Core"):WaitForChild("Packets"))
 local janitor = Janitor.new()
 local playerSettings = require(playerDataService:WaitForChild("PlayerDataServiceClient")).playerSettingsData
 
-function Gun:Init()
-	--
-	return true
-end
-
 local camera = game.Workspace.CurrentCamera
 local originalFOV = playerSettings.fieldOfView
 local cameraZoomEffect = playerSettings.cameraZoomEffect
@@ -70,7 +65,27 @@ function Gun:GetViewModel(name, camera)
 	return
 end
 
-function Gun.New(char)
+local SHAPE = {
+	Damage = 10,
+	CritDamage = 15,
+	Auto = false,
+	Burst = 0,
+	BurstDelay = 0,
+	MultiShot = 1,
+	Ammo = 10,
+	MaxAmmo = 10,
+	Capacity = 100,
+	FireRate = 0.15,
+	ReloadTime = 2,
+	Spread = 0.02,
+	AimSpread = 0.01,
+	ADSmultiplier = 1.5,
+	BulletTheme = "Yellow",
+}
+
+export type Gun = typeof(SHAPE)
+
+function Gun.New(char): Gun
 	local hum = char:WaitForChild("Humanoid")
 	local hrp = char.HumanoidRootPart
 	local player = Players:GetPlayerFromCharacter(char)

@@ -13,6 +13,9 @@ Packets.updateSettingsAlert = packet("updateSettingsAlert")
 Packets.shoot = packet("shoot", packet.Any, packet.Any, packet.String, packet.String):Response(packet.NumberS16) --Shooter/enemy/hitPart/gunName: response damage dealt
 
 Packets.addSpeed = packet("addSpeed", packet.NumberS8, packet.NumberF24, packet.Boolean8) -- SpeedAdd, duration, airBoost?
+
+Packets.useAbility = packet("useAbility", packet.Any) -- info
+
 return Packets
 
 --[[

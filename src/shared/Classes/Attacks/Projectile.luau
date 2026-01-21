@@ -9,7 +9,7 @@ local packages = rs:WaitForChild("Packages")
 local packets = require(modules:WaitForChild("Core"):WaitForChild("Packets"))
 local fastcast = require(packages:WaitForChild("Fastcastredux"))
 
-function Projectile.NewCaster()
+function Projectile.NewCaster() --TRY to make the module handle all the fastcast work!
 	local caster = fastcast.new()
 	local behavior = fastcast.newBehavior()
 

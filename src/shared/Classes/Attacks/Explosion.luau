@@ -40,7 +40,7 @@ function Explosion.Knockback(self: Explosion, char: Model, power: number, durati
 		warn("Explosion Knockback couldnt load some instances")
 	end
 
-	local player = players:GetPlayerFromCharacter(char)
+	local player = players:GetPlayerFromCharacter(char) or players.LocalPlayer
 
 	local upVector = hrp.CFrame.UpVector * power
 	local vectorVelocity = hrp.CFrame.LookVector * power + upVector

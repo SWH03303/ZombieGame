@@ -37,7 +37,7 @@ function Glock.New(char)
 
 	self.fireSound = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneSound"))(
-			assets:WaitForChild("Sounds"):WaitForChild("Glock"):WaitForChild("Fire"),
+			assets:WaitForChild("Sounds"):WaitForChild("Glock"):WaitForChild("GlockFire"),
 			hrp
 		),
 		"Destroy"

@@ -56,7 +56,7 @@ function loadSlot(Item)
 end
 
 local characterAdded = function(char)
-	local hum = char:WaitForChild("Humanoid")
+	local hum = char:WaitForChild("Humanoid") :: Humanoid
 
 	createGuns(char)
 	loadSlot(inventory[currentSlot])
@@ -129,15 +129,24 @@ local characterAdded = function(char)
 		"Disconnect"
 	)
 
+	local ability1 = keybindModule.GetAction("InGame", "Ability1")
+	ability1.KeyboardBinding.KeyCode = Enum.KeyCode.E
 	janitor:Add(
-		hum.Died:Connect(function()
-			currentSlot = 1
-			janitor:Cleanup()
-			loadedGun = {}
-			gun = nil
+		ability1.Pressed:Connect(function()
+			gun.Ability1()
 		end),
 		"Disconnect"
 	)
+
+	hum.Died:Once(function()
+		currentSlot = 1
+		janitor:Cleanup()
+		for _, gun in pairs(loadedGun) do
+			gun:Destroy()
+		end
+		loadedGun = {}
+		gun = nil
+	end)
 end
 
 player.CharacterAdded:Connect(characterAdded)

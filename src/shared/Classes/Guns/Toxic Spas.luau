@@ -37,7 +37,7 @@ function ToxicSpas.New(char)
 
 	self.fireSound = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneSound"))(
-			assets:WaitForChild("Sounds"):WaitForChild("Toxic Spas"):WaitForChild("Fire"),
+			assets:WaitForChild("Sounds"):WaitForChild("Toxic Spas"):WaitForChild("ToxicSpasFire"),
 			hrp
 		),
 		"Destroy"

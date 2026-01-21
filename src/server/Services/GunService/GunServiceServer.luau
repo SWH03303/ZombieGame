@@ -1,12 +1,16 @@
 local rs = game:GetService("ReplicatedStorage")
+local sss = game:GetService("ServerScriptService")
 local shared = rs.Shared
 local modules = shared.Modules
 local class = shared.Classes
 local guns = class.Guns
+local serverClasses = sss.Server.Classes
+local gunsServer = serverClasses.Guns
 local packet = require(modules.Core.Packets)
 
 local Shared = {}
 
+require(gunsServer.AK96)
 local gunStats = require(guns.GunStats)
 print(gunStats)
 
