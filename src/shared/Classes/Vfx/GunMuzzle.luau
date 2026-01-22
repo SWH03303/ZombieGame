@@ -1,5 +1,4 @@
 local rs = game:GetService("ReplicatedStorage")
-local partCacheModule = require(rs:WaitForChild("Packages"):WaitForChild("PartCache"))
 local muzzle = rs:WaitForChild("Assets"):WaitForChild("Vfx"):WaitForChild("GunMuzzle")
 
 local theme = {
