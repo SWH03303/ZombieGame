@@ -62,7 +62,7 @@ dashAction.Pressed:Connect(function()
 	end
 
 	applyKnockback(hrp.RootAttachment, vectorVelocity, Vector3.new(40000, 0, 40000), 0.25)
-	vfxService.EnableSpeedlines(char, 1500, game.Workspace.CurrentCamera.FieldOfView)
+	vfxService.EnableSpeedlines(char, 800, game.Workspace.CurrentCamera.FieldOfView)
 
 	task.delay(0.5, function()
 		vfxService.DisableSpeedlines()

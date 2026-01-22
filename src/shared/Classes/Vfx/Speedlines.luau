@@ -28,9 +28,19 @@ function Shared.Start(char: Model, rate: number, fov: number)
 	end
 
 	task.spawn(function()
-		runService:BindToRenderStep("Speedlines", Enum.RenderPriority.Camera.Value, function()
+		local elapsed = 0
+		local WAIT_TIME = 0.01
+		runService:BindToRenderStep("Speedlines", Enum.RenderPriority.Camera.Value, function(dt: number)
 			speedlines.CFrame = camera.CFrame + camera.CFrame.LookVector * (offset / (camera.FieldOfView / fov))
-			speedlines.Attachment.ParticleEmitter.Rate = rate
+
+			local GraphicsLevel = UserSettings().GameSettings.SavedQualityLevel.Value
+			speedlines.Attachment.ParticleEmitter.Rate = rate * 10 / GraphicsLevel
+
+			elapsed += dt
+			if elapsed >= WAIT_TIME then
+				elapsed = 0
+				speedlines.Attachment.ParticleEmitter:Emit(rate / 100)
+			end
 		end)
 	end)
 end
