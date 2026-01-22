@@ -13,6 +13,7 @@ Shared.DEFAULT_PLAYER_DATA = {
 		enableTexture = { Value = true },
 		damageNumber = { Value = true },
 		hideMuzzle = { Value = false },
+		potatoMode = { Value = false },
 	},
 }
 

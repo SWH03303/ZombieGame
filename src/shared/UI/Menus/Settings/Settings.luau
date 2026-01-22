@@ -39,6 +39,7 @@ local inner = {
 	enableTexture = { Value = scope:Value(true) },
 	damageNumber = { Value = scope:Value(true) },
 	hideMuzzle = { Value = scope:Value(false) },
+	potatoMode = { Value = scope:Value(false) },
 	content = {
 		{ "topSectionComponent", "Sound" },
 		{ "sliderComponent", "Master volume", "masterVolume" },
@@ -53,6 +54,7 @@ local inner = {
 		{ "yesNoComponent", "Enable Texture", "enableTexture" },
 		{ "yesNoComponent", "Show damage number", "damageNumber" },
 		{ "yesNoComponent", "Hide muzzle effect", "hideMuzzle" },
+		{ "yesNoComponent", "Potato mode", "potatoMode" },
 
 		{ "topSectionComponent", "Control" },
 	},
