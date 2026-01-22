@@ -25,42 +25,42 @@ local HiddenStats = {
 }
 
 local rawSpeed = playerStats.WalkSpeed
+local airSpeed = 0
+
+local function updateSpeed(hum: Humanoid)
+	if rawSpeed + airSpeed > HiddenStats.MaxSpeed then
+		hum.WalkSpeed = HiddenStats.MaxSpeed
+	else
+		hum.WalkSpeed = rawSpeed + airSpeed
+	end
+end
 function movementService.AddSpeed(char: Model, value: number, duration: number, airBoost: boolean)
 	local hum = char.Humanoid :: Humanoid
 
-	local function updateSpeed() -- FIX TS PLS PLS PLS
-		print(rawSpeed)
-		if rawSpeed > HiddenStats.MaxSpeed then
-			hum.WalkSpeed = HiddenStats.MaxSpeed
-		else
-			hum.WalkSpeed = rawSpeed
-		end
-	end
 	if hum then
-		rawSpeed += value
-		updateSpeed()
-
 		if airBoost then
-			task.spawn(function()
-				task.wait(0.25)
-				local c
-				c = hum:GetPropertyChangedSignal("FloorMaterial"):Connect(function(material)
-					if material ~= Enum.Material.Air then
-						rawSpeed -= value
-						updateSpeed()
-						c:Disconnect()
+			if hum.FloorMaterial == Enum.Material.Air then
+				airSpeed += value
+				updateSpeed(hum)
+			else
+				task.delay(0.1, function()
+					if hum.FloorMaterial == Enum.Material.Air then
+						airSpeed += value
+						updateSpeed(hum)
 					end
 				end)
-				janitor:Add(c, "Disconnect")
-			end)
+			end
 		else
+			rawSpeed += value
+			updateSpeed(hum)
 			task.delay(duration, function()
 				rawSpeed -= value
-				updateSpeed()
+				updateSpeed(hum)
 			end)
 		end
 	end
 end
+
 packets.addSpeed.OnClientEvent:Connect(function(speed, duration, airboost)
 	local char = player.Character
 	if char then
@@ -99,6 +99,13 @@ local function onCharacterAdded(char: Model)
 
 	local dash = require(movementClass:WaitForChild("Dash"))
 	dash.CoolDown = 1
+
+	janitor:Add(hum:GetPropertyChangedSignal("FloorMaterial"):Connect(function(material)
+		if material ~= Enum.Material.Air then
+			airSpeed = 0
+			updateSpeed(hum)
+		end
+	end))
 
 	hum.Died:Once(function()
 		janitor:Cleanup()
