@@ -14,6 +14,7 @@ export type fastcastType = typeof(fastcast.new())
 export type SimpleCaster = {
 	caster: typeof(fastcast.new()),
 	behavior: typeof(fastcast.newBehavior()),
+	lastFired: Instance,
 }
 function Projectile.NewSimpleCaster(
 	onHit,
@@ -39,6 +40,8 @@ function Projectile.NewSimpleCaster(
 	behavior.AutoIgnoreContainer = true
 	behavior.CosmeticBulletProvider = BulletProvider
 	behavior.CosmeticBulletContainer = BulletContainer or workspace.Projectiles
+
+	self.lastFired = nil
 
 	caster.LengthChanged:Connect(
 		function(
@@ -70,20 +73,7 @@ function Projectile.NewSimpleCaster(
 end
 
 function Projectile.Fire(self: SimpleCaster, originalPos: Vector3, direction: Vector3, power: number)
-	--[[
-	local goalpos = workspace.ProjectileTest.CFrame * CFrame.new(0, 0, -20)
-	local dir = (goalpos.Position - workspace.ProjectileTest.Position).Unit]]
 	self.caster:Fire(originalPos, direction, power, self.behavior)
 end
-
---[[
-task.spawn(function()
-		task.wait(1)
-		while true do
-			task.wait(0.2)
-			
-		end
-	end)
-]]
 
 return Projectile

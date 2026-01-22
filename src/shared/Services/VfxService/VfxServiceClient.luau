@@ -15,5 +15,6 @@ vfx.CreateBulletTrail = require(vfxFold:WaitForChild("BulletTrail"))
 vfx.CreateGunMuzzle = require(vfxFold:WaitForChild("GunMuzzle"))
 vfx.EnableSpeedlines = require(vfxFold:WaitForChild("Speedlines")).Start
 vfx.DisableSpeedlines = require(vfxFold:WaitForChild("Speedlines")).Stop
+vfx.ExplosionVFX = require(vfxFold:WaitForChild("ExplosionVFX"))
 
 return vfx

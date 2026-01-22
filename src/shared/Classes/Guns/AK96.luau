@@ -5,6 +5,7 @@ local shared = rs:WaitForChild("Shared")
 local modules = shared:WaitForChild("Modules")
 local services = shared:WaitForChild("Services")
 local Janitor = require(packages:WaitForChild("Janitor"))
+local partCacheModule = require(packages:WaitForChild("PartCache"))
 
 local platformModules = modules:WaitForChild("Platform")
 
@@ -13,6 +14,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local packets = require(modules:WaitForChild("Core"):WaitForChild("Packets"))
 local gunBase = require(script.Parent.GunBase) --serviceLoader:GetService("GunBase")
 local gunStats = require(script.Parent.GunStats)
+local projectile = require(shared:WaitForChild("Classes"):WaitForChild("Attacks"):WaitForChild("Projectile"))
+local explosionVFX = require(shared:WaitForChild("Classes"):WaitForChild("Vfx"):WaitForChild("ExplosionVFX"))
 
 local AK96 = {}
 AK96.__index = AK96
@@ -76,7 +79,12 @@ function AK96.New(char): typeof(AK96)
 
 		self.fireAnim:Play(0)
 		local pos = self.viewmodel.Launcher.Attachment.WorldPosition
-		packets.useAbility:Fire({ position = pos, direction = self.camera.CFrame.LookVector, power = 75 })
+		packets.useAbility:Fire({
+			name = "AK96Ability1",
+			position = pos,
+			direction = self.camera.CFrame.LookVector,
+			power = 75,
+		})
 
 		canuse = false
 		task.delay(cd, function()
@@ -86,5 +94,37 @@ function AK96.New(char): typeof(AK96)
 
 	return self
 end
+
+local caster = nil
+local ball = assets:WaitForChild("Projectiles"):WaitForChild("Ball")
+local pCache = partCacheModule.new(ball, 2, workspace.Projectiles)
+packets.useAbility.OnClientEvent:Connect(function(info)
+	if info.name ~= "AK96Ability1" then
+		return
+	end
+	local player = Players.LocalPlayer
+	local char = player.Character
+	local emiter = nil
+
+	if caster == nil then
+		local function onHit(bullet: Part)
+			for _, p in pairs(pCache.InUse) do
+				if p == bullet then
+					explosionVFX.DisableSparklingTrail(bullet.Attachment)
+					explosionVFX.CreateExplosion(bullet.Position, "Yellow")
+					pCache:ReturnPart(bullet)
+					return
+				end
+			end
+			return
+		end
+		caster = projectile.NewSimpleCaster(onHit, pCache, 250, Vector3.new(0, -50, 0), workspace.Projectiles, { char })
+	end
+
+	projectile.Fire(caster, info.position, info.direction, info.power)
+	caster.caster.LengthChanged:Once(function(_, _, _, _, _, cosmeticBulletObject: Instance)
+		explosionVFX.CreateSparklingTrail(cosmeticBulletObject.Attachment, "Yellow")
+	end)
+end)
 
 return AK96
