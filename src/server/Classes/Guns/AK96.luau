@@ -38,7 +38,7 @@ packets.useAbility.OnServerEvent:Connect(function(player: Player, info: abilityI
 				if p == bullet then
 					local explosion = Explosion.new(Vector3.new(40, 40, 40), CFrame.new(bullet.Position), false, 0.25)
 
-					explosion.hitbox.OnHit:Once(function(hitCharacters)
+					explosion.hitbox.OnHit:Once(function(hitCharacters) --FIX HIT BOX HITTING OTHER HITBOXES NGERS
 						for _, hitChar in ipairs(hitCharacters) do
 							local hitPlayer = players:GetPlayerFromCharacter(hitChar)
 							local humanoid = hitChar:FindFirstChildOfClass("Humanoid")

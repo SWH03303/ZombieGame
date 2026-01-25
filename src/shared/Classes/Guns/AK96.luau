@@ -59,6 +59,11 @@ function AK96.New(char): typeof(AK96)
 		"Destroy"
 	)
 
+	self.ability1ShootSound = require(platformModules:WaitForChild("CloneSound"))(
+		assets:WaitForChild("Sounds"):WaitForChild("AK96"):WaitForChild("MollyShootSound"),
+		hrp
+	)
+
 	self.reloadAnim = self.janitor:Add(
 		require(platformModules:WaitForChild("CloneAnimation"))(
 			"rbxassetid://96834634609369",
@@ -72,12 +77,13 @@ function AK96.New(char): typeof(AK96)
 
 	local cd = self.Ability1CD
 	local canuse = true
-	self.Ability1 = function()
+	self.Ability1GunSpecific = function()
 		if not canuse then
 			return
 		end
 
 		self.fireAnim:Play(0)
+		self.ability1ShootSound:Play()
 		local pos = self.viewmodel.Launcher.Attachment.WorldPosition
 		packets.useAbility:Fire({
 			name = "AK96Ability1",
@@ -111,7 +117,12 @@ packets.useAbility.OnClientEvent:Connect(function(info)
 			for _, p in pairs(pCache.InUse) do
 				if p == bullet then
 					explosionVFX.DisableSparklingTrail(bullet.Attachment)
-					explosionVFX.CreateExplosion(bullet.Position, "Yellow")
+					local explosion = explosionVFX.CreateExplosion(bullet.Position, "Yellow")
+					local explosionSound = require(platformModules:WaitForChild("CloneSound"))(
+						assets:WaitForChild("Sounds"):WaitForChild("AK96"):WaitForChild("ExplosionSound"),
+						explosion
+					)
+					explosionSound:Play()
 					pCache:ReturnPart(bullet)
 					return
 				end

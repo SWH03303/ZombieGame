@@ -79,6 +79,8 @@ function Explosions.CreateExplosion(pos: Vector3, themeName)
 	task.delay(5, function()
 		clone:Destroy()
 	end)
+
+	return clone
 end
 
 packets.vfxRequest.OnClientEvent:Connect(function(vfxName, info)

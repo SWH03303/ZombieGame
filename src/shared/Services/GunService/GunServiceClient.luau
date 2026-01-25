@@ -133,7 +133,7 @@ local characterAdded = function(char)
 	ability1.KeyboardBinding.KeyCode = Enum.KeyCode.E
 	janitor:Add(
 		ability1.Pressed:Connect(function()
-			gun.Ability1()
+			gun:Ability1()
 		end),
 		"Disconnect"
 	)

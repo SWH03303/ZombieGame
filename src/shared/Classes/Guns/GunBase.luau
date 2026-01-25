@@ -231,6 +231,13 @@ function Gun:Shoot()
 	end)
 end
 
+function Gun:Ability1()
+	if self.isReloading or not self.canShoot or self.debounce or self.isShooting then
+		return
+	end
+	self.Ability1GunSpecific()
+end
+
 function Gun:Reload()
 	if self.Capacity > 0 and not self.isReloading then
 		self.canShoot = false
