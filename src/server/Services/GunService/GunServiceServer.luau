@@ -14,7 +14,7 @@ require(gunsServer.AK96)
 local gunStats = require(guns.GunStats)
 print(gunStats)
 
-packet.shoot.OnServerInvoke = function(player, shooter, enemy, hitPart, gunName)
+packet.shoot.OnServerInvoke = function(player, shooter, enemy, hitPart, gunName) -- need to validate damage
 	--print(gunStats)
 	if enemy:GetAttribute("Team") == "Ally" then
 		return 0
@@ -31,5 +31,15 @@ packet.shoot.OnServerInvoke = function(player, shooter, enemy, hitPart, gunName)
 	enemy.Humanoid.Health -= damage
 	return damage
 end
+
+export type BulletVfxInfo = {
+	originPos: Vector3,
+	goalPos: Vector3,
+	theme: string,
+}
+packet.vfxRequest.OnServerEvent:Connect(function(player: Player, vfxName: string, info: BulletVfxInfo)
+	info["shooter"] = player
+	packet.vfxRequest:Fire(vfxName, info)
+end)
 
 return Shared

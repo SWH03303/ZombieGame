@@ -2,6 +2,7 @@ local rs = game:GetService("ReplicatedStorage")
 local partCacheModule = require(rs:WaitForChild("Packages"):WaitForChild("PartCache"))
 local bullet = rs:WaitForChild("Assets"):WaitForChild("Vfx"):WaitForChild("Bullet")
 local pCache = partCacheModule.new(bullet, 2, workspace.Projectiles)
+local packet = require(rs:WaitForChild("Shared"):WaitForChild("Modules"):WaitForChild("Core"):WaitForChild("Packets"))
 --print("create bullets")
 
 local theme = {
@@ -38,5 +39,17 @@ function CreateBulletTrail(pos1: Vector3, pos2: Vector3, themeName: string)
 
 	return
 end
+
+export type BulletVfxInfo = {
+	originPos: Vector3,
+	goalPos: Vector3,
+	theme: string,
+	shooter: Player,
+}
+packet.vfxRequest.OnClientEvent:Connect(function(vfxName: string, info: BulletVfxInfo)
+	if vfxName == "BulletVFX" and info.shooter ~= game:GetService("Players").LocalPlayer then
+		CreateBulletTrail(info.originPos, info.goalPos, info.theme)
+	end
+end)
 
 return CreateBulletTrail

@@ -65,7 +65,7 @@ function Gun:GetViewModel(name, camera)
 	return
 end
 
-local SHAPE = {
+export type Gun = typeof({
 	Damage = 10,
 	CritDamage = 15,
 	Auto = false,
@@ -82,9 +82,7 @@ local SHAPE = {
 	ADSmultiplier = 1.5,
 	BulletTheme = "Yellow",
 	janitor = typeof(Janitor.new()),
-}
-
-export type Gun = typeof(SHAPE)
+})
 
 function Gun.New(char): Gun
 	local hum = char:WaitForChild("Humanoid")
@@ -180,6 +178,10 @@ function Gun:Shoot()
 			end)
 		end
 		VfxService.CreateBulletTrail(attPos, hitscan.Position, self.BulletTheme)
+		packet.vfxRequest:Fire(
+			"BulletVFX",
+			{ originPos = attPos, goalPos = hitscan.Position, theme = self.BulletTheme }
+		)
 	end
 
 	if self.isReloading or not self.canShoot or self.debounce or self.Ammo <= 0 then

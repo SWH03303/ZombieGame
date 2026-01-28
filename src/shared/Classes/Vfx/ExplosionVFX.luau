@@ -84,7 +84,6 @@ function Explosions.CreateExplosion(pos: Vector3, themeName)
 end
 
 packets.vfxRequest.OnClientEvent:Connect(function(vfxName, info)
-	print(vfxName)
 	if vfxName ~= "SparklingTrail" then
 		return
 	end
