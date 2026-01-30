@@ -22,14 +22,15 @@ local ApplyThemeChange = function(themeFold, part)
 	part.Trail.Color = themeFold.Trail.Color
 end
 
-function CreateBulletTrail(pos1: Vector3, pos2: Vector3, themeName: string)
+function CreateBulletTrail(pos1: Vector3, pos2: Vector3, themeName: string, travelTime: number?)
 	task.spawn(function()
 		local part = pCache:GetPart()
 		ApplyThemeChange(theme[themeName], part)
 		part.Position = pos1
 		part.Trail.Enabled = true
 		part.Parent = workspace
-		task.wait(0.001)
+		local bulletTravelTime = travelTime or 0.01
+		task.wait(bulletTravelTime)
 		part.Position = pos2
 
 		task.wait(0.1)
@@ -48,7 +49,8 @@ export type BulletVfxInfo = {
 }
 packet.vfxRequest.OnClientEvent:Connect(function(vfxName: string, info: BulletVfxInfo)
 	if vfxName == "BulletVFX" and info.shooter ~= game:GetService("Players").LocalPlayer then
-		CreateBulletTrail(info.originPos, info.goalPos, info.theme)
+		CreateBulletTrail(info.originPos, info.goalPos, info.theme, 0.1)
+		print("create bullet")
 	end
 end)
 

@@ -65,8 +65,9 @@ function Explosion.Knockback(self: Explosion, char: Model, power: number, durati
 			vectorVelocity = direction * power
 		end
 	else
-		print("fling npc")
-		--uhh
+		local direction = (hrp.Position - self.hitboxCframe.Position).Unit
+		vectorVelocity = direction * power
+		--fling npc
 	end
 	applyKnockback(hrp.RootAttachment, vectorVelocity, Vector3.new(40000, 40000, 40000), duration)
 end
