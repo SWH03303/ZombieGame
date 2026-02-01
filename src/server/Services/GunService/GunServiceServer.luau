@@ -39,7 +39,9 @@ export type BulletVfxInfo = {
 }
 packet.vfxRequest.OnServerEvent:Connect(function(player: Player, vfxName: string, info: BulletVfxInfo)
 	info["shooter"] = player
-	packet.vfxRequest:Fire(vfxName, info)
+	if vfxName == "BulletVFX" then
+		packet.vfxRequest:Fire(vfxName, info)
+	end
 end)
 
 return Shared

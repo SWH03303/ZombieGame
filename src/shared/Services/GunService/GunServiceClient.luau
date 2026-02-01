@@ -32,7 +32,7 @@ local inventory = {
 local loadedGun = {}
 
 local gun = nil
-local currentSlot = 1
+local currentSlot = 2
 
 function createGuns(char: Model)
 	for i = 1, 3 do
@@ -53,6 +53,7 @@ function loadSlot(Item)
 	gun = loadedGun[Item]
 	gun.viewmodel.Parent = camera
 	gun.canShoot = true
+	gun:PullOut()
 end
 
 local characterAdded = function(char)

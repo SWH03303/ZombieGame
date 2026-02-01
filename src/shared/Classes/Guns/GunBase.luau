@@ -65,28 +65,48 @@ function Gun:GetViewModel(name, camera)
 	return
 end
 
-export type Gun = typeof({
-	Damage = 10,
-	CritDamage = 15,
-	Auto = false,
-	Burst = 0,
-	BurstDelay = 0,
-	MultiShot = 1,
-	Ammo = 10,
-	MaxAmmo = 10,
-	Capacity = 100,
-	FireRate = 0.15,
-	ReloadTime = 2,
-	Spread = 0.02,
-	AimSpread = 0.01,
-	ADSmultiplier = 1.5,
-	BulletTheme = "Yellow",
-	janitor = typeof(Janitor.new()),
-})
+export type Gun = {
+	Name: string,
+	Damage: number,
+	CritDamage: number,
+	Auto: boolean,
+	Burst: number,
+	BurstDelay: number,
+	MultiShot: number,
+	Ammo: number,
+	MaxAmmo: number,
+	Capacity: number,
+	FireRate: number,
+	ReloadTime: number,
+	Spread: number,
+	AimSpread: number,
+	ADSmultiplier: number,
+	BulletTheme: string,
+
+	canAim: boolean,
+	isReloading: boolean,
+	canShoot: boolean,
+	isShooting: boolean,
+	isAiming: boolean,
+
+	char: Model,
+	viewmodel: Model,
+	camera: Camera,
+
+	debounce: boolean,
+
+	janitor: typeof(Janitor.new()),
+	characterGunHoldingAnim: AnimationTrack,
+	characterGunShootingAnim: AnimationTrack,
+	fireAnim: AnimationTrack,
+	reloadAnim: AnimationTrack,
+	fireSound: Sound,
+}
 
 function Gun.New(char): Gun
 	local hum = char:WaitForChild("Humanoid")
 	local hrp = char.HumanoidRootPart
+	local animator = hum:WaitForChild("Animator")
 	local player = Players:GetPlayerFromCharacter(char)
 	local self = setmetatable({}, Gun)
 
@@ -122,6 +142,10 @@ function Gun.New(char): Gun
 
 	self.fireAnim = nil
 	self.reloadAnim = nil
+	self.characterGunHoldingAnim =
+		require(platformModules:WaitForChild("CloneAnimation"))("rbxassetid://112868138761641", hrp, animator)
+	self.characterGunShootingAnim =
+		require(platformModules:WaitForChild("CloneAnimation"))("rbxassetid://115580629043892", hrp, animator)
 
 	self.char = char
 	self.viewmodel = viewModel
@@ -146,7 +170,13 @@ end
 
 local random = Random.new()
 
-function Gun:Shoot()
+function Gun.PullOut(self: Gun)
+	self.characterGunHoldingAnim:Play()
+	packet.gunModelRequest(self.Name, { Owner = self.char })
+	--print("pull gun")
+end
+
+function Gun.Shoot(self: Gun)
 	local function createRayAndShoot()
 		local spread
 		if self.isAiming then
@@ -200,6 +230,7 @@ function Gun:Shoot()
 		end
 
 		self.fireAnim:Play(0)
+		self.characterGunShootingAnim:Play(0)
 		self.Ammo -= 1
 		self.fireSound:Play()
 		for _ = 1, self.MultiShot do
@@ -222,6 +253,7 @@ function Gun:Shoot()
 			end
 
 			self.fireAnim:Play(0)
+			self.characterGunShootingAnim:Play(0)
 			self.fireSound:Play()
 			self.Ammo -= 1
 
@@ -233,14 +265,14 @@ function Gun:Shoot()
 	end)
 end
 
-function Gun:Ability1()
+function Gun.Ability1(self: Gun)
 	if self.isReloading or not self.canShoot or self.debounce or self.isShooting then
 		return
 	end
 	self.Ability1GunSpecific()
 end
 
-function Gun:Reload()
+function Gun.Reload(self: Gun)
 	if self.Capacity > 0 and not self.isReloading then
 		self.canShoot = false
 		self.isReloading = true
@@ -265,7 +297,7 @@ function Gun:Reload()
 	end
 end
 
-function Gun:RenderWork(dt)
+function Gun.RenderWork(self: Gun)
 	local function lerp(num, goal, i)
 		return num + (goal - num) * i
 	end

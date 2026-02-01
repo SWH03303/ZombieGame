@@ -42,21 +42,15 @@ function AK96.New(char): typeof(AK96)
 
 	self.debounce = false
 
-	self.fireSound = self.janitor:Add(
-		require(platformModules:WaitForChild("CloneSound"))(
-			assets:WaitForChild("Sounds"):WaitForChild("AK96"):WaitForChild("AK96Fire"),
-			hrp
-		),
-		"Destroy"
+	self.fireSound = require(platformModules:WaitForChild("CloneSound"))(
+		assets:WaitForChild("Sounds"):WaitForChild("AK96"):WaitForChild("AK96Fire"),
+		hrp
 	)
 
-	self.fireAnim = self.janitor:Add(
-		require(platformModules:WaitForChild("CloneAnimation"))(
-			"rbxassetid://72333481697984",
-			viewModel,
-			viewModelAnimator
-		),
-		"Destroy"
+	self.fireAnim = require(platformModules:WaitForChild("CloneAnimation"))(
+		"rbxassetid://72333481697984",
+		viewModel,
+		viewModelAnimator
 	)
 
 	self.ability1ShootSound = require(platformModules:WaitForChild("CloneSound"))(
@@ -64,13 +58,10 @@ function AK96.New(char): typeof(AK96)
 		hrp
 	)
 
-	self.reloadAnim = self.janitor:Add(
-		require(platformModules:WaitForChild("CloneAnimation"))(
-			"rbxassetid://96834634609369",
-			viewModel,
-			viewModelAnimator
-		),
-		"Destroy"
+	self.reloadAnim = require(platformModules:WaitForChild("CloneAnimation"))(
+		"rbxassetid://96834634609369",
+		viewModel,
+		viewModelAnimator
 	)
 
 	self.viewmodel = viewModel
