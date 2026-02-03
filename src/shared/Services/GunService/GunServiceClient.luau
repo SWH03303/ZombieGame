@@ -61,7 +61,11 @@ local characterAdded = function(char)
 	local hum = char:WaitForChild("Humanoid") :: Humanoid
 
 	createGuns(char)
-	loadSlot(inventory[currentSlot])
+
+	task.spawn(function()
+		task.wait()
+		loadSlot(inventory[currentSlot])
+	end)
 
 	janitor:Add(
 		RunService.RenderStepped:Connect(function(dt)
@@ -152,7 +156,7 @@ local characterAdded = function(char)
 end
 
 player.CharacterAdded:Connect(characterAdded)
-local character = player.Character
+local character = player.Character or player.CharacterAdded:Wait()
 if character then
 	characterAdded(character)
 end

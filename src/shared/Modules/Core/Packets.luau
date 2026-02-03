@@ -17,6 +17,7 @@ Packets.addSpeed = packet("addSpeed", packet.NumberS8, packet.NumberF24, packet.
 
 Packets.vfxRequest = packet("vfxRequest", packet.String, packet.Any) -- Name/Info
 
+Packets.spawnRequest = packet("spawnRequest", packet.String, packet.Vector3F24) -- Name/Spawn position
 return Packets
 
 --[[

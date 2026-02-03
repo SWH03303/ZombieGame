@@ -9,19 +9,4 @@ end)
 local Hitbox = require(ReplicatedStorage.Packages.Hitbox)
 local playerDataService = require(script.Services.PlayerDataService.PlayerDataServiceServer)
 local gunService = require(script.Services.GunService.GunServiceServer)
-
---[[
-local Explosion = require(game.ReplicatedStorage.Shared.Classes.Attacks.Explosion)
-while true do
-	local explosion = Explosion.new(Vector3.new(10, 10, 10), workspace.HitboxTest.CFrame, true, 0.5)
-
-	explosion.hitbox.OnHit:Connect(function(hitCharacters)
-		for _, char in ipairs(hitCharacters) do
-			local humanoid = char:FindFirstChildOfClass("Humanoid")
-			humanoid:TakeDamage(10)
-			Explosion.Knockback(explosion, char, 100, 0.25)
-			Explosion.AddSpeed(players:GetPlayerFromCharacter(char), 100, 0, true)
-		end
-	end)
-	task.wait(1)
-end]]
+local enemyService = require(script.Services.EnemyService.EnemyServiceServer)

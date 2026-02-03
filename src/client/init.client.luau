@@ -21,3 +21,6 @@ require(movementService:WaitForChild("MovementServiceClient"))
 
 local attackService = services:WaitForChild("AttacksService")
 require(attackService:WaitForChild("AttackServiceClient"))
+
+local enemyService = services:WaitForChild("EnemyService")
+require(enemyService:WaitForChild("EnemyServiceClient"))
