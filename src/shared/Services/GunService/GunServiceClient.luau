@@ -32,7 +32,7 @@ local inventory = {
 local loadedGun = {}
 
 local gun = nil
-local currentSlot = 2
+local currentSlot = 1
 
 function createGuns(char: Model)
 	for i = 1, 3 do
@@ -46,6 +46,7 @@ end
 
 function loadSlot(Item)
 	if gun then
+		gun:PullIn()
 		gun.canShoot = false
 		gun.viewmodel.Parent = rf:WaitForChild("ViewmodelFoldPlayer")
 	end

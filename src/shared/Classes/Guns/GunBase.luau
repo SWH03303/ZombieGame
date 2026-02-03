@@ -172,8 +172,13 @@ local random = Random.new()
 
 function Gun.PullOut(self: Gun)
 	self.characterGunHoldingAnim:Play()
-	packet.gunModelRequest(self.Name, { Owner = self.char })
+	packet.gunModelRequest:Fire(self.Name, { Owner = self.char })
 	--print("pull gun")
+end
+
+function Gun.PullIn(self: Gun)
+	self.characterGunHoldingAnim:Stop()
+	self.isAiming = false
 end
 
 function Gun.Shoot(self: Gun)
@@ -208,9 +213,17 @@ function Gun.Shoot(self: Gun)
 			end)
 		end
 		VfxService.CreateBulletTrail(attPos, hitscan.Position, self.BulletTheme)
+
+		local charGun = self.char:FindFirstChild(self.Name)
+		local originPos
+		if charGun then
+			originPos = charGun.GunTipAtt.Value.WorldPosition
+		else
+			originPos = self.char.Head
+		end
 		packet.vfxRequest:Fire(
 			"BulletVFX",
-			{ originPos = attPos, goalPos = hitscan.Position, theme = self.BulletTheme }
+			{ originPos = originPos, goalPos = hitscan.Position, theme = self.BulletTheme }
 		)
 	end
 
