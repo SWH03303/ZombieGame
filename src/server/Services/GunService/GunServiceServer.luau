@@ -9,7 +9,7 @@ local serverClasses = sss.Server.Classes
 local gunsServer = serverClasses.Guns
 local packet = require(modules.Core.Packets)
 
-local Shared = {}
+local gunService = {}
 
 require(gunsServer.AK96)
 local gunStats = require(guns.GunStats)
@@ -81,4 +81,4 @@ packet.gunModelRequest.OnServerEvent:Connect(function(player: Player, gunName: s
 	end
 end)
 
-return Shared
+return gunService
