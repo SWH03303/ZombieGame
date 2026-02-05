@@ -1,10 +1,14 @@
 local enemyService = {}
 
-local Workspace = game:GetService("Workspace")
 local rs = game:GetService("ReplicatedStorage")
+local ss = game:GetService("ServerScriptService")
 local shared = rs.Shared
 local modules = shared.Modules
+local serverClass = ss.Server.Classes
+local enemyClass = serverClass.Enemies
 local assets = rs.Assets
+local Janitor = require(rs.Packages.Janitor)
+local janitor = Janitor.new()
 
 local packets = require(modules.Core.Packets)
 
@@ -12,10 +16,7 @@ packets.spawnRequest.OnServerEvent:Connect(function(player: Player, name: string
 	if player.Name ~= "Hembegur" then
 		return
 	end
-
-	local clone = assets.Models.Enemies[name]:Clone() :: Model
-	clone:PivotTo(CFrame.new(position))
-	clone.Parent = workspace
+	require(enemyClass[name]).new(position, janitor)
 end)
 
 return enemyService

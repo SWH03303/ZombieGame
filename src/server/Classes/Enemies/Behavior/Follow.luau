@@ -1,0 +1,3 @@
+local followBehavior = {}
+
+return followBehavior
