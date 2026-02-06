@@ -78,7 +78,8 @@ local function onCharacterAdded(char: Model)
 	end
 	local hrp = char:WaitForChild("HumanoidRootPart") :: Part
 
-	local vectorForce = Instance.new("VectorForce", hrp)
+	local vectorForce = Instance.new("VectorForce")
+	vectorForce.Parent = hrp
 	vectorForce.Attachment0 = hrp.RootAttachment
 	vectorForce.Enabled = true
 	vectorForce.Force = Vector3.new(0, gravityVector * hrp.AssemblyMass * 0.5, 0)
