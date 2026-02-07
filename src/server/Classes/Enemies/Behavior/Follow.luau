@@ -29,14 +29,6 @@ function followBehavior.new(char: Model)
 	self.currentTarget = nil
 	self.char = char
 
-	local hrp = self.char.HumanoidRootPart
-	local vectorForce = Instance.new("VectorForce")
-	vectorForce.Parent = hrp
-	vectorForce.Attachment0 = hrp.RootAttachment
-	vectorForce.Enabled = true
-
-	self.vectorForce = vectorForce
-
 	return self
 end
 
@@ -67,12 +59,7 @@ function followBehavior.Follow(self: followBehavior, dt: number)
 		dir = Vector3.new(dir.X, 0, dir.Z).Unit
 
 		hum.AutoRotate = true
-		if self.climbing then
-			hum:Move(dir, false) --hum:Move(Vector3.zero, false)
-		else
-			print("move")
-			hum:Move(dir, false)
-		end
+		hum:Move(dir, false)
 
 		self.moveElapsed = 0
 	end
@@ -89,21 +76,14 @@ function followBehavior.Follow(self: followBehavior, dt: number)
 			{ self.char, self.currentTarget }
 		)
 		if raycastResult.Instance then
-			print("climb")
-			--hitbox.CanCollide = false
 			self.climbing = true
-			--self.vectorForce.Force = Vector3.new(0, workspace.Gravity * hrp.AssemblyMass * 2, 0)
 			local v = hrp.AssemblyLinearVelocity
 			hrp.AssemblyLinearVelocity = Vector3.new(v.X, 50, v.Z)
 			self.climbRayCD = 0.02
 		else
-			--hitbox.CanCollide = true
 			self.climbing = false
 			local v = hrp.AssemblyLinearVelocity
 			hrp.AssemblyLinearVelocity = Vector3.new(v.X, 0, v.Z)
-			if self.vectorForce.Force ~= Vector3.new(0, 0, 0) then
-				self.vectorForce.Force = Vector3.new(0, 0, 0)
-			end
 			self.climbRayCD = 0.3
 		end
 

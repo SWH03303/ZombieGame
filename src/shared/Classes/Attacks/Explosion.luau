@@ -34,8 +34,8 @@ function Explosion.new(size: Vector3, cframe: CFrame, debug: boolean, lifeTime: 
 end
 
 function Explosion.Knockback(self: Explosion, char: Model, power: number, duration: number)
-	local hrp = char.HumanoidRootPart
-	local hum = char.Humanoid :: Humanoid
+	local hrp = char:FindFirstChild("HumanoidRootPart")
+	local hum = char:FindFirstChild("Humanoid") :: Humanoid
 	if not (hrp and hum) then
 		warn("Explosion Knockback couldnt load some instances")
 	end

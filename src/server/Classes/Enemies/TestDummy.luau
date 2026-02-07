@@ -19,19 +19,41 @@ local Janitor = require(packages.Janitor)
 
 export type testDummy = {}
 
-function testDummy.new(position: Vector3, janitor: typeof(Janitor.new())): testDummy
+function testDummy.new(position: Vector3): testDummy
 	local self = setmetatable({}, testDummy)
+	local janitor = Janitor.new()
 
 	local clone = assets.Models.Enemies.TestDummy:Clone() :: Model
 	clone:PivotTo(CFrame.new(position))
-	clone.Parent = workspace.Ingame
+	clone.Parent = workspace.Camera.ServerIngame
 
 	self.Model = clone
 	local newFollow = followBehavior.new(clone)
+	local hum = clone.Humanoid :: Humanoid
+	local hrp = clone.HumanoidRootPart :: Part
 
 	janitor:Add(
 		runService.Heartbeat:Connect(function(dt: number)
 			newFollow:Follow(dt)
+		end),
+		"Disconnect"
+	)
+
+	janitor:Add(
+		hrp:GetPropertyChangedSignal("Parent"):Connect(function()
+			if not hrp.Parent then
+				janitor:Cleanup()
+				janitor:Destroy()
+				print("destroyed")
+			end
+		end),
+		"Disconnect"
+	)
+
+	janitor:Add(
+		hum.Died:Once(function()
+			janitor:Cleanup()
+			janitor:Destroy()
 		end),
 		"Disconnect"
 	)

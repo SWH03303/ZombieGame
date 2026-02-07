@@ -16,7 +16,7 @@ packets.spawnRequest.OnServerEvent:Connect(function(player: Player, name: string
 	if player.Name ~= "Hembegur" then
 		return
 	end
-	require(enemyClass[name]).new(position, janitor)
+	require(enemyClass[name]).new(position)
 end)
 
 return enemyService
