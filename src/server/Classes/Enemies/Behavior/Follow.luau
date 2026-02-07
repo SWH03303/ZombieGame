@@ -12,6 +12,7 @@ export type followBehavior = {
 	moveElapsed: number,
 	climbElapsed: number,
 	climbing: boolean,
+	climbRayCD: number,
 	currentTarget: Model,
 	vectorForce: VectorForce,
 	char: Model,
@@ -22,8 +23,9 @@ function followBehavior.new(char: Model)
 
 	self.findElapsed = 0
 	self.moveElapsed = 0
-	self.climbElapsed = 0
+	self.climbElapsed = 0.3
 	self.climbing = false
+	self.climbRayCD = 0.3
 	self.currentTarget = nil
 	self.char = char
 
@@ -40,7 +42,8 @@ end
 
 function followBehavior.Follow(self: followBehavior, dt: number)
 	local hrp = self.char.HumanoidRootPart
-	local hum = self.char.Humanoid
+	local hum = self.char.Humanoid :: Humanoid
+	local hitbox = self.char.HitBox :: Part
 
 	self.findElapsed += dt
 	if self.findElapsed > 1 then
@@ -64,24 +67,44 @@ function followBehavior.Follow(self: followBehavior, dt: number)
 		dir = Vector3.new(dir.X, 0, dir.Z).Unit
 
 		hum.AutoRotate = true
-		hum:Move(dir, false)
+		if self.climbing then
+			hum:Move(dir, false) --hum:Move(Vector3.zero, false)
+		else
+			print("move")
+			hum:Move(dir, false)
+		end
+
 		self.moveElapsed = 0
 	end
 
 	self.climbElapsed += dt
-	if self.climbElapsed > 0.3 and self.currentTarget then
+	if self.climbElapsed > self.climbRayCD and self.currentTarget then
 		local enemyPos = self.currentTarget.HumanoidRootPart.Position
 		local flatDir = Vector3.new(enemyPos.X - hrp.Position.X, 0, enemyPos.Z - hrp.Position.Z)
-		local direction = flatDir.Unit * 10 --2.3
+		local direction = flatDir.Unit * 3
 
-		local raycastResult = hitscan:CreateRay(hrp.Position, direction, { self.char, self.currentTarget })
+		local raycastResult = hitscan:CreateRay(
+			hrp.Position - Vector3.new(0, hitbox.Size.Y / 2 + 0.5, 0),
+			direction,
+			{ self.char, self.currentTarget }
+		)
 		if raycastResult.Instance then
 			print("climb")
+			--hitbox.CanCollide = false
 			self.climbing = true
-			self.vectorForce.Force = Vector3.new(0, 50, 0)
+			--self.vectorForce.Force = Vector3.new(0, workspace.Gravity * hrp.AssemblyMass * 2, 0)
+			local v = hrp.AssemblyLinearVelocity
+			hrp.AssemblyLinearVelocity = Vector3.new(v.X, 50, v.Z)
+			self.climbRayCD = 0.02
 		else
+			--hitbox.CanCollide = true
 			self.climbing = false
-			self.vectorForce.Force = Vector3.new(0, 0, 0)
+			local v = hrp.AssemblyLinearVelocity
+			hrp.AssemblyLinearVelocity = Vector3.new(v.X, 0, v.Z)
+			if self.vectorForce.Force ~= Vector3.new(0, 0, 0) then
+				self.vectorForce.Force = Vector3.new(0, 0, 0)
+			end
+			self.climbRayCD = 0.3
 		end
 
 		self.climbElapsed = 0
